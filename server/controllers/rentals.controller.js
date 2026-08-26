@@ -258,7 +258,7 @@ const RentalController={
                 return res.status(409).json({ message: "לא ניתן למחוק השכרה פעילה. יש לסיים את ההשכרה תחילה."});
             
             if (rental.status === 'confirmed'|| rental.status === 'completed') 
-                await Car.findByIdAndUpdate(rental.carId, { status: 'available' });
+                await Car.findByIdAndUpdate(rental.carId, { status: 'available' }, {new: true});
             
             rental.status = 'deleted';
             await rental.save();

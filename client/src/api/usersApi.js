@@ -41,7 +41,6 @@ export const addUser= async(userData)=>{
 
 export const updateUser = async(id, updatedFields) => {
     try{
-        //לבדוק לגבי שיטת גישה
         const response = await privateApi.patch(`/users/update/${id}`, updatedFields);
         return response.data;
     }

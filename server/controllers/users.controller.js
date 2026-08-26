@@ -122,7 +122,7 @@ const UserController={
             if (!(id === req.user.id || req.user.role === 'admin'))
                 return res.status(403).json({ message: "אין לך הרשאה למחוק משתמש זה" });
 
-            const user = await User.findByIdAndUpdate(id, {status: 'inactive'});
+            const user = await User.findByIdAndUpdate(id, {status: 'inactive'}, {new: true});
             if(!user)
                 return res.status(404).json({ message: "המשתמש לא נמצא" });
 
