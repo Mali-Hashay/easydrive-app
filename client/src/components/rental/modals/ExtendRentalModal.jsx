@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RentalDateAndTime from '../RentalDateAndTime';
 import { validateExtensionDate } from '../../../utils/validators'; 
+import { toIsraelISOString } from '../../../utils/dateUtils'; 
 import styles from './ExtendRentalModal.module.css';
 
 export default function ExtendRentalModal(props) {
@@ -22,7 +23,9 @@ export default function ExtendRentalModal(props) {
     }
 
     setError('');
-    const fullDateTime = `${dateValue}T${timeValue}`;
+    
+    const fullDateTime = toIsraelISOString(dateValue, timeValue);
+    
     onConfirm(fullDateTime);
   };
 
