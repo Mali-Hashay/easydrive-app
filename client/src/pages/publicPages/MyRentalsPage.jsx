@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RentalList from '../../components/rental/RentalList';
 import { fetchMyRentals } from '../../store/slices/rentalSlice';
-import LoadingSpinner from '../../components/ui/LoadingSpinner'; // ודאי שהנתיב מותאם למבנה התיקיות אצלך
+import LoadingSpinner from '../../components/ui/LoadingSpinner'; 
 import styles from './MyRentalsPage.module.css';
+import { alertService } from '../../utils/alertService';
 
 export default function MyRentalsPage() {
     const dispatch = useDispatch();
@@ -21,12 +22,14 @@ export default function MyRentalsPage() {
         dispatch(fetchMyRentals());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (error) {
+            alertService.errorToast(error);
+        }
+    }, [error]);
+
     if (loading) {
         return <LoadingSpinner />;
-    }
-
-    if (error) {
-        return <div className={styles.error}>שגיאה: {error}</div>;
     }
 
     return (

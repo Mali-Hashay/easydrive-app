@@ -51,22 +51,6 @@
     border: none;
 }
 
-.error {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 600px;       
-    margin: 20px auto;       
-    padding: 12px 20px;     
-    font-size: 14px;       
-    font-weight: 500;
-    color: #d90429;
-    background-color: #ffe3e3;
-    border: 1px solid #ffc9c9;
-    border-radius: 8px;       
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
-}
-
 @media (max-width: 768px) {
     .container {
         padding: 20px 16px;

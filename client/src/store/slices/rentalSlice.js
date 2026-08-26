@@ -294,7 +294,7 @@ const rentalSlice = createSlice({
         })
         .addCase(extendRentalTime.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload;
+                // state.error = action.payload;
         });
     },
     
