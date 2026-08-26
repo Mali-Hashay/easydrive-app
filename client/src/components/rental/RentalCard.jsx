@@ -111,6 +111,8 @@ export default function RentalCard(props) {
                         <button 
                             onClick={() => setIsContactOpen(true)} 
                             className={styles.contactButton}
+                            disabled={rental.status === 'confirmed'}
+                            title={!isCancellable ? "ההשכרה אינה פעילה עדיין" : ""}
                         >
                             צור קשר לסיום השכרה
                         </button>

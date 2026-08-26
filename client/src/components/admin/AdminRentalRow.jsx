@@ -102,7 +102,7 @@ export default function AdminRentalRow(props) {
                             </MenuItem>
                         )}
 
-                        {(rental.status === 'active' || rental.status === 'confirmed') && (
+                        {(rental.status === 'active') && (
                             <MenuItem onClick={() => { handleMenuClose(); onComplete(rental._id); }}>
                                 סמן כהושלם
                             </MenuItem>
@@ -114,9 +114,12 @@ export default function AdminRentalRow(props) {
                         <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental._id, 'active'); }}>
                             שנה סטטוס: פעילה
                         </MenuItem>
-                        <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental._id, 'overdue'); }}>
-                            שנה סטטוס: איחור
-                        </MenuItem>
+
+                        {(rental.status !== 'overdue') && (
+                            <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental._id, 'overdue'); }}>
+                                שנה סטטוס: איחור
+                            </MenuItem>
+                        )}
                     </Menu>
 
                 </div>
