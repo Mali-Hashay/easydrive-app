@@ -5,10 +5,10 @@ export const fetchUsers = createAsyncThunk(
     'users/fetchUsers',
     async (_, { rejectWithValue }) => {
         try {
-            const data =  await getAllUsers();
+            const data = await getAllUsers();
             return data;
         } catch (error) {
-            return rejectWithValue(error.message || 'שגיאה שטעינת משתמשים');
+            return rejectWithValue(error.message || 'שגיאה בטעינת משתמשים');
         }
     }
 );
@@ -17,14 +17,13 @@ export const addNewUser = createAsyncThunk(
     'users/addNewUser',
     async (userData, { rejectWithValue }) => {
         try {
-            const data =  await addUser(userData);
+            const data = await addUser(userData);
             return data;
         } catch (error) {
             return rejectWithValue(error.message || 'שגיאה בהוספת משתמש');
         }
     }
 );
-
 
 export const updateUserDetails = createAsyncThunk(
     'users/updateUserDetails',
@@ -57,10 +56,14 @@ const userSlice = createSlice({
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        clearError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
-            //שליפת כל השמשתמשים
+            // שליפת כל המשתמשים
             .addCase(fetchUsers.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -75,23 +78,53 @@ const userSlice = createSlice({
             })
 
             // הוספת משתמש
+            .addCase(addNewUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(addNewUser.fulfilled, (state, action) => {
-                state.users.push(action.payload); 
+                state.loading = false;
+                state.users.push(action.payload);
+            })
+            .addCase(addNewUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             })
 
             // עדכון פרטי משתמש
+            .addCase(updateUserDetails.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(updateUserDetails.fulfilled, (state, action) => {
-                const index = state.users.findIndex(u => u._id === action.payload._id);
+                state.loading = false;
+                const updatedUser = action.payload;
+                const index = state.users.findIndex(u => u._id === updatedUser._id);
                 if (index !== -1) {
-                    state.users[index] = action.payload;
+                    state.users[index] = updatedUser;
                 }
             })
+            .addCase(updateUserDetails.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-            //מחיקת משתמש
+            // מחיקת משתמש
+            .addCase(removeUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(removeUser.fulfilled, (state, action) => {
-                state.users = state.users.filter(u => u._id !== action.payload);
+                state.loading = false;
+                const deletedUserId = action.payload._id;
+                state.users = state.users.filter(u => u._id !== deletedUserId);
+            })
+            .addCase(removeUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });
 
+export const { clearError } = userSlice.actions;
 export default userSlice.reducer;
