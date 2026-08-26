@@ -1,15 +1,20 @@
 import React from 'react';
 import styles from '../../pages/admin/AdminTable.module.css';
-import { userStatuses } from '../../constants/translations';
+import { userStatuses } from '../../utils/constants';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-
 export default function AdminUsersRow(props) {
     const { user, onChangeRole, onChangeStatus, onDelete, onEdit } = props;
+
+    const getStatusStyle = () => {
+        if (user.status === 'active') return styles.active;
+        if (user.status === 'blocked') return styles.blocked;
+        return styles.inactive; 
+    };
 
     return (
         <tr className={styles.row}>
@@ -34,8 +39,8 @@ export default function AdminUsersRow(props) {
             </td>
 
             <td className={styles.cell}>
-                <span className={`${styles.statusBadge} ${styles[user.status] || styles.inactive}`}>
-                    {userStatuses[user.status] || 'לא מוגדר'}
+                <span className={`${styles.statusBadge} ${getStatusStyle()}`}>
+                    {userStatuses[user.status] || 'לא פעיל'}
                 </span>
             </td>
 
