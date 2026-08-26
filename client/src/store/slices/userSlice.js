@@ -108,16 +108,19 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-
-            // מחיקת משתמש
+            //מחיקה רכה-עדכון סטטוס
             .addCase(removeUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(removeUser.fulfilled, (state, action) => {
                 state.loading = false;
-                const deletedUserId = action.payload._id;
-                state.users = state.users.filter(u => u._id !== deletedUserId);
+                const deletedUserId = action.payload._id 
+      
+                const user = state.users.find(u => u._id === deletedUserId);
+                if (user) {
+                    user.status = 'inactive';
+                }
             })
             .addCase(removeUser.rejected, (state, action) => {
                 state.loading = false;

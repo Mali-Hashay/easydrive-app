@@ -7,10 +7,9 @@ const UserController={
     //GET
     getAll: async(req,res)=>{
         try{
-             const users=await User.find({  __v: 0, password: 0}).lean();
+             const users=await User.find({},{  __v: 0, password: 0}).lean();
              res.status(200).json(users);
         }
-
         catch(err){
             res.status(500).json({message: "שגיאה פנימית בשרת בטעינת רשימת המשתמשים"});
         }
