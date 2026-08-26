@@ -13,7 +13,7 @@ export const validateName = (name, fieldLabel = 'שם') => {
     if (name.trim().length < 2) 
         return `${fieldLabel} חייב להכיל לפחות 2 אותיות`;
     if (!/^[a-zA-Zא-ת\s'-]+$/.test(name.trim())) 
-        return `${fieldLabel} יכול להכיל אותיות בלבד`;
+        return `${fieldLabel} אינו תקין`;
     return '';
 };
 
@@ -31,7 +31,7 @@ export const validateEmail = (email) => {
 export const validatePassword = (password) => {
     if (!password) 
         return 'יש להזין סיסמה';
-    if (password.length < 8) return 'הסיסמה חייבת להכיל לפחות 8 תווים';
+    if (password.length < 8) return 'ערך לא תקין (פחות משמונה תווים)';
     return '';
 };
 

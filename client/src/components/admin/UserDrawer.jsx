@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './AdminForm.module.css';
-import { addUser, updateUser } from '../../api/usersApi';
 import { alertService } from '../../utils/alertService';
 
 import { 
@@ -10,9 +10,11 @@ import {
     validatePhone, 
     validateIdNumber 
 } from '../../utils/validators.js';
+import { addNewUser, updateUserDetails } from '../../store/slices/userSlice.js';
 
 export default function UserDrawer(props) {
     const { userToEdit, onClose, onSuccess } = props; 
+    const dispatch = useDispatch();
     const isEdit = Boolean(userToEdit && userToEdit._id);
     const [submitting, setSubmitting] = useState(false);
     
@@ -35,7 +37,7 @@ export default function UserDrawer(props) {
                 lastName: userToEdit.lastName || '',
                 email: userToEdit.email || '',
                 password: '',
-                phoneNumber: userToEdit.phoneNumber || userToEdit.phone || '',
+                phoneNumber: userToEdit.phoneNumber ,
                 idNumber: userToEdit.idNumber || '',
                 role: userToEdit.role || 'customer'
             });
@@ -97,17 +99,21 @@ export default function UserDrawer(props) {
                 if (!dataToSend.password) 
                     delete dataToSend.password;
 
-                await updateUser(userToEdit._id, { updatedFields: dataToSend });
+                await dispatch(updateUserDetails({ 
+                    userId: userToEdit._id, 
+                    updatedFields: dataToSend 
+                })).unwrap();
+
                 alertService.success('פרטי המשתמש עודכנו בהצלחה');
             } else {
-                await addUser(formData);
+                await dispatch(addNewUser(formData)).unwrap();
                 alertService.success('משתמש חדש נוצר בהצלחה');
             }
 
-            onSuccess();
+            if (onSuccess) onSuccess();
             onClose();
         } catch (err) {
-            alertService.errorToast(err.message || 'הפעולה נכשלה');
+            alertService.errorToast(err || 'הפעולה נכשלה');
         } finally {
             setSubmitting(false);
         }

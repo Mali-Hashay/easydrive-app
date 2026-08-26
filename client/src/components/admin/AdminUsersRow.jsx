@@ -27,7 +27,7 @@ export default function AdminUsersRow(props) {
             </td>
 
             <td className={styles.cell}>
-                {user.phone || '—'}
+                {user.phoneNumber || '—'}
             </td>
 
             <td className={styles.cell}>
