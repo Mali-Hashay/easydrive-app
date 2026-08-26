@@ -33,6 +33,13 @@ export const paymentStatuses = {
     cancelled: 'בוטל'
 };
 
+//סטטוסים של משתמשים
+export const userStatuses = {
+    'active': 'פעיל',
+    'blocked': 'חסום',
+    'inactive': 'לא פעיל'
+};
+
 //סוגי גיר
 export const carsTransmission = {
     'manual':'ידני',

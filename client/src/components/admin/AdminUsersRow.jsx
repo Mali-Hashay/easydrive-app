@@ -1,20 +1,15 @@
 import React from 'react';
 import styles from '../../pages/admin/AdminTable.module.css';
+import { userStatuses } from '../../constants/translations';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+
 export default function AdminUsersRow(props) {
     const { user, onChangeRole, onChangeStatus, onDelete, onEdit } = props;
-
-    const handleRoleChange = (e) => {
-        const newRole = e.target.value;
-        if (newRole) {
-            onChangeRole(user._id, newRole);
-        }
-    };
 
     return (
         <tr className={styles.row}>
@@ -39,8 +34,8 @@ export default function AdminUsersRow(props) {
             </td>
 
             <td className={styles.cell}>
-                <span className={`${styles.statusBadge} ${user.status === 'active' ? styles.active : styles.blocked}`}>
-                    {user.status === 'active' ? 'פעיל' : 'חסום'}
+                <span className={`${styles.statusBadge} ${styles[user.status] || styles.inactive}`}>
+                    {userStatuses[user.status] || 'לא מוגדר'}
                 </span>
             </td>
 
@@ -53,20 +48,22 @@ export default function AdminUsersRow(props) {
                         <EditIcon fontSize="small" /> ערוך
                     </button>
 
-                    <button 
-                        onClick={() => onChangeStatus(user._id, user.status === 'active' ? 'blocked' : 'active')}
-                        className={`${styles.button} ${user.status === 'active' ? styles.deleteBtn : styles.editBtn}`}
-                    >
-                        {user.status === 'active' ? (
-                            <>
-                                <BlockIcon fontSize="small" /> חסום
-                            </>
-                        ) : (
-                            <>
-                                <CheckCircleIcon fontSize="small" /> הפעל
-                            </>
-                        )}
-                    </button>
+                    {user.status !== 'inactive' && (
+                        <button 
+                            onClick={() => onChangeStatus(user._id, user.status === 'active' ? 'blocked' : 'active')}
+                            className={`${styles.button} ${user.status === 'active' ? styles.deleteBtn : styles.editBtn}`}
+                        >
+                            {user.status === 'active' ? (
+                                <>
+                                    <BlockIcon fontSize="small" /> חסום
+                                </>
+                            ) : (
+                                <>
+                                    <CheckCircleIcon fontSize="small" /> הפעל
+                                </>
+                            )}
+                        </button>
+                    )}
 
                     <button 
                         onClick={() => onDelete(user._id)}
