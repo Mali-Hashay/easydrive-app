@@ -53,16 +53,18 @@
 
 .error {
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 200px;
-    font-size: 16px;
+    justify-content: center;
+    max-width: 600px;       
+    margin: 20px auto;       
+    padding: 12px 20px;     
+    font-size: 14px;       
+    font-weight: 500;
     color: #d90429;
     background-color: #ffe3e3;
     border: 1px solid #ffc9c9;
-    border-radius: 12px;
-    padding: 16px 24px;
-    margin: 24px 0;
+    border-radius: 8px;       
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
 }
 
 @media (max-width: 768px) {

@@ -121,7 +121,7 @@ export const extendRentalTime = createAsyncThunk(
             const data = await extendRental(rentalId, newReturnDate);
             return data.rental; 
         } catch (err) {
-            return rejectWithValue(err.response?.data?.message || 'שגיאה בהארכת ההשכרה');
+            return rejectWithValue(err.message || 'שגיאה בהארכת ההשכרה');
         }
     }
 );

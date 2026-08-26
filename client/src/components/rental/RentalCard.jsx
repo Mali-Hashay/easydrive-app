@@ -39,7 +39,7 @@ export default function RentalCard(props) {
             alertService.success('ההשכרה הוארכה בהצלחה!');
             setIsExtendOpen(false);
         } catch (err) {
-            alertService.errorToast(err || 'לא ניתן להאריך את ההשכרה (ייתכן שהרכב תפוס)');
+            alertService.errorToast(err.message || 'לא ניתן להאריך את ההשכרה (ייתכן שהרכב תפוס)');
         }
     };
     
