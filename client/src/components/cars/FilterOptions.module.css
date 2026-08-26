@@ -1,0 +1,76 @@
+.container {
+    width: 100%;
+    max-width: 1200px; 
+    margin: 20px auto;
+    padding: 20px;   
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.mainTitle {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 20px 20px 15px 0; 
+    padding: 0;
+    text-align: right; 
+}
+
+.filterRow {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+    align-items: flex-start;
+    gap: 40px; 
+    width: 100%;
+    margin: 0;
+    padding: 20px; 
+}
+
+.sectionTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: #64748b;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.selectGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.select {
+    padding: 8px 16px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #1e293b;
+    cursor: pointer;
+    min-width: 150px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.select:focus {
+    border-color: #e31b23;
+}
+
+@media (max-width: 768px) {
+    .filterRow {
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    .selectGroup {
+        width: 100%;
+    }
+}

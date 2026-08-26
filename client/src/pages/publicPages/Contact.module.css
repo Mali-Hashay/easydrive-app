@@ -1,0 +1,119 @@
+.container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 40px;
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 20px;
+    direction: rtl;
+}
+
+.infoSection {
+    flex: 1;
+    min-width: 300px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mainTitle {
+    font-size: 36px;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.hoursBox {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border-right: 4px solid #e31b23; 
+}
+
+.hoursTitle {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+.hourLine {
+    margin: 8px 0;
+    color: #555;
+}
+
+.formSection {
+    flex: 1;
+    min-width: 300px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); 
+}
+
+.formTitle {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input, .textarea {
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.textarea {
+    resize: vertical; 
+}
+
+.input:focus, .textarea:focus {
+    border-color: #e31b23;
+    box-shadow: 0 0 0 2px rgba(227, 27, 35, 0.1);
+}
+
+.submitBtn {
+    background-color: #e31b23;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submitBtn:hover {
+    background-color: #b71217;
+}
+
+/* === עיצוב שגיאות הולידציה בלבד === */
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}

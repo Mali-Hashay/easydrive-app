@@ -1,0 +1,150 @@
+.hero {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 60px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -5%;
+  width: 50%;
+  height: 100%;
+  transform: skewX(-15deg);
+  transform-origin: top right;
+  z-index: 1;
+ background: linear-gradient(
+    180deg, 
+    #d4d5d7 0%,      
+    #f8f9fa 60%,     
+    #ffffff 100%    
+  );
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.imageContainer {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px; 
+  height: 450px;
+}
+
+.carImage {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.12));
+  animation: fadeIn 0.6s ease-in-out forwards;
+  will-change: opacity;
+  backface-visibility: hidden;
+  object-fit: contain;
+}
+
+
+.content {
+  flex: 1;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 3.8rem;
+  font-weight: 900;
+  color: #111111;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  color: #cc3035;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #555555;
+  margin-bottom: 32px;
+  line-height: 1.5;
+  max-width: 550px;
+}
+
+.ctaButton {
+  padding: 16px 42px;
+  font-size: 1.1rem;
+  background-color: #cc3035;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #a82327;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(204, 48, 53, 0.3);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .imageContainer {
+    display: none;
+  }
+
+ 
+  .hero::before {
+    display: none;
+  }
+
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .container {
+    justify-content: center;
+  }
+
+  .content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    white-space: normal;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,65 @@
+.container {
+    text-align: center;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eeeeee;
+}
+
+.successTitle {
+    color: #1a1a1a;
+}
+
+.successMessage {
+    font-size: 1.2em;
+    color: #555555;
+}
+
+.detailsBox {
+    text-align: right;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.detailsTitle {
+    margin: 0 0 10px 0;
+}
+
+.orderBox {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px dashed #cccccc;
+}
+
+.orderLabel {
+    margin: 0;
+}
+
+.orderValue {
+    margin: 5px 0 0 0;
+    color: #1a1a1a;
+}
+
+.buttonContainer {
+    margin-top: 30px;
+}
+
+.homeBtn {
+    padding: 10px 20px;
+    background-color: #080808;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 50px;
+    font-size: 18px;
+}
+
+.homeBtn:hover {
+    background-color: #b71218;
+}

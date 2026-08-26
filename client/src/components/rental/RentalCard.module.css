@@ -1,0 +1,153 @@
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    direction: rtl;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.title {
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    margin: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.carImage {
+    width: 65px;
+    height: 45px;
+    object-fit: contain;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    padding: 2px;
+    border: 1px solid #f0f0f0;
+}
+
+.infoDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.text {
+    margin: 0;
+    font-size: 1rem;
+    color: #4a4a4a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text strong {
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+.priceAmount {
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #1a1a1a; 
+}
+
+.overdueWarning {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #fff5f5;
+    color: #e31b23;
+    border: 1px solid #e31b23;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.actionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+    align-items: flex-start;
+}
+
+.cancelButton {
+    width: auto;
+    background-color: #ffffff;
+    color: #e31b23;
+    border: 1px solid #e31b23;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background-color: #e31b23;
+    color: #ffffff;
+}
+
+.cancelButton:disabled {
+    border-color: #cccccc;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+.activeButtonsGroup {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.extendButton, .contactButton {
+    flex: 0 1 auto;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.extendButton {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1.5px solid #1a1a1a;
+}
+
+.extendButton:hover {
+    background-color: #3d3d3d;
+    border-color: #3d3d3d;
+}
+
+.contactButton {
+    background-color: #ffffff;
+    color: #1a1a1a;
+    border: 1.5px solid #cccccc;
+}
+
+.contactButton:hover {
+    border-color: #1a1a1a;
+    background-color: #f9f9f9;
+}

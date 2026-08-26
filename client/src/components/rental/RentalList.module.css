@@ -1,0 +1,15 @@
+.listContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+@media (max-width: 480px) {
+    .listContainer {
+        grid-template-columns: 1fr; 
+        gap: 16px;
+    }
+}

@@ -1,0 +1,64 @@
+.container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    direction: rtl;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.mainTitle {
+    font-size: 32px;
+    color: #1E1E2D; 
+    margin-top: 0;
+    margin-bottom: 24px;
+    border-bottom: 3px solid #e31b23; 
+    padding-bottom: 12px;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.introText {
+    font-size: 18px;
+    color: #4a4a4a;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.sectionTitle {
+    font-size: 22px;
+    color: #1E1E2D;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.text {
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.list {
+    margin-top: 12px;
+    margin-bottom: 0;
+    padding-right: 24px;
+    list-style-type: square;
+    color: #555555;
+}
+
+.list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.list li:last-child {
+    margin-bottom: 0;
+}

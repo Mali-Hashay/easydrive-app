@@ -1,0 +1,28 @@
+
+.container {
+    width: 100%;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.stepperWrapper {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+}
+
+.stepContent {
+    width: 100%;
+    min-height: 350px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        min-width: 100%;
+        width: 100%;
+        padding: 30px 20px;
+        margin: 30px auto;
+        border-radius: 0;
+    }
+}

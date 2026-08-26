@@ -1,0 +1,17 @@
+.carsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px; 
+    padding: 20px;
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto; 
+}
+
+.noCarsMessage {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin-top: 50px;
+    font-family: 'Rubik', sans-serif;
+}

@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;800&display=swap');
+
+.aboutContainer {
+    font-family: 'Rubik', system-ui, -apple-system, sans-serif;
+    direction: rtl;
+    background-color: white; 
+    min-height: 100vh;
+    padding: 40px 20px 80px 20px;
+}
+
+.heroWrapper {
+    max-width: 900px;
+    margin: 20px auto 60px auto;
+    text-align: center;
+}
+
+.heroSection {
+    border-top: 4px solid #e31b23;
+    border-left: 1px solid transparent; 
+    border-right: 1px solid transparent; 
+    border-radius: 20px 20px 0 0;       
+    padding-top: 30px;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.highlight {
+    color: #e31b23;
+}
+
+.divider {
+    width: 50px;
+    height: 3px;
+    background-color: #e31b23;
+    margin: 0 auto 24px auto;
+    border-radius: 2px;
+}
+
+
+.contentSection {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.textContent {
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    text-align: center;
+}
+
+.sectionTitle {
+    font-size: 2.2rem;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+    font-weight: 800;
+}
+
+.paragraph {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #555555;
+    margin-bottom: 16px;
+}
+
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.featureCard {
+    background: white;
+    padding: 50px 30px;
+    border-radius: 16px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.featureCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(227, 27, 35, 0.1); 
+    border-color: #e31b23;
+}
+
+.iconWrapper {
+    color: #e31b23; 
+    margin-bottom: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(227, 27, 35, 0.1); 
+    padding: 16px;
+    border-radius: 50%;
+}
+
+.featureCard h3 {
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.featureCard p {
+    color: #666666;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.2rem;
+    }
+    .heroSection {
+        padding: 50px 20px;
+        border-radius: 16px;
+    }
+    .aboutContainer {
+        padding: 20px 15px;
+    }
+}

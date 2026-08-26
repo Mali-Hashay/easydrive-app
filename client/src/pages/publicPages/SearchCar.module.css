@@ -1,0 +1,199 @@
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 60px 24px;
+    font-family: system-ui, -apple-system, sans-serif;
+    direction: rtl;
+    box-sizing: border-box;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    min-height: 100vh;
+}
+
+.searchForm {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 24px 24px 42px 24px; 
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto; 
+    gap: 12px; 
+    align-items: flex-end;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    max-width: 1200px;
+    width: 100%;
+    position: relative; 
+    box-sizing: border-box;
+    border: 1px solid #e2e8f0;
+    overflow: visible;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    position: relative; 
+    min-width: 0;
+    overflow: visible;
+    z-index: 1;
+}
+
+.label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #475569; 
+}
+
+.input, .select {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #f8fafc; 
+    color: #0f172a;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+}
+
+:global(.react-datepicker-wrapper) {
+    width: 100%;
+    display: block;
+}
+
+:global(.react-datepicker-popper) {
+    z-index: 9999 !important;
+}
+
+.input:focus, .select:focus {
+    border-color: #e31b23; 
+    background-color: #ffffff;
+}
+
+.submitButton {
+    background-color: #e31b23; 
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 44px;
+    white-space: nowrap;
+}
+
+.submitButton:hover {
+    background-color: #b71217; 
+    transform: translateY(-1px);
+}
+
+.submitButton:active {
+    transform: translateY(1px);
+}
+
+.summaryText {
+    position: absolute;
+    bottom: -34px;
+    right: 10px;
+    color: #e31b23; 
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.infoSection {
+    background: transparent;
+    color: #111111;
+    padding: 20px 0;
+    text-align: right;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+.infoTitle {
+    color: #0f172a;
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 24px;
+    position: relative;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.infoTitle::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 45px;
+    height: 3px;
+    background-color: #e31b23;
+    border-radius: 2px;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.infoItem {
+    font-size: 16px;
+    color: #475569;
+    line-height: 1.6;
+    position: relative;
+    padding-right: 28px; 
+    font-weight: 500;
+}
+
+.infoItem::before {
+    content: "✓"; 
+    color: #e31b23; 
+    font-weight: 900;
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+    top: 0px;
+}
+
+.errorText {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    color: #e31b23;
+    font-size: 13px;
+    margin-top: 9px;
+    white-space: nowrap;
+    z-index: 5;
+    text-align: right;
+}
+
+@media (max-width: 1100px) {
+    .searchForm {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    .submitButton {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .searchForm {
+        grid-template-columns: 1fr;
+    }
+    .submitButton {
+        grid-column: span 1;
+    }
+}

@@ -1,0 +1,21 @@
+.mainDiv {
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-sizing: border-box;
+}
+
+.summaryContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.filterContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

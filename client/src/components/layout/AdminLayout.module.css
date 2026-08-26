@@ -1,0 +1,29 @@
+.layoutContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    direction: rtl;
+    background-color: white;
+}
+
+.contentWrapper {
+    display: flex;
+    flex: 1;
+}
+
+
+.mainColumn {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+}
+
+.mainArea {
+    flex: 1 auto; 
+    padding: 40px;
+    background-color: white;
+    margin: 20px;          
+    border-radius: 12px;   
+    margin-top: 60px;  
+   
+}

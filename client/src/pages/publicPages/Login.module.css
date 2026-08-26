@@ -1,0 +1,107 @@
+.container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-family: system-ui, -apple-system, sans-serif;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.input {
+    padding: 12px 14px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    border-color: #e31b23;
+    box-shadow: 0 0 0 3px rgba(227, 27, 35, 0.1);
+}
+
+.globalError {
+    background-color: #fdf2f2;
+    border: 1px solid #f8b4b4;
+    color: #e31b23;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.link {
+    color: #555555;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.link:hover {
+    color: #e31b23;
+}
+
+.submitButton {
+    background-color: #e31b23;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    width: 100%;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: #b71218;
+}
+
+.submitButton:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}

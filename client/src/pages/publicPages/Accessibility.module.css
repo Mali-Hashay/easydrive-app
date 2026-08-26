@@ -1,0 +1,79 @@
+.container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    direction: rtl;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.mainTitle {
+    font-size: 32px;
+    color: #1E1E2D;
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.lastUpdated {
+    font-size: 14px;
+    color: #777777;
+    margin-top: 0;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #e31b23;
+}
+
+.introText {
+    font-size: 18px;
+    color: #4a4a4a;
+    line-height: 1.6;
+    margin-bottom: 36px;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.sectionTitle {
+    font-size: 20px;
+    color: #1E1E2D;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.text {
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.7;
+    margin: 0 0 12px 0;
+}
+
+.list {
+    margin: 0;
+    padding-right: 24px;
+    list-style-type: disc;
+    color: #555555;
+}
+
+.list li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.contactInfo {
+    background-color: #f8f9fa;
+    border-right: 4px solid #e31b23; 
+    padding: 16px 20px;
+    border-radius: 4px 8px 8px 4px;
+    margin-top: 16px;
+}
+
+.contactInfo p {
+    margin: 6px 0;
+    font-size: 16px;
+    color: #333333;
+}

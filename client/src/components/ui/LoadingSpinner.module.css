@@ -1,0 +1,15 @@
+.spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    width: 100%;
+}
+
+.spinnerText {
+    margin-top: 12px;
+    color: #666;
+    font-size: 17px;
+    font-family: 'Rubik', sans-serif;
+}

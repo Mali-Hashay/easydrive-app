@@ -1,0 +1,120 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.mainTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: #555555;
+    margin: 0 0 28px 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 35px;
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.input {
+    padding: 13px 16px;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.input:focus {
+    border-color: #e31b23;
+    box-shadow: 0 0 0 3px rgba(227, 27, 35, 0.1);
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    padding-top: 24px;
+    border-top: 1px solid #eeeeee;
+}
+
+.nextBtn {
+    background-color: #e31b23;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.nextBtn:hover {
+    background-color: #b71218;
+}
+
+.nextBtn:active {
+    transform: scale(0.98);
+}
+
+.backBtn {
+    background-color: #ffffff;
+    color: #555555;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.backBtn:hover {
+    background-color: #f5f5f5;
+    color: #1a1a1a;
+}
+
+@media (max-width: 650px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .buttonContainer {
+        flex-direction: column-reverse;
+    }
+    
+    .nextBtn, .backBtn {
+        width: 100%;
+    }
+}

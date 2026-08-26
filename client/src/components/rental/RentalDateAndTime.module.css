@@ -1,0 +1,201 @@
+
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 72px; 
+  contain: layout;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+.inputField :global(.react-datepicker-wrapper) {
+  width: 100%;
+  height: 44px;
+  overflow: visible;
+}
+.container {
+  display: flex;
+  flex-direction: row; 
+  gap: 12px;
+  width: 100%;
+  direction: rtl;
+  align-items: flex-end; 
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+
+.inputField label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  text-align: right;
+}
+
+
+.inputField input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #0f172a;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.inputField input:focus {
+  border-color: #e31b23;
+  box-shadow: 0 0 0 3px rgba(227, 27, 35, 0.12);
+}
+
+.inputField input::placeholder {
+  color: #94a3b8;
+}
+
+:global(.react-datepicker) {
+  font-family: inherit;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+:global(.react-datepicker__header) {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  padding-top: 12px;
+}
+
+:global(.react-datepicker__day-name) {
+  color: #64748b;
+  font-weight: 600;
+  width: 2.2rem;
+}
+
+:global(.react-datepicker__current-month) {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+:global(.react-datepicker__day) {
+  width: 2.2rem;
+  line-height: 2.2rem;
+  border-radius: 50%; 
+  color: #334155;
+  transition: all 0.2s ease;
+}
+
+:global(.react-datepicker__day:hover) {
+  background-color: #f1f5f9;
+  border-radius: 50%;
+}
+
+:global(.react-datepicker__day--selected),
+:global(.react-datepicker__day--keyboard-selected) {
+  background-color: #e31b23 !important;
+  color: #ffffff !important;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+:global(.react-datepicker__day--disabled) {
+  color: #cbd5e1 !important;
+  cursor: not-allowed;
+}
+
+:global(.react-datepicker__day--disabled:hover) {
+  background-color: transparent !important;
+}
+
+:global(.react-datepicker__navigation-icon::before) {
+  border-color: #475569;
+  border-width: 2px 2px 0 0;
+}
+
+:global(.react-datepicker__triangle) {
+  display: none !important;
+}
+
+:global(.react-datepicker__time-container) {
+  width: 100px !important;
+  border-left: none !important;
+}
+
+:global(.react-datepicker__time-box) {
+  width: 100% !important;
+  border-radius: 12px;
+}
+
+:global(.react-datepicker-time__header) {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  padding: 10px 0 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+:global(.react-datepicker__time-list-item) {
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
+  color: #334155 !important;
+  transition: all 0.2s ease !important;
+}
+
+:global(.react-datepicker__time-list-item:hover) {
+  background-color: #f1f5f9 !important;
+  color: #e31b23 !important;
+  font-weight: 600 !important;
+}
+
+:global(.react-datepicker__time-list-item--selected) {
+  background-color: #e31b23 !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+:global(.react-datepicker__time-list-item--disabled) {
+  display: none !important;
+}
+
+:global(.react-datepicker__time-list)::-webkit-scrollbar {
+  width: 5px;
+}
+
+:global(.react-datepicker__time-list)::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+:global(.react-datepicker__time-list)::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+:global(.react-datepicker__time-list)::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+:global(.react-datepicker-popper) {
+  z-index: 99999 !important;
+  position: relative;
+}
+
+:global(.react-datepicker) {
+  position: relative;
+  z-index: 1;
+}

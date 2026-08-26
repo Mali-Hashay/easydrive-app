@@ -1,0 +1,97 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mainTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+}
+
+.detailsCard {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.infoSection {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: #333333;
+}
+
+.infoLabel {
+    font-weight: 700;
+    min-width: 65px;
+    color: #555555;
+}
+
+.infoValue {
+    margin: 0;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+
+.totalDays {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e31b23; 
+    padding-top: 14px;
+    margin-top: 6px;
+    border-top: 1px dashed #e0e0e0;
+}
+
+
+.includesList {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.includesList p {
+    margin: 0;
+}
+
+
+.buttonContainer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end; 
+}
+
+.nextButton {
+    background-color: #e31b23;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.nextButton:hover {
+    background-color: #c41219;
+}
+
+.nextButton:active {
+    transform: scale(0.98);
+}

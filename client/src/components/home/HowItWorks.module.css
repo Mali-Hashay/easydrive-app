@@ -1,0 +1,79 @@
+.section {
+    padding: 80px 20px;
+    background-color: #fcfcfc;
+    text-align: center;
+    font-family: system-ui, -apple-system, sans-serif;
+    direction: rtl;
+}
+
+.title {
+    font-size: 32px;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 60px;
+    font-weight: 700;
+    display: inline-block;
+    border-bottom: 3px solid #e31b23;
+    padding-bottom: 12px;
+}
+
+.stepsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.stepCard {
+    flex: 1;
+    min-width: 280px;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stepCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+.iconWrapper {
+    background-color: #f9f9f9;
+    width: 86px;
+    height: 86px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    border: 1px solid #e0e0e0;
+}
+
+.icon {
+    font-size: 40px !important;
+    color: #e31b23;
+}
+
+.stepTitle {
+    font-size: 20px;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.stepDescription {
+    color: #4a4a4a;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 16px;
+}
