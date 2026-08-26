@@ -70,12 +70,14 @@ export default function AdminUsersRow(props) {
                         </button>
                     )}
 
-                    <button 
-                        onClick={() => onDelete(user._id)}
-                        className={`${styles.button} ${styles.deleteBtn}`}
-                    >
-                        <DeleteIcon fontSize="small" /> מחק
-                    </button>
+                    {user.status!=='inActive' && (
+                        <button 
+                            onClick={() => onDelete(user._id)}
+                            className={`${styles.button} ${styles.deleteBtn}`}
+                        >
+                            <DeleteIcon fontSize="small" /> מחק
+                        </button>
+                    )}
                 </div>
             </td>
         </tr>
