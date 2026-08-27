@@ -74,7 +74,7 @@ const UserController={
     update: async(req,res)=>{
         try{
             const{ id}=req.params;
-            const {firstName,lastName,email,phoneNumber,status,idNumber, licenseNumber, birthDate} = req.body;
+            const {firstName,lastName,email,phoneNumber,status,idNumber, licenseNumber, birthDate,role} = req.body;
 
             if(!(String(id) === String(req.user.id) || req.user.role == 'admin'))
                 return res.status(403).json({error: "אין הרשאה"});
@@ -99,6 +99,9 @@ const UserController={
             }
             if(req.user.role == 'admin' && status)
                 user.status = status;
+            if (req.user.role === 'admin' && role !== undefined) 
+                user.role = role;
+            
 
             await user.save();
 

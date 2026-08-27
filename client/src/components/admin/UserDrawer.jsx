@@ -37,7 +37,7 @@ export default function UserDrawer(props) {
                 lastName: userToEdit.lastName || '',
                 email: userToEdit.email || '',
                 password: '',
-                phoneNumber: userToEdit.phoneNumber ,
+                phoneNumber: userToEdit.phoneNumber || '',
                 idNumber: userToEdit.idNumber || '',
                 role: userToEdit.role || 'customer'
             });

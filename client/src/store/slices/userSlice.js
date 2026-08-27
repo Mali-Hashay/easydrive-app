@@ -29,7 +29,7 @@ export const updateUserDetails = createAsyncThunk(
     'users/updateUserDetails',
     async ({ userId, updatedFields }, { rejectWithValue }) => {
         try {
-            const data = await updateUser(userId, { updatedFields });
+            const data = await updateUser(userId, updatedFields);
             return data;
         } catch (error) {
             return rejectWithValue(error.message || 'שגיאה בעדכון משתמש');
@@ -98,7 +98,7 @@ const userSlice = createSlice({
             })
             .addCase(updateUserDetails.fulfilled, (state, action) => {
                 state.loading = false;
-                const updatedUser = action.payload;
+                const updatedUser = action.payload.user;
                 const index = state.users.findIndex(u => u._id === updatedUser._id);
                 if (index !== -1) {
                     state.users[index] = updatedUser;

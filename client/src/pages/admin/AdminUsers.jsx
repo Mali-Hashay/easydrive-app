@@ -115,7 +115,7 @@ export default function AdminUsers() {
                             className={styles.inputField}
                         >
                             <option value="all">כל התפקידים</option>
-                            <option value="client">לקוח</option>
+                            <option value="customer">לקוח</option>
                             <option value="admin">מנהל</option>
                         </select>
 
