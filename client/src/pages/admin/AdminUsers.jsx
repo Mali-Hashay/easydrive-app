@@ -150,7 +150,8 @@ export default function AdminUsers() {
                             <th className={styles.th}>שם מלא</th>
                             <th className={styles.th}>אימייל</th>
                             <th className={styles.th}>טלפון</th>
-                            <th className={styles.th}>ת.ז / רישיון</th>
+                            <th className={styles.th}>תעודת זהות</th>
+                            <th className={styles.th}>מספר רישיון</th>
                             <th className={styles.th}>תפקיד</th>
                             <th className={styles.th}>סטטוס</th>
                             <th className={styles.th}>פעולות</th>
@@ -170,7 +171,7 @@ export default function AdminUsers() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="7" className={styles.cell} style={{ textAlign: 'center' }}>
+                                <td colSpan="8" className={styles.cell} style={{ textAlign: 'center' }}>
                                     לא נמצאו משתמשים מתאימים
                                 </td>
                             </tr>

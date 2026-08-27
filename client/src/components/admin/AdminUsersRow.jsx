@@ -2,12 +2,10 @@ import React from 'react';
 import styles from '../../pages/admin/AdminTable.module.css';
 import { userStatuses } from '../../constants/translations';
 
-
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
 
 export default function AdminUsersRow(props) {
     const { user, onChangeRole, onChangeStatus, onDelete, onEdit } = props;
@@ -34,6 +32,10 @@ export default function AdminUsersRow(props) {
 
             <td className={styles.cell}>
                 {user.idNumber || '—'}
+            </td>
+
+            <td className={styles.cell}>
+                {user.licenseNumber || '—'}
             </td>
 
             <td className={styles.cell}>
@@ -72,7 +74,7 @@ export default function AdminUsersRow(props) {
                         </button>
                     )}
 
-                    {user.status!=='inactive' && (
+                    {user.status !== 'inactive' && (
                         <button 
                             onClick={() => onDelete(user._id)}
                             className={`${styles.button} ${styles.deleteBtn}`}
