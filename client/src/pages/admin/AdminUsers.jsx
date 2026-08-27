@@ -52,6 +52,15 @@ export default function AdminUsers() {
     };
 
     const handleChangeStatus = async (userId, newStatus) => {
+        if (newStatus === 'blocked') {
+            const isConfirmed = await alertService.confirm(
+                'האם אתה בטוח?',
+                'פעולה זו תחסום את המשתמש מהתחברות למערכת.',
+                true
+            );
+
+            if (!isConfirmed) return;
+        }
         try {
             await dispatch(
                 updateUserDetails({ userId, updatedFields: { status: newStatus } })

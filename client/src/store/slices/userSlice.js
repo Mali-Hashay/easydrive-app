@@ -115,7 +115,7 @@ const userSlice = createSlice({
             })
             .addCase(removeUser.fulfilled, (state, action) => {
                 state.loading = false;
-                const deletedUserId = action.payload._id 
+                const deletedUserId = action.payload.id 
       
                 const user = state.users.find(u => u._id === deletedUserId);
                 if (user) {

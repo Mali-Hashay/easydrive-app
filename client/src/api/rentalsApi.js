@@ -43,7 +43,7 @@ export const addRental = async (rentalData) =>{
     }
     catch(error){
         console.error("Error occurred while adding rental", error);
-        const errorMsg = error.response?.data?.message || "אירעה שגיאה בהוספת ההשכרה, נא לנסות שוב"; // שינוי: חילוץ השגיאה הדינמית מהשרת
+        const errorMsg = error.response?.data?.message || "אירעה שגיאה בהוספת ההשכרה, נא לנסות שוב"; 
         throw new Error(errorMsg);
     }
 }
