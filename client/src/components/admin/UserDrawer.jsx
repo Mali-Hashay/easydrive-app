@@ -8,7 +8,8 @@ import {
     validateEmail, 
     validatePassword, 
     validatePhone, 
-    validateIdNumber 
+    validateIdNumber, 
+    validateLicenseNumber
 } from '../../utils/validators.js';
 import { addNewUser, updateUserDetails } from '../../store/slices/userSlice.js';
 
@@ -27,6 +28,7 @@ export default function UserDrawer(props) {
         password: '',
         phoneNumber: '',
         idNumber: '',
+        licenseNumber: '',
         role: 'customer'
     });
 
@@ -39,6 +41,7 @@ export default function UserDrawer(props) {
                 password: '',
                 phoneNumber: userToEdit.phoneNumber || '',
                 idNumber: userToEdit.idNumber || '',
+                licenseNumber: userToEdit.licenseNumber || '', 
                 role: userToEdit.role || 'customer'
             });
         }
@@ -80,6 +83,11 @@ export default function UserDrawer(props) {
             if (idErr) newErrors.idNumber = idErr;
         }
 
+        if (formData.licenseNumber) {
+            const licenseNumberErr = validateLicenseNumber(formData.licenseNumber);
+            if(licenseNumberErr) newErrors.licenseNumber = licenseNumberErr;
+        }
+
         setErrors(newErrors);
         
         return Object.keys(newErrors).length === 0;
@@ -100,7 +108,7 @@ export default function UserDrawer(props) {
                     delete dataToSend.password;
 
                 await dispatch(updateUserDetails({ 
-                    userId: userToEdit._id, 
+                    userId: userToEdit._id || userToEdit.id, 
                     updatedFields: dataToSend 
                 })).unwrap();
 
@@ -194,8 +202,9 @@ export default function UserDrawer(props) {
                             {errors.phoneNumber && <span className="error-text">{errors.phoneNumber}</span>}
                         </div>
 
+    
                         <div className={styles.formGroup}>
-                            <label>ת.ז / מס' רישיון</label>
+                            <label>תעודת זהות</label>
                             <input 
                                 type="text" 
                                 name="idNumber" 
@@ -204,6 +213,18 @@ export default function UserDrawer(props) {
                                 className={`${styles.inputField} ${errors.idNumber ? 'input-error' : ''}`}
                             />
                             {errors.idNumber && <span className="error-text">{errors.idNumber}</span>}
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>מספר רישיון</label>
+                            <input 
+                                type="text" 
+                                name="licenseNumber" 
+                                value={formData.licenseNumber} 
+                                onChange={handleInputChange} 
+                                className={`${styles.inputField} ${errors.licenseNumber ? 'input-error' : ''}`}
+                            />
+                            {errors.licenseNumber && <span className="error-text">{errors.licenseNumber}</span>}
                         </div>
 
                         <div className={styles.formGroup}>

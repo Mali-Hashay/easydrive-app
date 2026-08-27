@@ -36,6 +36,9 @@ export default function ExtendRentalModal(props) {
     onClose();
   };
 
+  const currentReturnDateStr = minDate ? dayjs(minDate).format('YYYY-MM-DD') : '';
+  const currentReturnTimeStr = minDate ? dayjs(minDate).format('HH:mm') : '';
+
   return (
     <div className={styles.overlay} onClick={handleClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>

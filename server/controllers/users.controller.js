@@ -97,7 +97,7 @@ const UserController={
                     return res.status(400).json({message: "כתובת האימייל כבר קיימת במערכת"})
                 user.email = email;
             }
-            if(req.user.role == 'admin' && status)
+            if(req.user.role == 'admin' && status!==undefined)
                 user.status = status;
             if (req.user.role === 'admin' && role !== undefined) 
                 user.role = role;
