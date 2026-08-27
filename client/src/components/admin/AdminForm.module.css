@@ -195,6 +195,32 @@
     background-color: #f5f5f5;
 }
 
+.resetPasswordBtn {
+    margin-top: 4px;
+    padding: 8px 12px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%; 
+    text-align: center;
+}
+
+.resetPasswordBtn:hover:not(:disabled) {
+    background-color: #f5f5f5;
+    border-color: #1a1a1a;
+}
+
+.resetPasswordBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #fafafa;
+}
+
 @keyframes slideIn {
     from { transform: translateX(-100%); }
     to { transform: translateX(0); }

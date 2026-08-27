@@ -12,12 +12,15 @@ import {
     validateLicenseNumber
 } from '../../utils/validators.js';
 import { addNewUser, updateUserDetails } from '../../store/slices/userSlice.js';
+import { forgotPassword } from '../../api/authApi.js';
 
 export default function UserDrawer(props) {
     const { userToEdit, onClose, onSuccess } = props; 
     const dispatch = useDispatch();
     const isEdit = Boolean(userToEdit && userToEdit._id);
     const [submitting, setSubmitting] = useState(false);
+    
+    const [sendingReset, setSendingReset] = useState(false);
     
     const [errors, setErrors] = useState({});
 
@@ -56,6 +59,25 @@ export default function UserDrawer(props) {
             setErrors(prev => ({ ...prev, [name]: '' }));
     };
 
+    const handleSendPasswordReset = async () => {
+        if (!formData.email) {
+            alertService.errorToast('חסרה כתובת אימייל');
+            return;
+        }
+
+        try {
+            setSendingReset(true);
+            
+            await forgotPassword(formData.email);
+            alertService.success(`נשלח מייל לאיפוס סיסמה לכתובת ${formData.email}`);
+
+        } catch (err) {
+            alertService.errorToast(err.message || 'שליחת המייל נכשלה');
+        } finally {
+            setSendingReset(false);
+        }
+    };
+
     const validateForm = () => {
         const newErrors = {};
 
@@ -68,7 +90,7 @@ export default function UserDrawer(props) {
         const emailErr = validateEmail(formData.email);
         if (emailErr) newErrors.email = emailErr;
 
-        if (!isEdit || formData.password) {
+        if (!isEdit) {
             const passwordErr = validatePassword(formData.password);
             if (passwordErr) newErrors.password = passwordErr;
         }
@@ -104,8 +126,7 @@ export default function UserDrawer(props) {
             
             if (isEdit) {
                 const dataToSend = { ...formData };
-                if (!dataToSend.password) 
-                    delete dataToSend.password;
+                delete dataToSend.password;
 
                 await dispatch(updateUserDetails({ 
                     userId: userToEdit._id || userToEdit.id, 
@@ -179,15 +200,32 @@ export default function UserDrawer(props) {
                         </div>
 
                         <div className={styles.formGroup}>
-                            <label>{isEdit ? 'סיסמה חדשה (השאר ריק לשמירת הקיימת)' : 'סיסמה *'}</label>
-                            <input 
-                                type="password" 
-                                name="password" 
-                                value={formData.password} 
-                                onChange={handleInputChange} 
-                                className={`${styles.inputField} ${errors.password ? 'input-error' : ''}`}
-                            />
-                            {errors.password && <span className="error-text">{errors.password}</span>}
+                            {!isEdit ? (
+                                <>
+                                    <label>סיסמה *</label>
+                                    <input 
+                                        type="password" 
+                                        name="password" 
+                                        value={formData.password} 
+                                        onChange={handleInputChange} 
+                                        className={`${styles.inputField} ${errors.password ? 'input-error' : ''}`}
+                                    />
+                                    {errors.password && <span className="error-text">{errors.password}</span>}
+                                </>
+                            ) : (
+                                <>
+                                    <label>אבטחת חשבון</label>
+                                    <button
+                                        type="button"
+                                        onClick={handleSendPasswordReset}
+                                        disabled={sendingReset}
+                                        className={styles.resetPasswordBtn}
+                                        className={styles.resetPasswordBtn}
+                                    >
+                                        {sendingReset ? 'שולח...' : 'שלח קישור לאיפוס סיסמה'}
+                                    </button>
+                                </>
+                            )}
                         </div>
 
                         <div className={styles.formGroup}>
@@ -202,7 +240,6 @@ export default function UserDrawer(props) {
                             {errors.phoneNumber && <span className="error-text">{errors.phoneNumber}</span>}
                         </div>
 
-    
                         <div className={styles.formGroup}>
                             <label>תעודת זהות</label>
                             <input 
