@@ -8,13 +8,26 @@
     box-sizing: border-box;
 }
 
+/* =========================================
+   מעטפת עמוד וכותרות עליונות
+========================================= */
+.stickyHeader {
+    position: sticky;
+    top: 80px; 
+    z-index: 40; 
+    background-color: rgba(255, 255, 255, 0.95); 
+    backdrop-filter: blur(8px);               
+    padding-top: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eaeaea; 
+}
+
 .pageHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 12px;
+    margin-bottom: 16px; 
+   
 }
 
 .pageTitle {
