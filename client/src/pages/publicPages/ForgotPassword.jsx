@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { forgotPassword } from "../../api/authApi";
 import styles from "./ForgotPassword.module.css";
 import { alertService } from "../../utils/alertService";
-import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/validators";
 
 export default function ForgotPassword({ onSuccess, onSwitchToLogin }) {
@@ -10,14 +9,8 @@ export default function ForgotPassword({ onSuccess, onSwitchToLogin }) {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const navigate = useNavigate();
-
     const handleBackToLogin = () => {
-        if (onSwitchToLogin) {
-            onSwitchToLogin();
-        } else {
-            navigate('/login');
-        }
+        onSwitchToLogin();
     };
 
     const handleSubmit = async (e) => {
@@ -34,15 +27,7 @@ export default function ForgotPassword({ onSuccess, onSwitchToLogin }) {
         try {
             await forgotPassword(email);
             await alertService.successModal('קישור לאיפוס סיסמה נשלח בהצלחה לכתובת האימייל שלך', '');
-            
-            // אם מופעל בתוך מודאל - סוגר אותו או מחזיר להתחברות, אחרת מנווט בדף
-            if (onSuccess) {
-                onSuccess();
-            } else if (onSwitchToLogin) {
-                onSwitchToLogin();
-            } else {
-                navigate('/login');
-            }
+            onSuccess();
         } catch (err) {
             setError(err.message || 'אירעה שגיאה, אנא נסה בשנית');
         } finally {

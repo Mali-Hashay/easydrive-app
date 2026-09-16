@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../store/slices/authSlice";
 import { validateName, validateEmail, validatePhone, validatePassword } from "../../utils/validators";
 import styles from "./Register.module.css";
@@ -19,7 +18,6 @@ export default function RegisterPage({ onSuccess, onSwitchToLogin }) {
     const [formErrors, setFormErrors] = useState({});
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const loading = useSelector(state => state.auth.loading);
     const error = useSelector(state => state.auth.error);
@@ -79,15 +77,7 @@ export default function RegisterPage({ onSuccess, onSwitchToLogin }) {
         try {
             const { verifyPassword, termsAccepted, ...dataToSend } = formData;
             await dispatch(registerUser(dataToSend)).unwrap();
-
-            //   סגירה/החלפה במודאל, או ניווט דף מלא
-            if (onSuccess) {
-                onSuccess();
-            } else if (onSwitchToLogin) {
-                onSwitchToLogin();
-            } else {
-                navigate('/login');
-            }
+            onSuccess();
         } catch (err) {
             console.error('Registration failed:', err);
         }
@@ -95,12 +85,7 @@ export default function RegisterPage({ onSuccess, onSwitchToLogin }) {
 
     const handleLoginClick = (e) => {
         e.preventDefault();
-        //מעבר להתחברות: החלפת טאב פנימית במודאל או מעבר עמוד
-        if (onSwitchToLogin) {
-            onSwitchToLogin();
-        } else {
-            navigate('/login');
-        }
+        onSwitchToLogin();
     };
 
     return (

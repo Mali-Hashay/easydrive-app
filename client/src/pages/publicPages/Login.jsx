@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../store/slices/authSlice";
 import { validateEmail, validatePassword } from "../../utils/validators";
 import styles from "./Login.module.css";
@@ -11,7 +10,6 @@ export default function LoginPage({ onSuccess, onSwitchToRegister, onSwitchToFor
     const [errors, setErrors] = useState({});
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const loading = useSelector(state => state.auth.loading);
     const authError = useSelector(state => state.auth.error);
@@ -36,13 +34,7 @@ export default function LoginPage({ onSuccess, onSwitchToRegister, onSwitchToFor
 
         try {
             await dispatch(loginUser({ email, password })).unwrap();
-            
-            // אם הופעל בתוך מודאל- סגירת המודאל, אחרת ניווט בדף
-            if (onSuccess) {
-                onSuccess();
-            } else {
-                navigate('/');
-            }
+            onSuccess();
         } catch (err) {
             console.error('Login failed:', err);
         }
@@ -50,20 +42,12 @@ export default function LoginPage({ onSuccess, onSwitchToRegister, onSwitchToFor
 
     const handleRegisterClick = (e) => {
         e.preventDefault();
-        // מעבר להרשמה (מודאל או דף)
-        if (onSwitchToRegister) {
-            onSwitchToRegister();
-        } else {
-            navigate('/register');
-        }
+        onSwitchToRegister();
     };
 
     const handleForgotClick = (e) => {
         e.preventDefault();
-        // מעבר לשכחתי סיסמה 
-        if (onSwitchToForgot) 
-            onSwitchToForgot();
-        
+        onSwitchToForgot();
     };
 
     return (

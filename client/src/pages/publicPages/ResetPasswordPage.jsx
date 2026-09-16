@@ -44,7 +44,7 @@ export default function ResetPasswordPage() {
         try {
             const data = await resetPassword(id, token, newPassword);
             await alertService.successModal('הסיסמה שונתה בהצלחה!', data.message || 'אנא התחבר למערכת עם הסיסמה החדשה.');   
-            navigate("/login");
+            navigate("/", { state: { openLogin: true } });
         } catch (error) {
             alertService.errorToast(error.message || 'אירעה שגיאה בעדכון הסיסמה');
         } finally {

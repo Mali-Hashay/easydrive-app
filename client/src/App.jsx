@@ -12,8 +12,6 @@ import AdminLayout from './components/layout/AdminLayout';
 import HomePage from './pages/publicPages/HomePage';
 import SearchCar from './pages/publicPages/SearchCar';
 import ContactPage from './pages/publicPages/Contact';
-import LoginPage from './pages/publicPages/Login';
-import RegisterPage from './pages/publicPages/Register';
 import SearchResultsPage from './pages/publicPages/SearchResultsPage';
 import ResetPasswordPage from './pages/publicPages/ResetPasswordPage';
 import RentalPage from './pages/publicPages/RentalPage';
@@ -57,8 +55,6 @@ function App()
           <Route path='about' element={<About/>}/>
           <Route path="search" element={<SearchCar />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage/>} />
           <Route path="search-results" element={<SearchResultsPage />} />
           <Route path="reset-password/:id/:token" element={<ResetPasswordPage />} />
           <Route path="rental" element={<RentalPage />} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import styles from './Header.module.css';
 import logo from '../../assets/logo.png';
@@ -10,7 +10,8 @@ import AuthModal from '../ui/AuthModal.jsx';
 export default function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+    const location = useLocation();
+
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const user = useSelector(state => state.auth.user);
     const isAdmin = user?.role === 'admin' 
@@ -38,6 +39,14 @@ export default function Header() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isUserMenuOpen]);
+
+    useEffect(() => {
+        if (location.state?.openLogin) {
+            setAuthInitialTab('login');
+            setIsAuthModalOpen(true);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
 
     const handleLogout = () => {
         dispatch(logout());
