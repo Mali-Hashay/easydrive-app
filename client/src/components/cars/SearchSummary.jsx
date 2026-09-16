@@ -9,7 +9,6 @@ export default function SearchSummary() {
         (state) => state.rentalFlow.searchParams || {}
     );
 
-    // פונקציית עזר לפרמוט בטוח של התאריך
     const formatDate = (date) => {
         const parsedDate = dayjs(date);
         return parsedDate.isValid()? parsedDate.format('DD/MM/YYYY') : 'לא נבחר תאריך';

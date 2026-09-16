@@ -108,7 +108,6 @@ export default function PersonalInfoForm(props) {
       <h2 className={styles.title}>עדכון פרטים אישיים</h2>
 
       <form onSubmit={handleSubmit} className={styles.form} noValidate>
-        {/* שם פרטי */}
         <div className={styles.formGroup}>
           <label className={styles.label}>שם פרטי</label>
           <input
@@ -123,7 +122,6 @@ export default function PersonalInfoForm(props) {
           )}
         </div>
 
-        {/* שם משפחה */}
         <div className={styles.formGroup}>
           <label className={styles.label}>שם משפחה</label>
           <input
@@ -138,7 +136,6 @@ export default function PersonalInfoForm(props) {
           )}
         </div>
 
-        {/* אימייל */}
         <div className={styles.formGroup}>
           <label className={styles.label}>אימייל</label>
           <input
@@ -150,7 +147,6 @@ export default function PersonalInfoForm(props) {
           />
         </div>
 
-        {/* מספר טלפון */}
         <div className={styles.formGroup}>
           <label className={styles.label}>מספר טלפון</label>
           <input
@@ -165,7 +161,6 @@ export default function PersonalInfoForm(props) {
           )}
         </div>
 
-        {/* תעודת זהות */}
         <div className={styles.formGroup}>
           <label className={styles.label}>תעודת זהות</label>
           <input
@@ -180,7 +175,6 @@ export default function PersonalInfoForm(props) {
           )}
         </div>
 
-        {/* מספר רישיון נהיגה */}
         <div className={styles.formGroup}>
           <label className={styles.label}>מספר רישיון נהיגה</label>
           <input
@@ -195,7 +189,6 @@ export default function PersonalInfoForm(props) {
           )}
         </div>
 
-        {/* תאריך לידה */}
         <div className={styles.formGroup}>
           <label className={styles.label}>תאריך לידה</label>
           <input

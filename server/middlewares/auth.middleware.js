@@ -34,7 +34,7 @@ export const verifyToken = async (req, res, next) => {
     }
 }
 
-//אימות מנהל- אחרי אימות הטוקן הרגיל
+// runs after verifyToken, so req.user is already set
 export const verifyAdmin = (req, res, next) => {
     if(req.user && req.user.role == 'admin')
         next();

@@ -39,7 +39,6 @@ export const addCategory = async (categoryData) =>{
 
 export const updateCategory = async(id, updatedFields) => {
     try{
-        //לבדוק מה לעשות בקשר לשיטת הגישה- כנל בשאר הקבצים
         const response = await privateApi.patch(`/categories/update/${id}`,
              updatedFields);
         return  response.data;

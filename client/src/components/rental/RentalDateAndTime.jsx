@@ -35,7 +35,6 @@ export default function RentalDateAndTime({
     return today.isBefore(businessEnd, 'minute');
   };
 
-  // חישוב  של כל השעות המורשות לבחירה
   const availableTimes = useMemo(() => {
     if (!selectedDate) return [];
 
@@ -54,12 +53,12 @@ export default function RentalDateAndTime({
 
     const now = dayjs();
     
-    // סינון שעות שכבר עברו במידה  והיום הנוכחי נבחר
+    // drop hours already in the past if today is the selected day
     let filtered = times;
     if (dayjs(selectedDate).isSame(now, 'day')) 
       filtered = filtered.filter((t) => dayjs(t).isAfter(now, 'minute'));
     
-    // סינון שעות שקודמות לשעת האיסוף (כאשר תאריך האיסוף וההחזרה זהים)
+    // when pickup and return are the same day, hide return times before pickup
     if (compareDate && compareTime && dayjs(selectedDate).isSame(dayjs(compareDate), 'day')) {
       const compareDateTime = dayjs(`${compareDate}T${compareTime}`);
       filtered = filtered.filter((t) => dayjs(t).isAfter(compareDateTime, 'minute'));
@@ -79,12 +78,12 @@ export default function RentalDateAndTime({
     const formattedDate = dayjs(date).format('YYYY-MM-DD');
     if (onDateChange) onDateChange(formattedDate);
 
-    // כאשר נבחר יום ואז שונה ליום ו'- איפוס שעה אם היא חורגת משעות הפעילות
+    // friday closes earlier, so clear the time if it's now past closing
     if (dayjs(date).day() === 5 && timeValue > '12:00') {
       if (onTimeChange) onTimeChange('');
     }
 
-    //  טיפל במצב שבו תאריך ההחזרה משתנה לערך זהה לתאריך  האיסוף והשעה שנבחרה כבר אינה חוקית
+    // return date now matches pickup date, so the picked time might no longer be valid
     if (
       compareDate &&
       compareTime &&

@@ -8,7 +8,7 @@ import { currentUser } from './store/slices/authSlice';
 import MainLayout from './components/layout/MainLayout';
 import AdminLayout from './components/layout/AdminLayout';
 
-// לקוחות 
+// customer-facing
 import HomePage from './pages/publicPages/HomePage';
 import SearchCar from './pages/publicPages/SearchCar';
 import ContactPage from './pages/publicPages/Contact';
@@ -22,7 +22,7 @@ import PrivacyPage from './pages/publicPages/PrivacyPolicy';
 import AccessibilityPage from './pages/publicPages/Accessibility';
 import ProfilePage from './pages/publicPages/ProfilePage';
 
-// ניהול
+// admin
 import AdminRoute from './components/admin/AdminRoute';
 import AdminCars from './pages/admin/AdminCars';
 import AdminUsers from './pages/admin/AdminUsers';
@@ -49,7 +49,7 @@ function App()
     <BrowserRouter>
       <ScrollToTop />
       <Routes> 
-        {/*   משתמשים ולקוחות */}
+        {/* customer-facing */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} /> 
           <Route path='about' element={<About/>}/>
@@ -66,7 +66,7 @@ function App()
           <Route path="faq" element={<FAQ/>}/>
         </Route>
 
-        {/*   ניהול */}
+        {/* admin */}
         <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
           <Route index element={<AdminDashboard/>}/>
           <Route path="cars" element={<AdminCars />} />

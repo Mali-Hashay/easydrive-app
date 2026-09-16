@@ -88,7 +88,6 @@ const categorySlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        //טעינת כל הקטגוריות
         .addCase(fetchAllCategories.pending, (state) =>{
             state.loading = true;
             state.error = null;
@@ -101,7 +100,6 @@ const categorySlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        // טעינת קטגוריה לפי מזהה
         .addCase(fetchCategoryById.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -115,7 +113,6 @@ const categorySlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        // הוספת קטגוריה חדשה
         .addCase(addNewCategory.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -128,7 +125,6 @@ const categorySlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        // עדכון קטגוריה קיימת
         .addCase(updateCategoryDetails.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -148,7 +144,6 @@ const categorySlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //מחיקת קטגוריה
         .addCase(removeCategory.pending, (state) => {
             state.loading = true;
             state.error = null;

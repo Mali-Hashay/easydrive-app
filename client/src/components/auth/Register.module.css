@@ -24,7 +24,6 @@
     flex-direction: column;
 }
 
-/* שומרים על התמיכה בשני שדות בשורה אחת */
 .row {
     display: flex;
     gap: 16px;
@@ -74,7 +73,6 @@
     font-weight: 500;
 }
 
-/* שומרים על עיצוב תיבת הסימון */
 .checkboxContainer {
     display: flex;
     align-items: center;

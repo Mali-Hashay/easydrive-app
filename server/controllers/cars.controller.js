@@ -104,7 +104,7 @@ const CarController={
                 car.status = status;
             }
                
-           //רק אלו השדות שניתן לעדכן
+           // only these fields are allowed to be updated
             if (categories !== undefined) car.categories = categories;
             if (mileage !== undefined) car.mileage = mileage;
             if (dailyPrice !== undefined) car.dailyPrice = dailyPrice;
@@ -119,7 +119,6 @@ const CarController={
         }
         },
 
-    //DELETE
     delete: async(req,res)=>{
         try{
             const {id} = req.params;
@@ -138,7 +137,6 @@ const CarController={
         }
     },
 
-    //GET
    getAvailableCars: async (req, res) => {
     try {
         const { pickupDate, pickupTime, returnDate, returnTime } = req.query;
@@ -150,11 +148,11 @@ const CarController={
             return res.status(200).json(allCars);
         }
 
-        //  הגדרת ברירת מחדל לשעות: תחילת יום 00:00 וסוף יום 23:59  
+        // default to the start/end of the day when no time is provided
         const startTime = pickupTime || '00:00';
         const endTime = returnTime || '23:59';
 
-        // המרה אחידה לפי שעון ישראל
+        // normalize to Israel time so comparisons are consistent regardless of server timezone
         const userStart = dayjs.tz(`${pickupDate}T${startTime}`, 'Asia/Jerusalem').toDate();
         const userEnd = dayjs.tz(`${returnDate}T${endTime}`, 'Asia/Jerusalem').toDate();
 
@@ -162,7 +160,6 @@ const CarController={
         console.log("userStart (ISO/UTC):", userStart.toISOString(), "| Local:", userStart.toString());
         console.log("userEnd   (ISO/UTC):", userEnd.toISOString(), "| Local:", userEnd.toString());
 
-        // בדיקת תקינות
         if (isNaN(userStart.getTime()) || isNaN(userEnd.getTime())) {
             return res.status(400).json({ message: "פורמט התאריכים שהוזנו אינו תקין" });
         }
@@ -171,7 +168,6 @@ const CarController={
             return res.status(400).json({ message: "תאריך ההתחלה אינו יכול להיות מאוחר מתאריך הסיום" });
         }
 
-        // מציאת כל ההזמנות החופפות
         const overlappingRentals = await Rental.find({
             status: { $in: ['active', 'confirmed', 'overdue'] },
             pickupDate: { $lte: userEnd },

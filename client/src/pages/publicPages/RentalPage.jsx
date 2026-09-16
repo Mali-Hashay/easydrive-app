@@ -8,7 +8,7 @@ import EventSeatIcon from '@mui/icons-material/EventSeat';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
-import EvStationIcon from '@mui/icons-material/EvStation'; // אייקון מומלץ לרכב חשמלי
+import EvStationIcon from '@mui/icons-material/EvStation';
 import { calculateTotalDays, calculateTotalPrice } from "../../utils/dateUtils";
 
 export default function RentalPage() 

@@ -59,7 +59,7 @@ const UserController={
             });
 
             await newUser.save();
-            //מחיקת הסיסמה מהאוביקט המוחזר ללקוח- אבטחה
+            // security: strip the password hash before returning the user object
             const userResponse = newUser.toObject();
             delete userResponse.password;
 

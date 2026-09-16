@@ -139,7 +139,6 @@
     transform: scale(0.96);
 }
 
-/* כפתור עריכה */
 .editBtn {
     background-color: #ffffff;
     color: #1f2937;
@@ -304,7 +303,7 @@
 
 .stickyHeader {
     position: sticky;
-    top: 73px; /* גובה ה-Header הגלובלי (72px + border 1px) כדי שלא יתחבא מתחתיו בגלילה */
+    top: 73px;
     z-index: 100;
     background-color: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(6px);

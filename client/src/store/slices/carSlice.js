@@ -101,7 +101,6 @@ const carSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        //טעינץ רשימת הרכבים
         .addCase(fetchAllCars.pending, (state) =>{
             state.loading = true;
             state.error = null;
@@ -114,7 +113,6 @@ const carSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //טעינת רכב לפי id
         .addCase(fetchCarById.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -128,7 +126,6 @@ const carSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //הוספת רכב
         .addCase(addNewCar.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -141,7 +138,6 @@ const carSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //עדכון פרטי רכב
         .addCase(updateCar.pending, (state)=> {
             state.loading = true;
             state.error = null;
@@ -153,7 +149,6 @@ const carSlice = createSlice({
             const index = state.allCars.findIndex(c=> c._id ===updatedCar._id);
             if(index !== -1)
                 state.allCars[index] = updatedCar;
-            //אם הרכב הנוכחי הוא זה שמתעדכן 
             if (state.currentCar && state.currentCar._id === updatedCar._id) {
                 state.currentCar = updatedCar;
             }
@@ -162,7 +157,6 @@ const carSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //מחיקת רכב
         .addCase(removeCar.pending, (state) => {
             state.loading = true;
             state.error = null;

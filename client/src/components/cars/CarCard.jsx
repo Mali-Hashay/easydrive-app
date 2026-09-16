@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './CarCard.module.css';
 import { carsTransmission, fuelTypes } from '../../constants/translations';
 
-// ייבוא אייקונים מ-MUI
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EventSeatIcon from '@mui/icons-material/EventSeat';

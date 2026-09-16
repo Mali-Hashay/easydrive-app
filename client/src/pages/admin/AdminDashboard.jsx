@@ -28,12 +28,10 @@ export default function AdminDashboard() {
         dispatch(fetchUsers()); 
     }, [dispatch]);
 
-    // 5 ההשכרות האחרונות במערכת
     const recentRentals = [...rentalsList]
         .sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date))
         .slice(0, 5);
 
-    // חישוב מדדים דינמיים
     const totalRevenue = rentalsList
         .filter(r => r.status === 'completed' || r.status === 'paid')
         .reduce((sum, r) => sum + (r.totalPrice || r.sum || 0), 0);
@@ -48,7 +46,6 @@ export default function AdminDashboard() {
                 <p>{`סקירה כללית של הנתונים במערכת נכון להיום- ${dayjs().format('DD/MM/YYYY')}`}</p>
             </div>
 
-            {/* כרטיסי מדדים */}
             <div className={styles.statsGrid}>
                 <div className={styles.statCard}>
                     <div className={styles.iconWrapper}>
@@ -93,7 +90,6 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
-            {/* פעולות מהירות */}
             <div className={styles.quickActionsSection}>
                 <h3>פעולות מהירות</h3>
                 <div className={styles.actionButtons}>
@@ -110,7 +106,6 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
-            {/* טבלת השכרות אחרונות */}
             <div className={styles.recentSection}>
                 <h3>השכרות אחרונות במערכת</h3>
                 <div className={styles.tableContainer}>

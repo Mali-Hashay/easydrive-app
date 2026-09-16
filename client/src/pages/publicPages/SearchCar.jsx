@@ -73,7 +73,6 @@ export default function SearchCar() {
         <div className={styles.container}>
             <form onSubmit={handleFindCar} className={styles.searchForm} noValidate>
                 
-                {/* תאריך איסוף */}
                 <div className={styles.inputGroup}>
                     <RentalDateAndTime
                         dateLabel="תאריך איסוף"
@@ -91,7 +90,6 @@ export default function SearchCar() {
                     )}
                 </div>
 
-                {/* שעת איסוף */}
                 <div className={styles.inputGroup}>
                     <RentalDateAndTime
                         timeLabel="שעת איסוף"
@@ -109,7 +107,6 @@ export default function SearchCar() {
                     )}
                 </div>
 
-                {/* תאריך החזרה */}
                 <div className={styles.inputGroup}>
                     <RentalDateAndTime
                         dateLabel="תאריך החזרה"
@@ -127,7 +124,6 @@ export default function SearchCar() {
                     )}
                 </div>
 
-                {/* שעת החזרה */}
                 <div className={styles.inputGroup}>
                     <RentalDateAndTime
                         timeLabel="שעת החזרה"

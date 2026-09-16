@@ -63,7 +63,6 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // שליפת כל המשתמשים
             .addCase(fetchUsers.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -77,7 +76,6 @@ const userSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // הוספת משתמש
             .addCase(addNewUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -91,7 +89,6 @@ const userSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // עדכון פרטי משתמש
             .addCase(updateUserDetails.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -108,7 +105,7 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            //מחיקה רכה-עדכון סטטוס
+            // soft delete, just flips the status
             .addCase(removeUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;

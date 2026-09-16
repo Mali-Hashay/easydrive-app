@@ -109,7 +109,7 @@
     background-color: #b71217;
 }
 
-/* === עיצוב שגיאות הולידציה בלבד === */
+/* validation errors only, from here down */
 
 .fieldGroup {
     display: flex;

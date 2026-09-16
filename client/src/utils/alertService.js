@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
-//הודעות הצלחה מהירות
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -9,7 +8,6 @@ const Toast = Swal.mixin({
     timerProgressBar: true,
 });
 
-    //הפעלת הודעות הצלחה מהירות
 export const alertService = {
     success: (message = 'הפעולה בוצעה בהצלחה!') => {
         Toast.fire({
@@ -17,14 +15,12 @@ export const alertService = {
             title: message,
         });
     },
-    //הפעלת הודעות שגיאה מהירות
     errorToast: (message = 'התרחשה שגיאה.') => {
         Toast.fire({
             icon: 'error',
             title: message,
         });
     },
-    //הודעת שגיאה הדורשת אישור
     error: (message = 'התרחשה שגיאה במערכת.') => {
         Swal.fire({
             title: 'שגיאה',
@@ -34,22 +30,21 @@ export const alertService = {
             confirmButtonColor: '#dc3545',
         });
     },
-    //הודעה כללית
     confirm: async (title = 'האם אתה בטוח?', text = '', isDanger = true) => {
         const result = await Swal.fire({
             title,
             text,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: isDanger ? '#dc3545' : '#28a745', 
+            confirmButtonColor: isDanger ? '#dc3545' : '#28a745',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'המשך',
             cancelButtonText: 'ביטול',
         });
-        
-        return result.isConfirmed; 
+
+        return result.isConfirmed;
     },
-    //מודאל הצלחה שממתין לאישור
+    // needs a click to close, unlike the toast which just disappears
     successModal: async (title = '!הפעולה! התבצעה בהצלחה', text = '') => {
         const result = await Swal.fire({
             title,

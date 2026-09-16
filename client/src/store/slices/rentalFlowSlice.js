@@ -2,16 +2,13 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState ={
 
-    //פרטי חיפוש
     searchParams : {
         pickupDate: '',
         pickupTime: '',
         returnDate: '',
         returnTime: ''
     },
-    //הרכב הנבחר
     selectedCar: null,
-    //פרטי לקוח
     personalDetails :{
         firstName: '',
         lastName: '',

@@ -116,13 +116,12 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             state.user = action.payload.user;
         })
-        //טוקן שגוי- או שאין טוקן כי המשתמש נכנס פעם ראשונה. לכן אין התייחסות לשגיאה
+        // bad/missing token just means first visit, not a real error
         .addCase(currentUser.rejected, (state, action)=> {
             state.loading = false;
             state.isAuthenticated = false;
             state.user = null;
         })
-        //עדכון פרופיל
         .addCase(updateUserProfile.pending, (state) => {
             state.loading = true;
             state.error = null;

@@ -32,7 +32,7 @@ export const addPayment = async (paymentData) => {
     }
     catch (error) {
         console.error('API Error in addPayment:', error);
-        const errorMsg = error.response?.data?.message || "אירעה שגיאת תקשורת, ביצוע התשלום נכשל"; // שינוי: חילוץ שגיאה דינמית מהשרת
+        const errorMsg = error.response?.data?.message || "אירעה שגיאת תקשורת, ביצוע התשלום נכשל";
         throw new Error(errorMsg);
     }
 }

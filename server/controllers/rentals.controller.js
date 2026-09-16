@@ -98,7 +98,7 @@ const RentalController={
         const start = new Date(pickupDate);
         const end = new Date(plannedReturnDate);
 
-        //  בדיקת חפיפת תאריכים מול השכרות קיימות  
+        // check for a date overlap with existing rentals for this car
         const existingRental = await Rental.findOne({
             carId,
             status: { $in: ['confirmed', 'active'] },
@@ -333,7 +333,6 @@ const RentalController={
         if (conflictingRental) 
             return res.status(400).json({ message: "לא ניתן להאריך את ההשכרה. הרכב כבר מוזמן ללקוח אחר בתאריכים אלו." });
         
-        // עדכון תאריך ההחזרה המתוכנן
         rental.plannedReturnDate = extensionDate;
 
         if (rental.status === 'overdue') {
@@ -361,7 +360,7 @@ const RentalController={
     }
     },
 
-    //פונקציה שתופעל אוטומטית בשרת מדי חצי שעה ע''מ לעדן השכרות לפעילות או רכבים למושכרים 
+    // intended to be triggered externally every 30 minutes to flip rentals to active/overdue and cars to rented
     updateRentalStatuses: async (req, res) => {
     try {
 
@@ -376,18 +375,15 @@ const RentalController={
             pickupDate: { $lte: now }
         });
 
-        //עדכון להשכרות שמתחילות
         for (const rental of startingRentals) {
             rental.status = 'active';
             await rental.save();
-            
-            // עדכון הרכב לסטטוס rented
+
             const car = await Car.findById(rental.carId);
             car.status = 'rented';
             await car.save();
 
         }
-        //עדכון להשכרות שבאיחור
         const overdueRentals = await Rental.find({
             status: 'active',
             plannedReturnDate: { $lt: now }

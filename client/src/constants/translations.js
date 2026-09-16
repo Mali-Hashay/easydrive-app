@@ -1,4 +1,3 @@
-// סטטוסים של הזמנות
 export const rentalStatuses = {
     'confirmed': 'מאושר',
     'cancelled': 'מבוטל',
@@ -8,7 +7,6 @@ export const rentalStatuses = {
     'deleted': 'נמחק',
 };
 
-// סטטוסים של רכבים 
 export const carStatuses = {
     'available': 'זמין',
     'maintenance': 'בטיפול',
@@ -16,13 +14,11 @@ export const carStatuses = {
     'inActive': 'לא זמין'
 };
 
-//סטטוסים של קטגוריות
 export const categoryStatuses = {
     'active': 'פעילה',
     'inActive': 'לא פעילה',
 };
 
-//סטטוסים של תשלומים 
 export const paymentStatuses = {
     pending: 'ממתין',
     authorized: 'מאושר',
@@ -33,20 +29,17 @@ export const paymentStatuses = {
     cancelled: 'בוטל'
 };
 
-//סטטוסים של משתמשים
 export const userStatuses = {
     'active': 'פעיל',
     'blocked': 'חסום',
     'inactive': 'לא פעיל'
 };
 
-//סוגי גיר
 export const carsTransmission = {
     'manual':'ידני',
     'automatic': 'אוטומטי'
 }
 
-//סוגי דלק
 export const fuelTypes ={
     'electric': 'חשמלי',
     'hybrid': 'היברידי',
@@ -54,7 +47,6 @@ export const fuelTypes ={
     'diesel': 'סולר'
 }
 
-//אמצעי תשלום
 export const paymentMethods = {
     'cash': 'מזומן',
     'credit_card': 'אשראי',

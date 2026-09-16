@@ -24,8 +24,7 @@ const PaymentController={
             if(!payment)
                 return res.status(404).json({message: 'התשלום המבוקש לא נמצא' });
 
-            //שליפת ההזמנה אליה מיוחס התשלום
-            //כדי  לאמת את הלקוח- שדה שנמצא בהזמנה ולא בתשלום
+            // clientId lives on the rental, not the payment, so fetch the rental to authorize the request
             const rental = await Rental.findById(payment.rentalId);
             if (!rental)
                 return res.status(404).json({ message: 'ההזמנה המשויכת לתשלום זה לא נמצאה' });

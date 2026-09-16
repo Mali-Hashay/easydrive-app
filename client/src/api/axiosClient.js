@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-//מופע כללי לפונקציות שלא ודרשות טקן
+// no auth needed
 export const publicApi = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -11,7 +11,7 @@ export const publicApi = axios.create({
     }
 });
 
-// מופע פרטי לפונקציות שדורשות טוקן
+// attaches the token via the interceptor below
 export const privateApi = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -19,7 +19,6 @@ export const privateApi = axios.create({
     }
 });
 
-//פונקציות שדורשות טוקן- שימוש במיירט
 privateApi.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token'); 

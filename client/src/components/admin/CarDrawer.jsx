@@ -32,7 +32,7 @@ const INITIAL_STATE = {
     imageUrl: ''
 };
 
-// פונקציית עזר לחישוב Hash מתוכן הקובץ
+// hashes the file content so uploads get a stable, unique name
 const calculateFileHash = async (file) => {
     const arrayBuffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
@@ -99,14 +99,12 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
         setUploadingImage(true);
 
         try {
-            // שימוש בפונקציית החישוב
             const fileHash = await calculateFileHash(file);
 
-            //  הוספת הנתונים ל-FormData
             const data = new FormData();
             data.append('file', file);
             data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-            data.append('public_id', fileHash); // הגדרת השם של הקובץ לפי ה-Hash
+            data.append('public_id', fileHash);
 
             const res = await axios.post(
                 `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -219,7 +217,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.form} noValidate>
-                    {/* יצרן */}
                     <div className={styles.formGroup}>
                         <label>יצרן *</label>
                         <input
@@ -232,7 +229,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.brand && <span className="error-text">{errors.brand}</span>}
                     </div>
 
-                    {/* דגם */}
                     <div className={styles.formGroup}>
                         <label>דגם *</label>
                         <input
@@ -245,7 +241,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.model && <span className="error-text">{errors.model}</span>}
                     </div>
 
-                    {/* לוחית רישוי */}
                     <div className={styles.formGroup}>
                         <label>לוחית רישוי *</label>
                         <input
@@ -258,7 +253,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.licensePlate && <span className="error-text">{errors.licensePlate}</span>}
                     </div>
 
-                    {/* שנה */}
                     <div className={styles.formGroup}>
                         <label>שנה *</label>
                         <input
@@ -272,7 +266,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.year && <span className="error-text">{errors.year}</span>}
                     </div>
 
-                    {/* מספר מקומות */}
                     <div className={styles.formGroup}>
                         <label>מספר מקומות *</label>
                         <input
@@ -286,7 +279,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.seats && <span className="error-text">{errors.seats}</span>}
                     </div>
 
-                    {/* קילומטראז' */}
                     <div className={styles.formGroup}>
                         <label>קילומטראז' *</label>
                         <input
@@ -299,7 +291,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.mileage && <span className="error-text">{errors.mileage}</span>}
                     </div>
 
-                    {/* מחיר ליום */}
                     <div className={styles.formGroup}>
                         <label>מחיר ליום (₪) *</label>
                         <input
@@ -312,7 +303,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         {errors.dailyPrice && <span className="error-text">{errors.dailyPrice}</span>}
                     </div>
 
-                    {/* העלאת תמונה */}
                     <div className={styles.formGroup}>
                         <label>תמונת הרכב</label>
                         <input
@@ -335,7 +325,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         )}
                     </div>
 
-                    {/* תיבת הילוכים */}
                     <div className={styles.formGroup}>
                         <label>תיבת הילוכים</label>
                         <select
@@ -350,7 +339,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         </select>
                     </div>
 
-                    {/* סוג דלק */}
                     <div className={styles.formGroup}>
                         <label>סוג דלק</label>
                         <select
@@ -367,7 +355,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         </select>
                     </div>
 
-                    {/* סטטוס */}
                     <div className={styles.formGroup}>
                         <label>סטטוס</label>
                         <select
@@ -382,7 +369,6 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                         </select>
                     </div>
 
-                    {/* קטגוריות */}
                     <div className={styles.formGroup}>
                         <label>שיוך לקטגוריות:</label>
                         <div className={styles.categoriesWrapper}>

@@ -137,7 +137,6 @@ const rentalSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
-        //טעינת רשימת ההשכרות
         .addCase(fetchAllRentals.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -150,7 +149,6 @@ const rentalSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //טעינת השכרה לפי מזהה
         .addCase(fetchRentalById.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -164,7 +162,6 @@ const rentalSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //שליפת ההשכרות שלי
         .addCase(fetchMyRentals.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -177,7 +174,6 @@ const rentalSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload; 
         })
-        //הוספת השכרה: 
         .addCase(addNewRental.pending, (state) => {
             state.loading = true;
         })
@@ -189,7 +185,6 @@ const rentalSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //עדכון פרטי השכרה
         .addCase(updateExistingRental.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -203,7 +198,6 @@ const rentalSlice = createSlice({
             )
             if(index !==-1)
                 state.rentalsList[index] = updatedRental;
-            //אם ההשכרה הנוכחית היא זו שצריכה להתעדכן
             if (state.currentRental && state.currentRental._id === updatedRental._id) {
                 state.currentRental = updatedRental;
     }
@@ -212,7 +206,6 @@ const rentalSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //מחיקת פרטי השכרה
         .addCase(removeRental.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -226,7 +219,6 @@ const rentalSlice = createSlice({
             state.loading= false;
             state.error = action.payload;
         })
-        // ביטול השכרה על ידי לקוח
         .addCase(cancelClientRental.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -244,7 +236,6 @@ const rentalSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //סיום השכרה ע''י מנהל 
         .addCase(adminCompleteRental.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -271,7 +262,6 @@ const rentalSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        //הארכת תקופת ההשכרה
         .addCase(extendRentalTime.pending, (state) => {
             state.loading = true;
             state.error = null;

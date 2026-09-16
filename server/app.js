@@ -47,7 +47,7 @@ app.listen(PORT,()=>{
     console.log("server is running");
 })
 
-// פונקציה שתרוץ כל מספר דקות ע''מ לעורר את השרת ב- Render
+// hit periodically by an external scheduler so render doesn't spin the server down
 app.get('/ping', (req, res) => {
     res.status(200).send("PONG");
 });

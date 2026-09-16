@@ -27,10 +27,9 @@ export const register = async(userData) =>{
     }
 }
 
-//בדיקת מצב החיבור בטעינת האתר
-//אסינכרונית כי מתקשרת עם שרת ובודקת טוקן מההדפדפן -לכסות מקרים שהמידע ברידקס נמחק בגלל ריענון
-//והמשתמש כביכול כבר לא מחובר ברידקס למרת שלא התנתק
-
+// checks auth status on load - has to hit the server since a refresh wipes
+// the redux state, so the user would otherwise look logged out even though
+// their token is still valid
 export const getCurrentUser = async () => {
     try {
         const response = await privateApi.get('/auth/me'); 
