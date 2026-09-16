@@ -8,26 +8,13 @@
     box-sizing: border-box;
 }
 
-/* =========================================
-   מעטפת עמוד וכותרות עליונות
-========================================= */
-.stickyHeader {
-    position: sticky;
-    top: 80px; 
-    z-index: 40; 
-    background-color: rgba(255, 255, 255, 0.95); 
-    backdrop-filter: blur(8px);               
-    padding-top: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #eaeaea; 
-}
-
 .pageHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px; 
-   
+    margin-bottom: 24px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 12px;
 }
 
 .pageTitle {
@@ -317,11 +304,11 @@
 
 .stickyHeader {
     position: sticky;
-    top: 0;
+    top: 73px; /* גובה ה-Header הגלובלי (72px + border 1px) כדי שלא יתחבא מתחתיו בגלילה */
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.92); 
-    backdrop-filter: blur(6px);               
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
     padding-top: 12px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #eaeaea;          
+    border-bottom: 1px solid #eaeaea;
 }
