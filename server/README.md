@@ -67,7 +67,7 @@ cd server
 npm install
 ```
 
-Create a `.env` file in the `server/` directory (see [Environment Variables](#-environment-variables)), then run:
+Create a `.env` file in the `server/` directory (see [Environment Variables](#environment-variables)), then run:
 
 ```bash
 node app.js

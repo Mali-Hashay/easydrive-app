@@ -5,7 +5,7 @@ import styles from './Header.module.css';
 import logo from '../../assets/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './../../store/slices/authSlice.js';
-import AuthModal from '../ui/AuthModal.jsx';
+import AuthModal from '../auth/AuthModal.jsx';
 
 export default function Header() {
     const dispatch = useDispatch();

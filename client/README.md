@@ -69,6 +69,7 @@ client/src/
 ├── assets/                 # Static assets (images, icons)
 ├── components/
 │   ├── admin/               # Admin tables rows, drawers (Car/Category/Payment/Rental/User), AdminRoute guard
+│   ├── auth/                  # AuthModal + its Login, Register, ForgotPassword forms — not routed pages
 │   ├── cars/                 # Car search results list, car card, filters, search summary
 │   ├── common/                # Shared components (e.g. FAQ)
 │   ├── home/                  # Home page sections (banner, how it works, why choose us)
@@ -77,11 +78,11 @@ client/src/
 │   ├── rental/
 │   │   ├── modals/              # Rental-related modals
 │   │   └── rental-steps/        # PersonalDetails, Payment, RentalReview, RentalSummary
-│   └── ui/                      # Reusable UI primitives (AuthModal, LoadingSpinner, MultiSelectDropdown, ScrollToTop)
+│   └── ui/                      # Reusable UI primitives (LoadingSpinner, MultiSelectDropdown, ScrollToTop)
 ├── constants/                # Static data (branch data, i18n translations)
 ├── pages/
 │   ├── admin/                 # Admin pages (Cars, Categories, Contacts, Dashboard, Payments, Rentals, Users)
-│   └── publicPages/            # Public pages (Home, Search, Login, Register, Profile, MyRentals...)
+│   └── publicPages/            # Public pages (Home, Search, Reset Password, Profile, MyRentals...)
 ├── store/
 │   ├── slices/                 # Redux slices (auth, car, category, rental, rentalFlow, user)
 │   └── store.js
@@ -104,11 +105,12 @@ client/src/
 | `/rental` | Rental booking flow |
 | `/my-rentals` | My Rentals |
 | `/profile` | Profile |
-| `/login` / `/register` | Login / Register |
 | `/reset-password/:id/:token` | Reset Password |
 | `/contact` | Contact |
 | `/faq` | FAQ |
 | `/terms` / `/privacy` / `/accessibility` | Legal / policy pages |
+
+Login and Register are not routed pages — they're only ever rendered as tabs inside `AuthModal` (`components/auth/AuthModal.jsx`), which the `Header` opens on top of whatever page the user is on. After a password reset, the app navigates home and opens `AuthModal` directly to the login tab.
 
 ### Admin routes (`/admin`, guarded by `AdminRoute` + `AdminLayout`)
 | Path | Page |

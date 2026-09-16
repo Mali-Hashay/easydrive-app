@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './AuthModal.module.css';
-import LoginPage from '../../pages/publicPages/Login';
-import RegisterPage from '../../pages/publicPages/Register';
-import ForgotPassword from '../../pages/publicPages/ForgotPassword';
+import LoginPage from './Login';
+import RegisterPage from './Register';
+import ForgotPassword from './ForgotPassword';
 
 
 export default function AuthModal(props) {

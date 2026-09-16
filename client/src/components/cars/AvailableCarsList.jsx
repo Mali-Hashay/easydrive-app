@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CarCard from "./CarCard";
 import { setSelectedCar } from "../../store/slices/rentalFlowSlice";
 import LoadingSpinner from "../ui/LoadingSpinner"; 
-import AuthModal from "../ui/AuthModal"; 
+import AuthModal from "../auth/AuthModal"; 
 import styles from "./AvailableCarsList.module.css";
 
 export function AvailableCarsList(props) {
