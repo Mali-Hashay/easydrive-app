@@ -54,7 +54,7 @@ const AuthController = {
         if (!email || !password) 
             return res.status(400).json({ message: "נא להזין אימייל וסיסמה" });
         
-        const user = await User.findOne({email, status: 'active'});
+        const user = await User.findOne({email});
         if(!user)
             return res.status(404).json({message: "אימייל או סיסמה שגויים"});
 
@@ -62,6 +62,11 @@ const AuthController = {
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch)
             return res.status(400).json({message: "אימייל או סיסמה שגויים"});
+
+        if(user.status === 'blocked')
+            return res.status(403).json({message: "המשתמש חסום, יש לפנות למנהל המערכת"});
+        if(user.status === 'inactive')
+            return res.status(403).json({message: "המשתמש אינו פעיל, יש לפנות למנהל המערכת"});
 
         //יצירת טוקן
         const token = jwt.sign(

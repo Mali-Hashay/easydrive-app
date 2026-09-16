@@ -57,31 +57,27 @@ export default function AdminUsersRow(props) {
                         <EditIcon fontSize="small" /> ערוך
                     </button>
 
-                    {user.status !== 'inactive' && (
-                        <button 
-                            onClick={() => onChangeStatus(user._id, user.status === 'active' ? 'blocked' : 'active')}
-                            className={`${styles.button} ${user.status === 'active' ? styles.deleteBtn : styles.editBtn}`}
-                        >
-                            {user.status === 'active' ? (
-                                <>
-                                    <BlockIcon fontSize="small" /> חסום
-                                </>
-                            ) : (
-                                <>
-                                    <CheckCircleIcon fontSize="small" /> הפעל
-                                </>
-                            )}
-                        </button>
-                    )}
+                    <button
+                        onClick={() => onChangeStatus(user._id, user.status === 'active' ? 'blocked' : 'active')}
+                        className={`${styles.button} ${user.status === 'active' ? styles.deleteBtn : styles.editBtn}`}
+                    >
+                        {user.status === 'active' ? (
+                            <>
+                                <BlockIcon fontSize="small" /> חסום
+                            </>
+                        ) : (
+                            <>
+                                <CheckCircleIcon fontSize="small" /> הפעל
+                            </>
+                        )}
+                    </button>
 
-                    {user.status !== 'inactive' && (
-                        <button 
-                            onClick={() => onDelete(user._id)}
-                            className={`${styles.button} ${styles.deleteBtn}`}
-                        >
-                            <DeleteIcon fontSize="small" /> מחק
-                        </button>
-                    )}
+                    <button
+                        onClick={() => onDelete(user._id)}
+                        className={`${styles.button} ${styles.deleteBtn}`}
+                    >
+                        <DeleteIcon fontSize="small" /> מחק
+                    </button>
                 </div>
             </td>
         </tr>
