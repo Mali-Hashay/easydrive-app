@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 
+import DriverBirthDatePicker from '../ui/DriverBirthDatePicker.jsx';
+
 import { addNewRental, updateExistingRental } from '../../store/slices/rentalSlice';
 import { fetchAllCars } from '../../store/slices/carSlice';
-import { fetchUsers } from '../../store/slices/userSlice'; 
+import { fetchUsers } from '../../store/slices/userSlice';
 
 import { alertService } from '../../utils/alertService';
 import { calculateTotalPrice, formatRentalDate, formatRentalTime, toIsraelISOString } from '../../utils/dateUtils';
@@ -103,6 +105,13 @@ export default function RentalDrawer(props) {
         }
 
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleBirthDateChange = (formattedDate) => {
+        if (errors.driversBirthDate) {
+            setErrors(prev => ({ ...prev, driversBirthDate: '' }));
+        }
+        setFormData(prev => ({ ...prev, driversBirthDate: formattedDate }));
     };
 
     const handleFieldChange = (name, value) => {
@@ -316,12 +325,11 @@ export default function RentalDrawer(props) {
 
                     <div className={styles.formGroup}>
                         <label>תאריך לידה *</label>
-                        <input
-                            type="date"
-                            name="driversBirthDate"
+                        <DriverBirthDatePicker
                             value={formData.driversBirthDate}
-                            onChange={handleChange}
-                            className={`${styles.inputField} ${errors.driversBirthDate ? 'input-error' : ''}`}
+                            onChange={handleBirthDateChange}
+                            className={styles.inputField}
+                            hasError={!!errors.driversBirthDate}
                         />
                         {errors.driversBirthDate && <span className="error-text">{errors.driversBirthDate}</span>}
                     </div>

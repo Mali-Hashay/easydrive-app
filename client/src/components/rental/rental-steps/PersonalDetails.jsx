@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPersonalDetails } from "../../../store/slices/rentalFlowSlice.js";
-import dayjs from "dayjs";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DriverBirthDatePicker from "../../ui/DriverBirthDatePicker.jsx";
 
 import {
     validateName,
@@ -50,9 +48,6 @@ export default function PersonalDetails(props) {
 
     const { firstName, lastName, idNumber, phoneNumber, birthDate, licenseNumber } = details;
 
-    const maxAllowedBirthDate = dayjs().subtract(17, 'year').subtract(9, 'month').toDate();
-    const minAllowedBirthDate = dayjs().subtract(80, 'year').toDate();
-
     const handleChange = (e) => {
         let { name, value } = e.target;
         
@@ -73,9 +68,7 @@ export default function PersonalDetails(props) {
         }));
     };
 
-    const handleDateChange = (date) => {
-        const formattedDate = date ? dayjs(date).format('YYYY-MM-DD') : '';
-        
+    const handleBirthDateChange = (formattedDate) => {
         if (errors.birthDate) {
             setErrors((prev) => ({
                 ...prev,
@@ -201,17 +194,11 @@ export default function PersonalDetails(props) {
 
                     <div className={styles.fieldGroup}>
                         <label className={styles.label}>תאריך לידה</label>
-                        <DatePicker
-                            selected={birthDate ? new Date(birthDate) : null}
-                            onChange={handleDateChange}
-                            minDate={minAllowedBirthDate}
-                            maxDate={maxAllowedBirthDate}
-                            dateFormat="dd/MM/yyyy"
-                            placeholderText="DD/MM/YYYY"
-                            className={`${styles.input} ${errors.birthDate ? 'input-error' : ''}`}
-                            showYearDropdown
-                            scrollableYearDropdown
-                            yearDropdownItemNumber={100}
+                        <DriverBirthDatePicker
+                            value={birthDate}
+                            onChange={handleBirthDateChange}
+                            className={styles.input}
+                            hasError={!!errors.birthDate}
                         />
                         {errors.birthDate && (
                             <span className="error-text">{errors.birthDate}</span>
