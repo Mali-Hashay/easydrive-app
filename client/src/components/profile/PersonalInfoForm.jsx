@@ -9,7 +9,8 @@ import {
   validateIdNumber,
   validateLicenseNumber,
   validateBirthDate
-} from "../../utils/validators"; 
+} from "../../utils/validators";
+import DriverBirthDatePicker from "../ui/DriverBirthDatePicker";
 import styles from "./PersonalInfoForm.module.css";
 
 export default function PersonalInfoForm(props) {
@@ -57,6 +58,20 @@ export default function PersonalInfoForm(props) {
       setErrors((prev) => ({
         ...prev,
         [name]: ''
+      }));
+    }
+  };
+
+  const handleBirthDateChange = (formattedDate) => {
+    setFormData((prev) => ({
+      ...prev,
+      birthDate: formattedDate
+    }));
+
+    if (errors.birthDate) {
+      setErrors((prev) => ({
+        ...prev,
+        birthDate: ''
       }));
     }
   };
@@ -191,12 +206,11 @@ export default function PersonalInfoForm(props) {
 
         <div className={styles.formGroup}>
           <label className={styles.label}>תאריך לידה</label>
-          <input
-            type="date"
-            name="birthDate"
+          <DriverBirthDatePicker
             value={formData.birthDate}
-            onChange={handleChange}
-            className={`${styles.input} ${errors.birthDate ? 'input-error' : ''}`}
+            onChange={handleBirthDateChange}
+            className={styles.input}
+            hasError={!!errors.birthDate}
           />
           {errors.birthDate && (
             <p className="error-text">{errors.birthDate}</p>
