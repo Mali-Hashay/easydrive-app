@@ -1,8 +1,8 @@
 # Easy-Drive
 
-Easy-Drive is a full-stack online car rental platform. Customers can search for available cars, book a rental through a guided multi-step flow, and manage their bookings from a personal account, while admins get a complete dashboard for managing cars, categories, users, rentals, payments and contact requests.
+Easy-Drive is a full-stack car rental web application, built as a personal portfolio project. It simulates the end-to-end workflow of a car rental service: customers can search for available cars, book a rental through a guided multi-step flow, and manage their bookings from a personal account, while admins get a complete dashboard for managing cars, categories, users, rentals, payments and contact requests.
 
-**Live app:** [https://easydrive-app.vercel.app/](https://easydrive-app.vercel.app/)
+**Live demo:** [https://easydrive-app.vercel.app/](https://easydrive-app.vercel.app/)
 
 ---
 
@@ -34,7 +34,7 @@ Each has its own tech stack, environment variables, and setup instructions — s
 ## Key Features
 
 - Car search with date/time-based availability and filters
-- Multi-step rental flow: personal details → payment → review → confirmation
+- Multi-step rental flow: personal details → payment (simulated) → review → confirmation
 - Authentication: register, login, forgot/reset password via emailed link
 - Personal profile and rental history management
 - Full admin dashboard: cars, categories, users, rentals, payments, contact requests

@@ -1,6 +1,6 @@
 # Easy-Drive — Server
 
-The API server for **Easy-Drive**, an online car rental platform. Built with Node.js, Express and MongoDB, it exposes a full REST API for managing cars, categories, users, rentals, payments and contact requests — including authentication, role-based authorization and transactional emails.
+The API server for **Easy-Drive**, a full-stack car rental web application built as a portfolio project. Built with Node.js, Express and MongoDB, it exposes a full REST API for managing cars, categories, users, rentals, payments and contact requests — including authentication, role-based authorization and transactional emails.
 
 ---
 

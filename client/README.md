@@ -1,8 +1,8 @@
 ## Easy-Drive — Client
 
-The frontend of Easy-Drive, an online car rental platform. Built with React 19 and Vite, it provides a full customer-facing booking experience (search, book, manage rentals, profile) and a complete admin dashboard for managing cars, categories, users, rentals, payments and contact requests.
+The frontend of Easy-Drive, a full-stack car rental web application built as a portfolio project. Built with React 19 and Vite, it provides a full customer-facing booking experience (search, book, manage rentals, profile) and a complete admin dashboard for managing cars, categories, users, rentals, payments and contact requests.
 
-**Live app:** [https://easydrive-app.vercel.app/](https://easydrive-app.vercel.app/)
+**Live demo:** [https://easydrive-app.vercel.app/](https://easydrive-app.vercel.app/)
 
 ---
 
@@ -200,4 +200,4 @@ The project is set up for deployment on **[Vercel](https://vercel.com/)**. `verc
 
 Make sure to set `VITE_API_URL` as an environment variable in your Vercel project settings, pointing to the deployed server URL.
 
-The current production deployment is live at: [https://easydrive-app.vercel.app/](https://easydrive-app.vercel.app/)
+The live demo is deployed at: [https://easydrive-app.vercel.app/](https://easydrive-app.vercel.app/)
