@@ -264,16 +264,20 @@ const RentalController={
             if(!rental)
                 return res.status(404).json({ message: "ההזמנה לא נמצאה" });
 
-            if (rental.status !== 'confirmed') 
+            const isOwner = rental.clientId.toString() === req.user.id;
+            const isAdmin = req.user.role === 'admin';
+            if (!isOwner && !isAdmin)
+                return res.status(403).json({ message: "אין לך הרשאה לבטל הזמנה זו" });
+
+            if (rental.status !== 'confirmed')
             return res.status(400).json({ message: "ניתן לבטל רק הזמנות עתידיות שטרם החלו" });
-        
+
             const now = dayjs();
             const startDate = dayjs(rental.pickupDate);
             const hoursUntilStart = startDate.diff(now, 'hour') ;
             // admins can cancel at any time (for example: a last-minute call from the customer or a car stuck)
-            const isAdmin = req.user.role === 'admin';
             if(!isAdmin && hoursUntilStart<24)
-                return res.status(404).json({ message: "לא ניתן לבטל השכרה פחות מ-24 שעות לפני מועד ההתחלה"});
+                return res.status(400).json({ message: "לא ניתן לבטל השכרה פחות מ-24 שעות לפני מועד ההתחלה"});
             
             rental.status = 'cancelled';
             await rental.save();
@@ -421,9 +425,13 @@ const RentalController={
             return res.status(400).json({ message: "תאריך ההארכה חייב להיות עתידי" });
         
         const rental = await Rental.findById(id);
-        if (!rental || !(['active', 'confirmed', 'overdue'].includes(rental.status))) 
+        if (!rental || !(['active', 'confirmed', 'overdue'].includes(rental.status)))
             return res.status(404).json({ message: "לא ניתן להאריך השכרה זו (לא נמצאה או שאינה פעילה)" });
-        
+
+        const isOwner = rental.clientId.toString() === req.user.id;
+        if (!isOwner && req.user.role !== 'admin')
+            return res.status(403).json({ message: "אין לך הרשאה להאריך הזמנה זו" });
+
         if (extensionDate <= rental.plannedReturnDate) 
             return res.status(400).json({ message: "תאריך ההארכה חייב להיות מאוחר מתאריך ההחזרה הנוכחי" });
     
