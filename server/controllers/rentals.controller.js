@@ -279,11 +279,11 @@ const RentalController={
             if(!isAdmin && hoursUntilStart<24)
                 return res.status(400).json({ message: "לא ניתן לבטל השכרה פחות מ-24 שעות לפני מועד ההתחלה"});
             
+            // the car status is left untouched: a confirmed rental hasn't been picked up, so it never set the car to 'rented'.
+            // its dates are freed automatically, since availability checks only count confirmed/active rentals
             rental.status = 'cancelled';
             await rental.save();
-            
-            await Car.findByIdAndUpdate(rental.carId, {status: 'available'});
-            
+
             res.status(200).json({message: "ההשכרה בוטלה בהצלחה", id});
         }
         catch(err){
@@ -304,9 +304,7 @@ const RentalController={
             if (['active', 'overdue'].includes(rental.status))
                 return res.status(409).json({ message: "לא ניתן למחוק השכרה פעילה. יש לסיים את ההשכרה תחילה."});
             
-            if (rental.status === 'confirmed'|| rental.status === 'completed') 
-                await Car.findByIdAndUpdate(rental.carId, { status: 'available' }, {new: true});
-            
+            // the car status is left untouched: only active/overdue rentals hold the car, and those are blocked above
             rental.status = 'deleted';
             await rental.save();
 
