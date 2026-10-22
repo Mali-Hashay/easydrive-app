@@ -1,7 +1,7 @@
 
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addRental,getRentalById, updateRental, deleteRental, getAllRentals, getMyRentals, cancelRental, extendRental, completeRental} from "../../api/rentalsApi.js";
+import { addRental,getRentalById, updateRental, deleteRental, getAllRentals, getMyRentals, cancelRental, extendRental, completeRental, changeRentalStatus} from "../../api/rentalsApi.js";
 
 const initialState = {
     rentalsList:[],
@@ -89,8 +89,8 @@ export const removeRental = createAsyncThunk(
     }
 );
 
-export const cancelClientRental = createAsyncThunk(
-    'rentals/cancelClientRental',
+export const cancelExistingRental = createAsyncThunk(
+    'rentals/cancelRental',
     async (id, { rejectWithValue }) => {
         try {
             const data = await cancelRental(id); 
@@ -108,6 +108,18 @@ export const adminCompleteRental = createAsyncThunk(
         try {
             const data = await completeRental(id);
             return data.rental; 
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const adminChangeRentalStatus = createAsyncThunk(
+    'rentals/adminChangeRentalStatus',
+    async ({ id, status }, { rejectWithValue }) => {
+        try {
+            const data = await changeRentalStatus(id, status);
+            return data.rental;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -219,20 +231,24 @@ const rentalSlice = createSlice({
             state.loading= false;
             state.error = action.payload;
         })
-        .addCase(cancelClientRental.pending, (state) => {
+        .addCase(cancelExistingRental.pending, (state) => {
             state.loading = true;
             state.error = null;
         })
-        .addCase(cancelClientRental.fulfilled, (state, action) => {
+        .addCase(cancelExistingRental.fulfilled, (state, action) => {
             state.loading = false;
             
             const cancelledId = action.payload.id;
             const index = state.myRentals.findIndex(r => r._id === cancelledId);
-            if (index !== -1) 
+            if (index !== -1)
                 state.myRentals[index].status = 'cancelled';
-            
+
+            const listIndex = state.rentalsList.findIndex(r => r._id === cancelledId);
+            if (listIndex !== -1)
+                state.rentalsList[listIndex].status = 'cancelled';
+
         })
-        .addCase(cancelClientRental.rejected, (state, action) => {
+        .addCase(cancelExistingRental.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         })
@@ -259,6 +275,22 @@ const rentalSlice = createSlice({
             
         })
         .addCase(adminCompleteRental.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(adminChangeRentalStatus.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(adminChangeRentalStatus.fulfilled, (state, action) => {
+            state.loading = false;
+            const updatedRental = action.payload;
+
+            const index = state.rentalsList.findIndex(r => r._id === updatedRental._id);
+            if (index !== -1)
+                state.rentalsList[index] = updatedRental;
+        })
+        .addCase(adminChangeRentalStatus.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         })

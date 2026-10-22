@@ -35,6 +35,12 @@ const INITIAL_STATE = {
     totalPrice: ''
 };
 
+const haveDatesChanged = (formData, rental) =>
+    formData.pickupDate !== formatRentalDate(rental.pickupDate, 'YYYY-MM-DD') ||
+    formData.pickupTime !== formatRentalTime(rental.pickupDate) ||
+    formData.plannedReturnDate !== formatRentalDate(rental.plannedReturnDate, 'YYYY-MM-DD') ||
+    formData.plannedReturnTime !== formatRentalTime(rental.plannedReturnDate);
+
 export default function RentalDrawer(props) {
     const { rentalToEdit, onClose, onSuccess } = props;
     const dispatch = useDispatch();
@@ -129,6 +135,12 @@ export default function RentalDrawer(props) {
 
     useEffect(() => {
         const { carId, pickupDate, pickupTime, plannedReturnDate, plannedReturnTime } = formData;
+
+        // when editing, keep the saved price until the dates change
+        if (isEdit && !haveDatesChanged(formData, rentalToEdit)) {
+            setFormData(prev => ({ ...prev, totalPrice: rentalToEdit.totalPrice }));
+            return;
+        }
 
         if (carId && pickupDate && pickupTime && plannedReturnDate && plannedReturnTime) {
             const selectedCar = allCars.find(c => c._id === carId);
@@ -226,7 +238,15 @@ export default function RentalDrawer(props) {
             setSubmitting(true);
 
             if (isEdit) {
-                await dispatch(updateExistingRental({ id: rentalToEdit._id, updatedFields: payload })).unwrap();
+                // client, car and price can't be changed here; the server recalculates the price from the dates
+                const editableFields = {
+                    driversIdNumber: payload.driversIdNumber,
+                    licenseNumber: payload.licenseNumber,
+                    driversBirthDate: payload.driversBirthDate,
+                    pickupDate: payload.pickupDate,
+                    plannedReturnDate: payload.plannedReturnDate
+                };
+                await dispatch(updateExistingRental({ id: rentalToEdit._id, updatedFields: editableFields })).unwrap();
                 alertService.success('ההזמנה עודכנה בהצלחה!');
             } else {
                 await dispatch(addNewRental(payload)).unwrap();
@@ -380,6 +400,7 @@ export default function RentalDrawer(props) {
                             onChange={handleChange}
                             placeholder="0"
                             min="0"
+                            readOnly={isEdit}
                             className={`${styles.inputField} ${errors.totalPrice ? 'input-error' : ''}`}
                         />
                         {errors.totalPrice && <span className="error-text">{errors.totalPrice}</span>}

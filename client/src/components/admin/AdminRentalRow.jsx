@@ -8,10 +8,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
-import { formatRentalDateTime } from '../../utils/dateUtils';
+import { formatRentalDate, formatRentalDateTime } from '../../utils/dateUtils';
 
 export default function AdminRentalRow(props) {
-    const { rental, onEdit, onExtend, onChangeStatus, onComplete, onDelete } = props;
+    const { rental, onEdit, onExtend, onChangeStatus, onComplete, onCancel, onDelete } = props;
     const currentStatus = rentalStatuses[rental.status];
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -21,6 +21,9 @@ export default function AdminRentalRow(props) {
     const handleMenuClose = () => setAnchorEl(null);
 
     const isActiveRental = rental.status === 'active' || rental.status === 'overdue';
+    const isPickupToday = formatRentalDate(rental.pickupDate, 'YYYY-MM-DD') === formatRentalDate(new Date(), 'YYYY-MM-DD');
+    // cancelled rentals have no menu actions
+    const hasMenuActions = ['confirmed', 'active', 'overdue', 'completed'].includes(rental.status);
 
     return (
         <tr className={styles.row}>
@@ -28,6 +31,9 @@ export default function AdminRentalRow(props) {
                 {rental.clientId ? `${rental.clientId.firstName} ${rental.clientId.lastName}` : 'לקוח לא מזוהה'}
                 <div style={{ fontSize: '0.8rem', color: '#666' }}>
                     ת.ז: {rental.driversIdNumber}
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#666' }}>
+                    רישיון: {rental.licenseNumber}
                 </div>
             </td>
 
@@ -60,8 +66,10 @@ export default function AdminRentalRow(props) {
                 <div className={styles.actions}>
                     
                     <button 
-                        onClick={() => onEdit(rental)} 
+                        onClick={() => onEdit(rental)}
+                        disabled={rental.status !== 'confirmed'}
                         className={`${styles.button} ${styles.editBtn}`}
+                        title={rental.status !== 'confirmed' ? "ניתן לערוך הזמנה רק לפני מועד האיסוף" : "ערוך הזמנה"}
                     >
                         <EditIcon fontSize="small" /> ערוך
                     </button>
@@ -77,9 +85,11 @@ export default function AdminRentalRow(props) {
                         </button>
                     )}
 
-                    <IconButton onClick={handleMenuOpen} size="small">
-                        <MoreVertIcon />
-                    </IconButton>
+                    {hasMenuActions && (
+                        <IconButton onClick={handleMenuOpen} size="small">
+                            <MoreVertIcon />
+                        </IconButton>
+                    )}
 
                     <Menu
                         anchorEl={anchorEl}
@@ -102,22 +112,33 @@ export default function AdminRentalRow(props) {
                             </MenuItem>
                         )}
 
-                        {(rental.status === 'active') && (
+                        {isActiveRental && (
                             <MenuItem onClick={() => { handleMenuClose(); onComplete(rental._id); }}>
                                 סמן כהושלם
                             </MenuItem>
                         )}
 
-                        <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental._id, 'confirmed'); }}>
-                            שנה סטטוס: מאושרת
-                        </MenuItem>
-                        <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental._id, 'active'); }}>
-                            שנה סטטוס: פעילה
-                        </MenuItem>
+                        {rental.status === 'confirmed' && (
+                            <MenuItem onClick={() => { handleMenuClose(); onCancel(rental); }}>
+                                בטל הזמנה
+                            </MenuItem>
+                        )}
 
-                        {(rental.status !== 'overdue') && (
-                            <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental._id, 'overdue'); }}>
-                                שנה סטטוס: איחור
+                        {rental.status === 'confirmed' && isPickupToday && (
+                            <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental, 'active'); }}>
+                                סמן כנאסף
+                            </MenuItem>
+                        )}
+
+                        {rental.status === 'active' && isPickupToday && (
+                            <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental, 'cancelled'); }}>
+                                הלקוח לא הגיע
+                            </MenuItem>
+                        )}
+
+                        {rental.status === 'completed' && (
+                            <MenuItem onClick={() => { handleMenuClose(); onChangeStatus(rental, 'active'); }}>
+                                בטל סיום השכרה
                             </MenuItem>
                         )}
                     </Menu>

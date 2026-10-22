@@ -97,6 +97,18 @@ export const completeRental = async(id) => {
     }
 }
 
+export const changeRentalStatus = async (id, status) => {
+    try {
+        const response = await privateApi.patch(`/rentals/change-status/${id}`, { status });
+        return response.data;
+    }
+    catch (error) {
+        console.error(`API Error in changeRentalStatus for ID ${id}:`, error);
+        const errorMsg = error.response?.data?.message || 'לא ניתן לעדכן את סטטוס ההשכרה';
+        throw new Error(errorMsg);
+    }
+};
+
 export const extendRental = async (id, newReturnDate) => {
     try {
         const response = await privateApi.patch(`/rentals/extend/${id}`, { newReturnDate });

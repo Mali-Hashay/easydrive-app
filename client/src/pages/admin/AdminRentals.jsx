@@ -5,7 +5,7 @@ import AdminRentalRow from '../../components/admin/AdminRentalRow.jsx';
 import RentalDrawer from '../../components/admin/RentalDrawer.jsx';
 import ExtendRentalModal from '../../components/rental/modals/ExtendRentalModal.jsx';
 import { useDispatch, useSelector } from "react-redux";
-import { extendRentalTime, removeRental, updateExistingRental, fetchAllRentals, adminCompleteRental } from "../../store/slices/rentalSlice.js";
+import { extendRentalTime, removeRental, fetchAllRentals, adminCompleteRental, adminChangeRentalStatus, cancelExistingRental } from "../../store/slices/rentalSlice.js";
 import dayjs from "dayjs";
 import FilterTabs from "../../components/admin/FilterTabs.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
@@ -68,12 +68,23 @@ export default function AdminRentals() {
         }
     };
 
-    const handleChangeStatus = async (id, newStatus) => {
+    // keyed by the rental's current status: each one allows a single manual transition
+    const statusChangeConfirmations = {
+        'confirmed': { title: 'סימון איסוף', text: 'האם ברצונך לסמן שהלקוח אסף את הרכב? ההשכרה תהפוך לפעילה והרכב יעודכן כמושכר.', isDanger: false },
+        'active': { title: 'הלקוח לא הגיע', text: 'האם לסמן שהלקוח לא הגיע לאיסוף? ההשכרה תבוטל והרכב יעודדכן כזמין.', isDanger: true },
+        'completed': { title: 'ביטול סיום השכרה', text: 'האם לבטל את סיום ההשכרה? ההשכרה תחזור להיות פעילה והרכב יעודכן כמושכר.', isDanger: true }
+    };
+
+    const handleChangeStatus = async (rental, newStatus) => {
+        const { title, text, isDanger } = statusChangeConfirmations[rental.status];
+        const isConfirmed = await alertService.confirm(title, text, isDanger);
+        if (!isConfirmed) return;
+
         try {
-            await dispatch(updateExistingRental({ id, updatedFields: { status: newStatus } })).unwrap();
+            await dispatch(adminChangeRentalStatus({ id: rental._id, status: newStatus })).unwrap();
             alertService.success('סטטוס ההזמנה עודכן בהצלחה');
         } catch (err) {
-            alertService.errorToast('עדכון הסטטוס נכשל');
+            alertService.errorToast(err || 'עדכון הסטטוס נכשל');
         }
     };
 
@@ -86,6 +97,22 @@ export default function AdminRentals() {
         }
     };
     
+    const handleCancelRental = async (rental) => {
+        const isConfirmed = await alertService.confirm(
+            'ביטול הזמנה',
+            'האם לבטל את ההזמנה? לא ניתן לשחזר הזמנה שבוטלה.',
+            true
+        );
+        if (!isConfirmed) return;
+
+        try {
+            await dispatch(cancelExistingRental(rental._id)).unwrap();
+            alertService.success('ההזמנה בוטלה בהצלחה');
+        } catch (err) {
+            alertService.errorToast(err || 'ביטול ההזמנה נכשל');
+        }
+    };
+
     const handleDeleteRental = async (rental) => {
         if (rental.status === 'active' || rental.status === 'overdue') {
             alertService.errorToast('לא ניתן למחוק השכרה פעילה');
@@ -115,6 +142,7 @@ export default function AdminRentals() {
         { id: 'overdue', label: 'באיחור', count: (rentalsList || []).filter(r => r.status === 'overdue').length },
         { id: 'confirmed', label: 'מאושרות', count: (rentalsList || []).filter(r => r.status === 'confirmed').length },
         { id: 'completed', label: 'הושלמו', count: (rentalsList || []).filter(r => r.status === 'completed').length },
+        { id: 'cancelled', label: 'מבוטלות', count: (rentalsList || []).filter(r => r.status === 'cancelled').length },
     ];
 
     const filteredRentals = (rentalsList || []).filter(r => {
@@ -174,6 +202,7 @@ export default function AdminRentals() {
                                     onExtend={handleExtendRental}
                                     onChangeStatus={handleChangeStatus}
                                     onComplete={handleCompleteRental}
+                                    onCancel={handleCancelRental}
                                     onDelete={handleDeleteRental} 
                                 />
                             ))

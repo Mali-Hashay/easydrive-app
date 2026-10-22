@@ -17,15 +17,41 @@ const formatIsraelDateTime = (date) => dayjs(date)
     .tz('Asia/Jerusalem')
     .format('DD/MM/YYYY HH:mm');
 
+// every started 24 hours counts as a full day, same as the client's calculateTotalPrice
+const calculateRentalPrice = (start, end, dailyPrice) => {
+    const totalHours = dayjs(end).diff(dayjs(start), 'hour', true);
+    return Math.ceil(totalHours / 24) * dailyPrice;
+};
+
+// returns an error message if the car can't be booked for these dates, otherwise null.
+// excludeRentalId lets an edited rental skip checking against itself
+const getCarAvailabilityError = async (carId, start, end, excludeRentalId = null) => {
+    const exclude = excludeRentalId ? { _id: { $ne: excludeRentalId } } : {};
+
+    // an overdue rental blocks the car regardless of dates until the admin completes it
+    const overdueRental = await Rental.exists({ carId, status: 'overdue', ...exclude });
+    if (overdueRental)
+        return "הרכב טרם הוחזר מהשכרה קודמת ולכן אינו זמין להזמנה כרגע";
+
+    const overlappingRental = await Rental.exists({
+        carId,
+        status: { $in: ['confirmed', 'active'] },
+        pickupDate: { $lt: end },
+        plannedReturnDate: { $gt: start },
+        ...exclude
+    });
+    if (overlappingRental)
+        return "הרכב  מוזמן לתאריכים המבוקשים";
+
+    return null;
+};
+
 const RentalController={
 
     //GET
      getAll: async(req,res)=>{
         try{
-            if (req.user.role !== 'admin') 
-                return res.status(403).json({ message: "אין לך הרשאה לצפות בכל ההשכרות במערכת" });
-            
-            const rentals = await Rental.find({ status: { $ne: 'cancelled' } }, { __v: 0 })
+            const rentals = await Rental.find({ status: { $ne: 'deleted' } }, { __v: 0 })
             .lean()
             .populate('clientId', '-password') 
             .populate('carId');
@@ -99,23 +125,9 @@ const RentalController={
         const start = new Date(pickupDate);
         const end = new Date(plannedReturnDate);
 
-        // an overdue rental blocks the car regardless of dates until the admin completes it
-        const overdueRental = await Rental.exists({ carId, status: 'overdue' });
-        if (overdueRental) {
-            return res.status(400).json({ message: "הרכב טרם הוחזר מהשכרה קודמת ולכן אינו זמין להזמנה כרגע" });
-        }
-
-        // check for a date overlap with existing rentals for this car
-        const existingRental = await Rental.findOne({
-            carId,
-            status: { $in: ['confirmed', 'active'] },
-            pickupDate: { $lt: end },
-            plannedReturnDate: { $gt: start }
-        });
-
-        if (existingRental) {
-            return res.status(400).json({ message: "הרכב  מוזמן לתאריכים המבוקשים" });
-        }
+        const availabilityError = await getCarAvailabilityError(carId, start, end);
+        if (availabilityError)
+            return res.status(400).json({ message: availabilityError });
 
 
         const isSelfRental = req.user.role !== 'admin' || !req.body.clientId;
@@ -190,25 +202,48 @@ const RentalController={
         res.status(500).json({ message: "שגיאה פנימית בשרת במהלך הוספת ההשכרה" });
     }
 },
-    //PUT
+    //PATCH
+    // admin only. status changes go through their own actions, not through here
     update: async (req, res) => {
     try {
         const { id } = req.params;
-        const { payments, status } = req.body;
+        const { driversIdNumber, licenseNumber, driversBirthDate, pickupDate, plannedReturnDate } = req.body;
 
         const rental = await Rental.findById(id);
         if (!rental)
             return res.status(404).json({ message: "הזמנה לא נמצאה" });
-       
-        const isOwner = rental.clientId.toString() === req.user.id;
-        const isAdmin = req.user.role === 'admin';
 
-        if (!isOwner && !isAdmin)
-            return res.status(403).json({ message: "אין לך הרשאה לעדכן הזמנה זו" });
+        if (rental.status !== 'confirmed')
+            return res.status(400).json({ message: "ניתן לערוך הזמנה רק לפני מועד האיסוף" });
 
-        if (isAdmin) {
-            if (payments !== undefined) rental.payments = payments;
-            if (status !== undefined) rental.status = status;
+        if (driversIdNumber !== undefined) rental.driversIdNumber = driversIdNumber;
+        if (licenseNumber !== undefined) rental.licenseNumber = licenseNumber;
+        if (driversBirthDate !== undefined) rental.driversBirthDate = driversBirthDate;
+
+        const start = new Date(pickupDate ?? rental.pickupDate);
+        const end = new Date(plannedReturnDate ?? rental.plannedReturnDate);
+        const datesChanged = start.getTime() !== rental.pickupDate.getTime() ||
+                             end.getTime() !== rental.plannedReturnDate.getTime();
+
+        if (datesChanged) {
+            if (isNaN(start.getTime()) || isNaN(end.getTime()))
+                return res.status(400).json({ message: "פורמט התאריכים שהוזנו אינו תקין" });
+            if (start <= new Date())
+                return res.status(400).json({ message: "מועד האיסוף חייב להיות עתידי" });
+            if (end <= start)
+                return res.status(400).json({ message: "מועד ההחזרה חייב להיות מאוחר ממועד האיסוף" });
+
+            const availabilityError = await getCarAvailabilityError(rental.carId, start, end, rental._id);
+            if (availabilityError)
+                return res.status(400).json({ message: availabilityError });
+
+            const car = await Car.findById(rental.carId);
+            if (!car)
+                return res.status(404).json({ message: "הרכב המקושר להזמנה לא נמצא" });
+
+            rental.pickupDate = start;
+            rental.plannedReturnDate = end;
+            rental.totalPrice = calculateRentalPrice(start, end, car.dailyPrice);
         }
 
         await rental.save();
@@ -221,7 +256,7 @@ const RentalController={
         res.status(500).json({ message: "שגיאה פנימית בשרת במהלך עדכון ההשכרה" });
     }
 },
-    //PUT
+    //PATCH
     cancelRental: async(req,res)=>{
         try{
             const {id}=req.params;
@@ -235,7 +270,9 @@ const RentalController={
             const now = dayjs();
             const startDate = dayjs(rental.pickupDate);
             const hoursUntilStart = startDate.diff(now, 'hour') ;
-            if(hoursUntilStart<24)
+            // admins can cancel at any time (for example: a last-minute call from the customer or a car stuck)
+            const isAdmin = req.user.role === 'admin';
+            if(!isAdmin && hoursUntilStart<24)
                 return res.status(404).json({ message: "לא ניתן לבטל השכרה פחות מ-24 שעות לפני מועד ההתחלה"});
             
             rental.status = 'cancelled';
@@ -260,7 +297,7 @@ const RentalController={
             if(!rental)
                 return res.status(404).json({ message: "ההזמנה לא נמצאה" });
 
-            if (rental.status === 'active') 
+            if (['active', 'overdue'].includes(rental.status))
                 return res.status(409).json({ message: "לא ניתן למחוק השכרה פעילה. יש לסיים את ההשכרה תחילה."});
             
             if (rental.status === 'confirmed'|| rental.status === 'completed') 
@@ -280,24 +317,19 @@ const RentalController={
     completeRental :async (req, res) => {
         try {
             const { id } = req.params;
-    
-            if (req.user.role !== 'admin') 
-                return res.status(403).json({ message: "אינך מורשה לסיים השכרה" });
-            
+
             const rental = await Rental.findById(id);
             if (!rental) 
                 return res.status(404).json({ message: "הזמנה לא נמצאה" });
             
-            if (rental.status === 'completed') 
-                return res.status(400).json({ message: "ההשכרה כבר הסתיימה בעבר" });
-            
+            if (!['active', 'overdue'].includes(rental.status))
+                return res.status(400).json({ message: "ניתן לסיים רק השכרה פעילה או באיחור" });
+
             rental.actualReturnDate = new Date();
             rental.status = 'completed';
 
-        
-            if (rental.carId) 
-            {
-                const car = await Car.findById(rental.carId);
+            const car = await Car.findById(rental.carId);
+            if (car) {
                 car.status = 'available';
                 await car.save();
             }
@@ -308,7 +340,74 @@ const RentalController={
             res.status(200).json({ message: "ההשכרה הסתיימה בהצלחה", rental });
         } catch (err) {
             console.error("Error in completeRental:", err);
-            res.status(500).json({ message: err.message });
+            res.status(500).json({ message: "שגיאה פנימית בשרת במהלך סיום ההשכרה" });
+        }
+    },
+    //PATCH
+    // manual transitions for cases the automatic flow can't handle. every other status change has its own action
+    changeRentalStatus: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { status } = req.body;
+
+            const allowedTransitions = {
+                'confirmed': ['active'],    // early pickup
+                'active': ['cancelled'],    // customer didn't show up
+                'completed': ['active']     // undo a completion made by mistake
+            };
+
+            const rental = await Rental.findById(id);
+            if (!rental)
+                return res.status(404).json({ message: "הזמנה לא נמצאה" });
+
+            if (!allowedTransitions[rental.status]?.includes(status))
+                return res.status(409).json({ message: `פעולה לא חוקית: לא ניתן לשנות סטטוס השכרה מ-${rental.status} ל-${status}.` });
+
+            const car = await Car.findById(rental.carId);
+            if (!car)
+                return res.status(404).json({ message: "הרכב המקושר להזמנה לא נמצא" });
+
+            const isPickupToday = dayjs(rental.pickupDate).tz('Asia/Jerusalem')
+                .isSame(dayjs().tz('Asia/Jerusalem'), 'day');
+
+            // early pickup
+            if (rental.status === 'confirmed') {
+                if (!isPickupToday)
+                    return res.status(400).json({ message: "ניתן לסמן איסוף רק ביום האיסוף המתוכנן" });
+                if (car.status !== 'available')
+                    return res.status(400).json({ message: "הרכב אינו זמין כרגע (מושכר ללקוח אחר, בטיפול או מושבת)" });
+
+                car.status = 'rented';
+                rental.status = 'active';
+            }
+            // customer didn't show up
+            else if (rental.status === 'active') {
+                if (!isPickupToday)
+                    return res.status(400).json({ message: "ניתן לסמן אי הגעה  רק ביום האיסוף" });
+
+                car.status = 'available';
+                rental.status = 'cancelled';
+            }
+             // undo a completion made by mistake
+            else if (rental.status === 'completed') {
+                if (car.status !== 'available')
+                    return res.status(400).json({ message: "לא ניתן לבטל את סיום ההשכרה: הרכב כבר מושכר ללקוח אחר, בטיפול או מושבת" });
+
+                rental.actualReturnDate = undefined;
+                rental.status = rental.plannedReturnDate < new Date() ? 'overdue' : 'active';
+                car.status = 'rented';
+            }
+
+            // car first: if saving the rental fails, the car status is the easier one to correct
+            await car.save();
+            await rental.save();
+            await rental.populate('clientId', '-password');
+            await rental.populate('carId');
+
+            res.status(200).json({ message: "סטטוס ההשכרה עודכן בהצלחה", rental });
+        } catch (err) {
+            console.error("Error in changeRentalStatus:", err);
+            res.status(500).json({ message: "שגיאה פנימית בשרת במהלך עדכון סטטוס ההשכרה" });
         }
     },
 
@@ -349,10 +448,7 @@ const RentalController={
         if (!car) 
             return res.status(404).json({ message: "הרכב המקושר להזמנה לא נמצא" });
 
-        const totalHours = dayjs(extensionDate).diff(dayjs(rental.pickupDate), 'hour', true);
-        const totalDays = Math.ceil(totalHours / 24);
-    
-        rental.totalPrice = totalDays * car.dailyPrice;
+        rental.totalPrice = calculateRentalPrice(rental.pickupDate, extensionDate, car.dailyPrice);
         
         await rental.save();
         await rental.populate('clientId', '-password');

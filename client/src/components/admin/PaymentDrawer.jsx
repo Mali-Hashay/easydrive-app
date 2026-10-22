@@ -114,7 +114,9 @@ export default function PaymentDrawer(props) {
                             disabled={isLoadingRentals || isEdit}
                         >
                             <option value="">בחר/י השכרה מתוך הרשימה</option>
-                            {rentalsList.map(rental => (
+                            {rentalsList
+                                .filter(rental => rental.status !== 'cancelled' || rental._id === formData.rentalId)
+                                .map(rental => (
                                 <option key={rental._id} value={rental._id}>
                                     השכרה #{rental._id?.slice(-6)} 
                                     {rental.clientId ? ` | ${rental.clientId.firstName} ${rental.clientId.lastName}` : ''}

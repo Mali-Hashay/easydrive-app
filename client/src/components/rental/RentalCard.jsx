@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { rentalStatuses } from '../../constants/translations';
 import { useDispatch } from 'react-redux';
-import { cancelClientRental, extendRentalTime } from '../../store/slices/rentalSlice';
+import { cancelExistingRental, extendRentalTime } from '../../store/slices/rentalSlice';
 import styles from './RentalCard.module.css';
 import { alertService } from '../../utils/alertService';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
@@ -25,7 +25,7 @@ export default function RentalCard(props) {
 
         if (isConfirmed) {    
             try {
-                await dispatch(cancelClientRental(rental._id)).unwrap();
+                await dispatch(cancelExistingRental(rental._id)).unwrap();
                 alertService.success('ההזמנה בוטלה ועברה להיסטוריית ההזמנות');
             } catch(err) {
                 alertService.errorToast('שגיאה: לא ניתן לבטל את ההזמנה');

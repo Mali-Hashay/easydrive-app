@@ -8,10 +8,11 @@ RentalRouter.get('/getAll',verifyToken, verifyAdmin, RentalController.getAll);
 RentalRouter.get('/getById/:id',verifyToken, RentalController.getById);
 RentalRouter.get('/my-rentals', verifyToken, RentalController.getMyRentals);
 RentalRouter.post('/add',verifyToken, RentalController.add);
-RentalRouter.patch('/update/:id',verifyToken, RentalController.update);
+RentalRouter.patch('/update/:id',verifyToken, verifyAdmin, RentalController.update);
 RentalRouter.delete('/delete/:id',verifyToken, verifyAdmin, RentalController.adminDelete);
 RentalRouter.patch('/cancel/:id', verifyToken, RentalController.cancelRental);
 RentalRouter.patch('/complete/:id',verifyToken, verifyAdmin, RentalController.completeRental);
+RentalRouter.patch('/change-status/:id',verifyToken, verifyAdmin, RentalController.changeRentalStatus);
 RentalRouter.patch('/extend/:id',verifyToken,RentalController.extendRental);
 RentalRouter.get('/update-rental-statuses', RentalController.updateRentalStatuses);
 
