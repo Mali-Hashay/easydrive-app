@@ -400,7 +400,7 @@ export default function RentalDrawer(props) {
                             onChange={handleChange}
                             placeholder="0"
                             min="0"
-                            readOnly={isEdit}
+                            readOnly
                             className={`${styles.inputField} ${errors.totalPrice ? 'input-error' : ''}`}
                         />
                         {errors.totalPrice && <span className="error-text">{errors.totalPrice}</span>}

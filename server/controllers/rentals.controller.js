@@ -112,7 +112,7 @@ const RentalController={
         
         const {
             carId, pickupDate, plannedReturnDate,
-            driversBirthDate, driversIdNumber, licenseNumber, totalPrice, paymentInfo
+            driversBirthDate, driversIdNumber, licenseNumber, paymentInfo
         } = req.body;
 
         const car = await Car.findById(carId);
@@ -129,6 +129,8 @@ const RentalController={
         if (availabilityError)
             return res.status(400).json({ message: availabilityError });
 
+        // the price is always calculated here, a price sent by the client is not trusted
+        const totalPrice = calculateRentalPrice(start, end, car.dailyPrice);
 
         const isSelfRental = req.user.role !== 'admin' || !req.body.clientId;
         const clientId = isSelfRental ? req.user.id : req.body.clientId;
