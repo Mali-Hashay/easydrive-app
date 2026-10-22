@@ -90,7 +90,6 @@ export default function PaymentStep(props) {
       carId: selectedCar._id,
       pickupDate: fullPickupDate,
       plannedReturnDate: fullReturnDate,
-      actualReturnDate: null,
       driversBirthDate: personalDetails.birthDate, 
       driversIdNumber: personalDetails.idNumber,      
       licenseNumber: personalDetails.licenseNumber,

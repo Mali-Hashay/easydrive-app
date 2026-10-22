@@ -287,10 +287,10 @@ export default function RentalDrawer(props) {
                         >
                             <option value="">בחר רכב מצי הרכבים</option>
                             {allCars
-                                .filter(car => car.status === 'available' || car._id === formData.carId)
+                                .filter(car => !['maintenance', 'inactive'].includes(car.status) || car._id === formData.carId)
                                 .map(car => (
                                     <option key={car._id} value={car._id}>
-                                        {car.brand} {car.model} — {car.licensePlate}
+                                        {car.brand} {car.model} — {car.licensePlate}{car.status === 'rented' ? ' (מושכר כרגע)' : ''}
                                     </option>
                                 ))}
                         </select>

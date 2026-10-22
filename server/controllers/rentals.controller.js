@@ -85,18 +85,25 @@ const RentalController={
             return res.status(403).json({ message: "חשבון לא פעיל, לא ניתן לבצע השכרה" });
         
         const {
-            carId, pickupDate, plannedReturnDate, actualReturnDate, 
+            carId, pickupDate, plannedReturnDate,
             driversBirthDate, driversIdNumber, licenseNumber, totalPrice, paymentInfo
         } = req.body;
 
         const car = await Car.findById(carId);
         if (!car) 
             return res.status(404).json({ message: "הרכב המבוקש לא נמצא במערכת" });
-        if (car.status !== 'available') 
+        // a currently rented car can still be booked for other dates; the overlap check below handles that
+        if (['maintenance', 'inactive'].includes(car.status))
             return res.status(400).json({ message: "הרכב אינו זמין כרגע במערכת (בטיפול/מושבת)" });
 
         const start = new Date(pickupDate);
         const end = new Date(plannedReturnDate);
+
+        // an overdue rental blocks the car regardless of dates until the admin completes it
+        const overdueRental = await Rental.exists({ carId, status: 'overdue' });
+        if (overdueRental) {
+            return res.status(400).json({ message: "הרכב טרם הוחזר מהשכרה קודמת ולכן אינו זמין להזמנה כרגע" });
+        }
 
         // check for a date overlap with existing rentals for this car
         const existingRental = await Rental.findOne({
@@ -123,7 +130,6 @@ const RentalController={
             carId,
             pickupDate: start,
             plannedReturnDate: end,
-            actualReturnDate,
             driversBirthDate,
             driversIdNumber,
             licenseNumber,

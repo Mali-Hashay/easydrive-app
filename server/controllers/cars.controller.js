@@ -168,27 +168,24 @@ const CarController={
             return res.status(400).json({ message: "תאריך ההתחלה אינו יכול להיות מאוחר מתאריך הסיום" });
         }
 
-        const overlappingRentals = await Rental.find({
-            status: { $in: ['active', 'confirmed', 'overdue'] },
-            pickupDate: { $lte: userEnd },
-            plannedReturnDate: { $gte: userStart },
+        // an overdue rental blocks its car regardless of dates until the admin completes it
+        const blockingRentals = await Rental.find({
             $or: [
-                { actualReturnDate: null },
-                { actualReturnDate: { $exists: false } }
+                {
+                    status: { $in: ['active', 'confirmed'] },
+                    pickupDate: { $lte: userEnd },
+                    plannedReturnDate: { $gte: userStart }
+                },
+                { status: 'overdue' }
             ]
         }).select('carId pickupDate plannedReturnDate status').lean();
 
-        console.log("=== 3. Overlapping Rentals Found ===", overlappingRentals);
-
-        const busyCarIds = overlappingRentals.map(rental => rental.carId);
-        console.log("=== 4. Busy Car IDs ===", busyCarIds);
+        const busyCarIds = blockingRentals.map(rental => rental.carId);
 
         const finalCars = await Car.find({
             _id: { $nin: busyCarIds },
-            status: { $ne: 'maintenance' }
+            status: { $nin: ['maintenance', 'inactive'] }
         }).lean();
-
-        console.log(`=== 5. Total Available Cars Returned: ${finalCars.length} ===`);
 
         res.status(200).json(finalCars);
 
