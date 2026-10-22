@@ -165,6 +165,7 @@
 
 
 .deleteBtn:disabled,
+.editBtn:disabled,
 .disabledBtn {
     background-color: #f3f4f6;
     color: #9ca3af;
@@ -175,6 +176,7 @@
 }
 
 .deleteBtn:disabled:hover,
+.editBtn:disabled:hover,
 .disabledBtn:hover {
     background-color: #f3f4f6;
     color: #9ca3af;
