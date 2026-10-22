@@ -217,7 +217,16 @@ Possible user roles: `customer` (default), `staff`, `admin`.
 
 ## Background Jobs / Cron
 
-The `GET /rentals/update-rental-statuses` endpoint is meant to be called by an external scheduler (e.g. a cron job on the hosting service) to automatically flip rentals past their planned return date to `overdue`. The request must include a secret key matching `CRON_SECRET`.
+The `GET /rentals/update-rental-statuses` endpoint is meant to be called by an external scheduler (e.g. cron-job.org) to keep statuses in sync with the clock:
+
+- `confirmed` rentals whose pickup time has arrived become `active`, and their car becomes `rented`.
+- `active` rentals past their planned return date become `overdue`.
+
+The request must include the secret in the `Authorization` header (it is not accepted in the URL, so it doesn't end up in server logs):
+
+```
+Authorization: Bearer <CRON_SECRET>
+```
 
 ---
 

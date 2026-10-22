@@ -364,8 +364,8 @@ const RentalController={
     updateRentalStatuses: async (req, res) => {
     try {
 
-        const secretKey = req.query.secret; 
-        if (secretKey !== process.env.CRON_SECRET) {
+        const authHeader = req.headers.authorization;
+        if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
             return res.status(403).json({ message: "גישה לא חוקית - אין הרשאה להפעיל פונקציה זו" });
         }
         const now = new Date();
@@ -376,13 +376,16 @@ const RentalController={
         });
 
         for (const rental of startingRentals) {
+            // Update the car first: if we crash before the rental is saved,
+            // it stays 'confirmed' and the next run retries both updates.
+            const car = await Car.findById(rental.carId);
+            if (car) {
+                car.status = 'rented';
+                await car.save();
+            }
+
             rental.status = 'active';
             await rental.save();
-
-            const car = await Car.findById(rental.carId);
-            car.status = 'rented';
-            await car.save();
-
         }
         const overdueRentals = await Rental.find({
             status: 'active',
