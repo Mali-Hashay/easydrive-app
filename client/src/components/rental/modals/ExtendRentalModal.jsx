@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 import RentalDateAndTime from '../RentalDateAndTime';
 import { validateExtensionDate } from '../../../utils/validators'; 
 import { toIsraelISOString } from '../../../utils/dateUtils'; 
@@ -9,10 +10,15 @@ export default function ExtendRentalModal(props) {
   const [dateValue, setDateValue] = useState('');
   const [timeValue, setTimeValue] = useState('');
   const [error, setError] = useState('');
+  // blocks a second click while the request is still running
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  // for an overdue rental the current return date is already in the past, so don't offer days before today
+  const earliestDate = dayjs(minDate).isAfter(dayjs()) ? minDate : dayjs().format('YYYY-MM-DD');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationError = validateExtensionDate(dateValue, timeValue, minDate);
@@ -23,10 +29,15 @@ export default function ExtendRentalModal(props) {
     }
 
     setError('');
-    
+
     const fullDateTime = toIsraelISOString(dateValue, timeValue);
-    
-    onConfirm(fullDateTime);
+
+    setIsSubmitting(true);
+    try {
+      await onConfirm(fullDateTime);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -50,15 +61,15 @@ export default function ExtendRentalModal(props) {
             mode="both"
             onDateChange={(d) => { setDateValue(d); setError(''); }}
             onTimeChange={(t) => { setTimeValue(t); setError(''); }}
-            minDate={minDate}
+            minDate={earliestDate}
             hasError={!!error}
           />
 
           {error && <p className={styles.errorMessage}>{error}</p>}
 
           <div className={styles.actions}>
-            <button type="submit" className={styles.confirmBtn}>
-              אישור והארכה
+            <button type="submit" disabled={isSubmitting} className={styles.confirmBtn}>
+              {isSubmitting ? 'מאריך...' : 'אישור והארכה'}
             </button>
             <button type="button" onClick={handleClose} className={styles.cancelBtn}>
               ביטול

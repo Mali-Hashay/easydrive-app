@@ -19,8 +19,6 @@ export const formatRentalTime = (date) => dayjs.utc(date)
 
 export const toIsraelISOString = (date, time) => dayjs.tz(`${date}T${time}`, 'Asia/Jerusalem').toISOString();
 
-export const toIsraelISOStringFromDateTime = (dateTime) => dayjs.tz(dateTime, 'Asia/Jerusalem').toISOString();
-
 export const calculateTotalDays = (startDate, startTime, endDate, endTime) => {
     if (!startDate || !endDate) 
         return 0;

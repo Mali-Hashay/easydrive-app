@@ -9,7 +9,6 @@ import { extendRentalTime, removeRental, fetchAllRentals, adminCompleteRental, a
 import dayjs from "dayjs";
 import FilterTabs from "../../components/admin/FilterTabs.jsx";
 import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
-import { toIsraelISOStringFromDateTime } from "../../utils/dateUtils.js";
 
 export default function AdminRentals() {
     const [filter, setFilter] = useState('all');
@@ -51,11 +50,10 @@ export default function AdminRentals() {
         if (!rentalToExtend) return;
 
         try {
-            const formattedISODate = toIsraelISOStringFromDateTime(newReturnDate);
-
-            await dispatch(extendRentalTime({ 
-                rentalId: rentalToExtend._id, 
-                newReturnDate: formattedISODate 
+            // newReturnDate is already converted to an ISO string  by the modal
+            await dispatch(extendRentalTime({
+                rentalId: rentalToExtend._id,
+                newReturnDate
             })).unwrap();
 
             alertService.success('ההשכרה הוארכה בהצלחה!');

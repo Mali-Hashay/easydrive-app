@@ -53,6 +53,11 @@
   cursor: pointer;
 }
 
+.confirmBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .cancelBtn {
   flex: 1;
   background-color: #f0f0f0;
