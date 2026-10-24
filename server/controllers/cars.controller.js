@@ -100,7 +100,7 @@ const CarController={
             if(status!==undefined && status!==car.status)
             {
                 if(!allowedTransitions[car.status].includes(status))
-                    return res.status(409).json({ message: `פעולה לא חוקית: לא ניתן לשנות סטטוס רכב מ-${car.status} ל-${status}.`});
+                    return res.status(409).json({ message: "פעולה לא חוקית: לא ניתן לשנות את סטטוס הרכב לסטטוס המבוקש" });
                 car.status = status;
             }
                
@@ -127,6 +127,12 @@ const CarController={
                 return res.status(404).json({message: "רכב לא נמצא"});
             if(car.status ==='rented')
                 return res.status(409).json({message:" רכב מושכר, לא ניתן למחוק"});
+
+            // deleting is permanent, so customers holding future bookings would be left without a car
+            const futureBookingsCount = await Rental.countDocuments({ carId: id, status: 'confirmed' });
+            if (futureBookingsCount > 0)
+                return res.status(409).json({ message: `לרכב יש ${futureBookingsCount} הזמנות עתידיות. יש לבטל אותן לפני מחיקת הרכב` });
+
             car.status = 'inactive';
             await car.save();
             res.status(200).json({ id });

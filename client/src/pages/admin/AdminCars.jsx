@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCars, removeCar } from "../../store/slices/carSlice";
+import { fetchAllRentals } from "../../store/slices/rentalSlice";
 import AdminCarRow from "../../components/admin/AdminCarRow";
 import CarDrawer from "../../components/admin/CarDrawer";
 import FilterTabs from "../../components/admin/FilterTabs"; 
@@ -10,6 +11,7 @@ import { useLocation } from "react-router-dom";
 
 export default function AdminCars() {
     const allCars = useSelector(state => state.cars.allCars);
+    const rentalsList = useSelector(state => state.rentals.rentalsList) || [];
     const dispatch = useDispatch();
     const location = useLocation();
 
@@ -18,7 +20,16 @@ export default function AdminCars() {
 
     useEffect(() => {
         dispatch(fetchAllCars());
+        dispatch(fetchAllRentals());
     }, [dispatch]);
+
+    // number of future (confirmed) bookings per car id: blocks deletion and warns before maintenance
+    const futureBookingsCountByCar = {};
+    rentalsList.forEach(rental => {
+        if (rental.status !== 'confirmed') return;
+        const carId = rental.carId?._id || rental.carId;
+        futureBookingsCountByCar[carId] = (futureBookingsCountByCar[carId] || 0) + 1;
+    });
 
     useEffect(() => {
         if (location.state?.openAddDrawer) 
@@ -111,8 +122,9 @@ export default function AdminCars() {
                             filteredCars.map((car) => (
                                 <AdminCarRow
                                     key={car._id} 
-                                    car={car} 
-                                    onEdit={() => handleOpenEdit(car)} 
+                                    car={car}
+                                    futureBookingsCount={futureBookingsCountByCar[car._id] || 0}
+                                    onEdit={() => handleOpenEdit(car)}
                                     onDelete={handleDelete} 
                                 />
                             ))
@@ -124,6 +136,7 @@ export default function AdminCars() {
             {activeDrawer.isOpen && (
                 <CarDrawer
                     carToEdit={activeDrawer.carToEdit}
+                    futureBookingsCount={futureBookingsCountByCar[activeDrawer.carToEdit?._id] || 0}
                     onClose={handleCloseDrawer}
                     onSuccess={() => {
                         dispatch(fetchAllCars());

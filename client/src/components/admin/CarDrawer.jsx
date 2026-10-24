@@ -11,6 +11,7 @@ import {
     validateMileage,
     validateDailyPrice
 } from '../../utils/validators'; 
+import { carStatuses } from '../../constants/translations';
 import styles from './AdminForm.module.css';
 import axios from 'axios';
 
@@ -32,6 +33,14 @@ const INITIAL_STATE = {
     imageUrl: ''
 };
 
+// must match allowedTransitions in the server's car update.
+// 'inactive' is left out: deactivating a car is done with the delete button
+const allowedStatusTransitions = {
+    'available': ['rented', 'maintenance'],
+    'rented': ['available'],
+    'maintenance': ['available']
+};
+
 // hashes the file content so uploads get a stable, unique name
 const calculateFileHash = async (file) => {
     const arrayBuffer = await file.arrayBuffer();
@@ -40,9 +49,13 @@ const calculateFileHash = async (file) => {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 };
 
-export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
+export default function CarDrawer({ carToEdit, futureBookingsCount = 0, onClose, onSuccess }) {
+
     const dispatch = useDispatch();
     const isEdit = Boolean(carToEdit);
+    // the current status plus the ones it's allowed to move to (a new car starts as available)
+    const currentStatus = isEdit ? carToEdit.status : 'available';
+    const statusOptions = [currentStatus, ...(allowedStatusTransitions[currentStatus] || [])];
     const allCategories = useSelector(state => state.categories.categories) || [];
 
     const [formData, setFormData] = useState(INITIAL_STATE);
@@ -174,6 +187,17 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
         if (uploadingImage) {
             alertService.errorToast('יש להמתין לסיום העלאת התמונה');
             return;
+        }
+
+        // maintenance is temporary, so future bookings only trigger a warning 
+        const isMovingToMaintenance = isEdit && carToEdit.status !== 'maintenance' && formData.status === 'maintenance';
+        if (isMovingToMaintenance && futureBookingsCount > 0) {
+            const isConfirmed = await alertService.confirm(
+                'העברת רכב לטיפול',
+                `לרכב יש ${futureBookingsCount} הזמנות עתידיות. העברה לטיפול לא מבטלת אותן. האם להמשיך?`,
+                true
+            );
+            if (!isConfirmed) return;
         }
 
         setSubmitting(true);
@@ -363,9 +387,9 @@ export default function CarDrawer({ carToEdit, onClose, onSuccess }) {
                             onChange={handleChange}
                             className={styles.inputField}
                         >
-                            <option value="available">זמין</option>
-                            <option value="rented">מושכר</option>
-                            <option value="maintenance">בתחזוקה</option>
+                            {statusOptions.map(status => (
+                                <option key={status} value={status}>{carStatuses[status]}</option>
+                            ))}
                         </select>
                     </div>
 

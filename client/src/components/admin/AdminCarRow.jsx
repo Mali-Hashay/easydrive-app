@@ -5,10 +5,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import styles from '../../pages/admin/AdminTable.module.css';
 
 export default function AdminCarRow(props) {
-    const { car, onEdit, onDelete } = props;
+    const { car, futureBookingsCount, onEdit, onDelete } = props;
     const { brand, model, seats, dailyPrice, status, imageUrl } = car;
 
     const isRented = status === 'rented';
+    const hasFutureBookings = futureBookingsCount > 0;
+    const cannotDelete = isRented || hasFutureBookings;
+
+    let deleteTitle = "מחק רכב";
+    if (isRented)
+        deleteTitle = "לא ניתן למחוק רכב בסטטוס מושכר";
+    else if (hasFutureBookings)
+        deleteTitle = `לרכב יש ${futureBookingsCount} הזמנות עתידיות, יש לבטל אותן לפני מחיקה`;
 
     return (
         <tr className={styles.row}>
@@ -36,10 +44,10 @@ export default function AdminCarRow(props) {
                     </button>
                     
                     <button 
-                        onClick={() => onDelete(car)} 
-                        disabled={isRented}
-                        className={`${styles.button} ${styles.deleteBtn} ${isRented ? styles.disabledBtn : ''}`}
-                        title={isRented ? "לא ניתן למחוק רכב בסטטוס מושכר" : "מחק רכב"}
+                        onClick={() => onDelete(car._id)}
+                        disabled={cannotDelete}
+                        className={`${styles.button} ${styles.deleteBtn} ${cannotDelete ? styles.disabledBtn : ''}`}
+                        title={deleteTitle}
                     >
                         <DeleteIcon fontSize="small" /> מחק
                     </button>

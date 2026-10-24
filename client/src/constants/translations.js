@@ -11,7 +11,7 @@ export const carStatuses = {
     'available': 'זמין',
     'maintenance': 'בטיפול',
     'rented': 'מושכר',
-    'inActive': 'לא זמין'
+    'inactive': 'לא זמין'
 };
 
 export const categoryStatuses = {
