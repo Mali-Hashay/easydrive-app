@@ -147,8 +147,6 @@ const CarController={
     try {
         const { pickupDate, pickupTime, returnDate, returnTime } = req.query;
 
-        console.log("=== 1. Request Query Params ===", req.query);
-
         if (!pickupDate || !returnDate) {
             const allCars = await Car.find({ status: 'available' }).lean();
             return res.status(200).json(allCars);
@@ -161,10 +159,6 @@ const CarController={
         // normalize to Israel time so comparisons are consistent regardless of server timezone
         const userStart = dayjs.tz(`${pickupDate}T${startTime}`, 'Asia/Jerusalem').toDate();
         const userEnd = dayjs.tz(`${returnDate}T${endTime}`, 'Asia/Jerusalem').toDate();
-
-        console.log("=== 2. Parsed Dates ===");
-        console.log("userStart (ISO/UTC):", userStart.toISOString(), "| Local:", userStart.toString());
-        console.log("userEnd   (ISO/UTC):", userEnd.toISOString(), "| Local:", userEnd.toString());
 
         if (isNaN(userStart.getTime()) || isNaN(userEnd.getTime())) {
             return res.status(400).json({ message: "פורמט התאריכים שהוזנו אינו תקין" });
@@ -179,8 +173,8 @@ const CarController={
             $or: [
                 {
                     status: { $in: ['active', 'confirmed'] },
-                    pickupDate: { $lte: userEnd },
-                    plannedReturnDate: { $gte: userStart }
+                    pickupDate: { $lt: userEnd },
+                    plannedReturnDate: { $gt: userStart }
                 },
                 { status: 'overdue' }
             ]
