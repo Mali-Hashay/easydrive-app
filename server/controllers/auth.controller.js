@@ -64,7 +64,7 @@ const AuthController = {
 
         const token = jwt.sign(
             {id: user._id, role: user.role},
-            process.env.JWT_SECRET || 'my_super_secret_key',
+            process.env.JWT_SECRET,
             {expiresIn: '7d'}
         );
 
