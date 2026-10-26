@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from '../../pages/admin/AdminTable.module.css';
 import dayjs from 'dayjs';
 import { rentalStatuses } from '../../constants/translations';
@@ -13,6 +14,7 @@ import { formatRentalDate, formatRentalDateTime } from '../../utils/dateUtils';
 export default function AdminRentalRow(props) {
     const { rental, onEdit, onExtend, onChangeStatus, onComplete, onCancel, onDelete } = props;
     const currentStatus = rentalStatuses[rental.status];
+    const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -28,7 +30,16 @@ export default function AdminRentalRow(props) {
     return (
         <tr className={styles.row}>
             <td className={`${styles.cell} ${styles.primaryText}`}>
-                {rental.clientId ? `${rental.clientId.firstName} ${rental.clientId.lastName}` : 'לקוח לא מזוהה'}
+                {rental.clientId ? (
+                    <button
+                        type="button"
+                        className={styles.linkButton}
+                        onClick={() => navigate('/admin/users', { state: { openUserId: rental.clientId._id } })}
+                        title="הצג את פרטי הלקוח"
+                    >
+                        {rental.clientId.firstName} {rental.clientId.lastName}
+                    </button>
+                ) : 'לקוח לא מזוהה'}
                 <div style={{ fontSize: '0.8rem', color: '#666' }}>
                     ת.ז: {rental.driversIdNumber}
                 </div>

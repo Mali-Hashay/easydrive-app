@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './AdminTable.module.css';
 
 import { 
@@ -18,6 +18,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 export default function AdminUsers() {
     const dispatch = useDispatch();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const { users, loading } = useSelector((state) => state.users);
 
@@ -35,6 +36,18 @@ export default function AdminUsers() {
             setActiveDrawer({ isOpen: true, userToEdit: null });
         }
     }, [location]);
+
+    // opened from the rentals table: show that client's drawer once the users list has loaded
+    useEffect(() => {
+        const userId = location.state?.openUserId;
+        if (!userId || !users?.length) return;
+
+        const user = users.find(u => u._id === userId);
+        if (user) setActiveDrawer({ isOpen: true, userToEdit: user });
+
+        // clear the state so the drawer doesn't reopen whenever the users list changes
+        navigate(location.pathname, { replace: true, state: null });
+    }, [location, users, navigate]);
 
     const handleOpenEdit = (user) => {
         setActiveDrawer({ isOpen: true, userToEdit: user });
