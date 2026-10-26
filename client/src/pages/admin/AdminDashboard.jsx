@@ -33,11 +33,12 @@ export default function AdminDashboard() {
         .slice(0, 5);
 
     const totalRevenue = rentalsList
-        .filter(r => r.status === 'completed' || r.status === 'paid')
-        .reduce((sum, r) => sum + (r.totalPrice || r.sum || 0), 0);
+        .filter(r => r.status === 'completed')
+        .reduce((sum, r) => sum + (r.totalPrice || 0), 0);
 
-    const activeRentalsCount = rentalsList.filter(r => r.status === 'active').length;
-    const pendingRentalsCount = rentalsList.filter(r => r.status === 'pending').length;
+    // an overdue rental is still out with the customer, so it counts as active
+    const activeRentalsCount = rentalsList.filter(r => ['active', 'overdue'].includes(r.status)).length;
+    const upcomingRentalsCount = rentalsList.filter(r => r.status === 'confirmed').length;
 
     return (
         <div className={styles.dashboardContainer}>
@@ -84,8 +85,8 @@ export default function AdminDashboard() {
                         <PendingActionsIcon />
                     </div>
                     <div>
-                        <span className={styles.statTitle}>ממתינים לאישור</span>
-                        <h3 className={styles.statValue}>{pendingRentalsCount}</h3>
+                        <span className={styles.statTitle}>הזמנות עתידיות</span>
+                        <h3 className={styles.statValue}>{upcomingRentalsCount}</h3>
                     </div>
                 </div>
             </div>
