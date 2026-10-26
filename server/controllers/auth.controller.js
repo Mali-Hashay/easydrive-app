@@ -108,7 +108,7 @@ const AuthController = {
         );
 
         const resetLink = `${process.env.CLIENT_URL}/reset-password/${user._id}/${token}`;
-        const emailContent = resetPasswordEmail({ resetLink });
+        const emailContent = resetPasswordEmail({ name: user.firstName || 'לקוח יקר', resetLink });
 
         await sendEmail(user.email, emailContent.subject, emailContent.text, emailContent.html);
 

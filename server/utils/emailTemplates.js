@@ -23,11 +23,12 @@ const emailLayout = (content) => `
   </body>
 </html>`;
 
-export const resetPasswordEmail = ({ resetLink }) => ({
+export const resetPasswordEmail = ({ name, resetLink }) => ({
     subject: 'איפוס סיסמה - EasyDrive',
-    text: `לחץ על הקישור הבא כדי לאפס את סיסמתך:\n${resetLink}\n\nהקישור תקף ל־15 דקות. אם לא ביקשת לאפס את הסיסמה, ניתן להתעלם ממייל זה.`,
+    text: `היי ${name},\n\nלחץ על הקישור הבא כדי לאפס את סיסמתך:\n${resetLink}\n\nהקישור תקף ל־15 דקות. אם לא ביקשת לאפס את הסיסמה, ניתן להתעלם ממייל זה.`,
     html: emailLayout(`
       <h2 dir="rtl" style="margin-top:0;color:#1f2937;text-align:center;direction:rtl;unicode-bidi:plaintext;">איפוס סיסמה</h2>
+      <p dir="rtl" style="line-height:1.6;text-align:center;direction:rtl;unicode-bidi:plaintext;">היי ${escapeHtml(name)},</p>
       <p dir="rtl" style="line-height:1.6;text-align:center;direction:rtl;unicode-bidi:plaintext;">קיבלנו בקשה לאיפוס הסיסמה שלך.</p>
       <p dir="rtl" style="line-height:1.6;text-align:center;direction:rtl;unicode-bidi:plaintext;">לחץ על הכפתור כדי להגדיר סיסמה חדשה:</p>
       <div style="margin:28px 0;text-align:center;">
@@ -57,10 +58,10 @@ export const contactAdminEmail = ({ name, email, phone, message }) => ({
 
 export const contactClientEmail = ({ name }) => ({
     subject: `היי ${name}, קיבלנו את פנייתך!`,
-    text: `שלום ${name},\n\nתודה שפנית אלינו. פרטי הפנייה שלך התקבלו בהצלחה ונציג מטעמנו יחזור אלייך בהקדם האפשרי.`,
+    text: `היי ${name},\n\nתודה שפנית אלינו. פרטי הפנייה שלך התקבלו בהצלחה ונציג מטעמנו יחזור אלייך בהקדם האפשרי.`,
     html: emailLayout(`
       <h2 dir="rtl" style="margin-top:0;color:#2e7d32;text-align:center;direction:rtl;unicode-bidi:plaintext;">תודה שפנית אלינו!</h2>
-      <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">שלום ${escapeHtml(name)},</p>
+      <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">היי ${escapeHtml(name)},</p>
       <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">פרטי הפנייה שלך התקבלו בהצלחה במערכת שלנו.</p>
       <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">נציג מטעמנו יבחן את הפרטים ויחזור אלייך בהקדם האפשרי.</p>
     `)
@@ -68,10 +69,10 @@ export const contactClientEmail = ({ name }) => ({
 
 export const rentalConfirmationEmail = ({ name, car, pickupDate, plannedReturnDate, totalPrice }) => ({
     subject: 'אישור הזמנה - EasyDrive',
-    text: `שלום ${name},\n\nההזמנה שלך אושרה בהצלחה.\n\nרכב: ${car.brand} ${car.model}\nאיסוף: ${pickupDate}\nהחזרה: ${plannedReturnDate}\nסך הכל לתשלום: ₪${totalPrice}\n\nתודה שבחרת ב-EasyDrive.`,
+    text: `היי ${name},\n\nההזמנה שלך אושרה בהצלחה.\n\nרכב: ${car.brand} ${car.model}\nאיסוף: ${pickupDate}\nהחזרה: ${plannedReturnDate}\nסך הכל לתשלום: ₪${totalPrice}\n\nתודה שבחרת ב-EasyDrive.`,
     html: emailLayout(`
       <h2 dir="rtl" style="margin-top:0;color:#2e7d32;text-align:center;direction:rtl;unicode-bidi:plaintext;">ההזמנה אושרה בהצלחה!</h2>
-      <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">שלום ${escapeHtml(name)},</p>
+      <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">היי ${escapeHtml(name)},</p>
       <p dir="rtl" style="line-height:1.7;text-align:center;direction:rtl;unicode-bidi:plaintext;">שמחים לעדכן שההזמנה שלך נקלטה ואושרה.</p>
       <div dir="rtl" style="margin-top:24px;background:#f9fafb;padding:18px;border:1px solid #e5e7eb;border-radius:8px;line-height:1.7;direction:rtl;unicode-bidi:plaintext;">
         <p><strong>רכב:</strong> ${escapeHtml(`${car.brand} ${car.model}`)}</p>
