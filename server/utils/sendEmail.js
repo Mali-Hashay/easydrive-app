@@ -1,26 +1,39 @@
-import sgMail from '@sendgrid/mail';
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// sends transactional emails through Brevo's HTTP API 
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
 export const sendEmail = async (to, subject, text, html = null, replyTo = null) => {
     try {
-        console.log("SENDER EMAIL BEING USED:", process.env.EMAIL_USER);
-        const msg = {
-            to,
-            from: {
+        const body = {
+            sender: {
                 email: process.env.EMAIL_USER,
                 name: "EasyDrive"
             },
+            to: [{ email: to }],
             subject,
-            text: text || ' ',
-            html: html || undefined,
-            replyTo: replyTo || undefined
+            textContent: text || ' ',
+            htmlContent: html || undefined,
+            replyTo: replyTo ? { email: replyTo } : undefined
         };
 
-        await sgMail.send(msg);
-        console.log(`Email sent successfully via SendGrid to: ${to}`);
+        const response = await fetch(BREVO_API_URL, {
+            method: 'POST',
+            headers: {
+                'api-key': process.env.BREVO_API_KEY,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        // fetch doesn't throw on error responses, so check the status
+        if (!response.ok) {
+            const errorBody = await response.json().catch(() => null);
+            throw errorBody || new Error(`Brevo responded with status ${response.status}`);
+        }
+
+        console.log(`Email sent successfully via Brevo to: ${to}`);
     } catch (error) {
-        console.error("Error in sendEmail (SendGrid):", error.response ? error.response.body : error);
+        console.error("Error in sendEmail (Brevo):", error);
         throw new Error("שגיאה בתהליך שליחת המייל");
     }
 };

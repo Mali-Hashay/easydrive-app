@@ -25,7 +25,7 @@ The API server for **Easy-Drive**, a full-stack car rental web application built
 | Server | [Express 5](https://expressjs.com/) |
 | Database | [MongoDB](https://www.mongodb.com/) + [Mongoose 8](https://mongoosejs.com/) |
 | Authentication | [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) + [bcryptjs](https://www.npmjs.com/package/bcryptjs) |
-| Email delivery | [@sendgrid/mail](https://www.npmjs.com/package/@sendgrid/mail) |
+| Email delivery | [Brevo](https://www.brevo.com/) transactional email API (via `fetch`) |
 | Dates & time zones | [dayjs](https://day.js.org/) (with `utc` / `timezone` plugins, `Asia/Jerusalem` zone) |
 | Configuration | [dotenv](https://www.npmjs.com/package/dotenv) |
 | CORS | [cors](https://www.npmjs.com/package/cors) |
@@ -54,7 +54,7 @@ server/
 ├── services/
 │   └── paymentService.js       # Creates payments and links them to a rental
 └── utils/
-    ├── sendEmail.js            # Sends emails via SendGrid
+    ├── sendEmail.js            # Sends emails via the Brevo API
     └── emailTemplates.js       # HTML email templates (booking confirmation, password reset...)
 ```
 
@@ -87,7 +87,7 @@ Create a `.env` file at the root of the server with the following variables:
 | `MONGO_URI` | MongoDB connection string |
 | `JWT_SECRET` | Secret key used to sign and verify JWT tokens |
 | `CLIENT_URL` | URL of the client app (used in email links, e.g. password reset) |
-| `SENDGRID_API_KEY` | SendGrid API key for sending emails |
+| `BREVO_API_KEY` | Brevo API key for sending emails |
 | `EMAIL_USER` | Sender email address shown on outgoing emails |
 | `ADMIN_EMAIL` | Admin's email address (e.g. to receive contact form submissions) |
 | `CRON_SECRET` | Secret key protecting the endpoint that auto-updates rental statuses |
@@ -232,7 +232,9 @@ Authorization: Bearer <CRON_SECRET>
 
 ## Email Delivery
 
-Emails are sent via **SendGrid** (`utils/sendEmail.js`), using ready-made HTML templates from `utils/emailTemplates.js` — including booking confirmations and password resets. The sender address is controlled via `EMAIL_USER`.
+Emails are sent via the **Brevo** transactional email API (`utils/sendEmail.js`), using ready-made HTML templates from `utils/emailTemplates.js` — including booking confirmations and password resets. The sender address is controlled via `EMAIL_USER`.
+
+Emails go over Brevo's HTTPS API rather than SMTP, since Render's free tier blocks outbound SMTP ports. All emails pass through `sendEmail`, so switching providers only means changing that one function and its environment variables.
 
 ---
 

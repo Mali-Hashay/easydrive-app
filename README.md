@@ -26,7 +26,7 @@ Each has its own tech stack, environment variables, and setup instructions — s
 | Frontend | React 19, Vite, Redux Toolkit, React Router, CSS Modules |
 | Backend | Node.js, Express 5, MongoDB + Mongoose |
 | Auth | JWT + bcrypt |
-| Email | SendGrid |
+| Email | Brevo |
 | Deployment | Vercel (client), Render (server) |
 
 ---
