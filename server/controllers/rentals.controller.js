@@ -23,6 +23,17 @@ const calculateRentalPrice = (start, end, dailyPrice) => {
     return Math.ceil(totalHours / 24) * dailyPrice;
 };
 
+// returns an error message if the rental dates are invalid, otherwise null
+const getRentalDatesError = (start, end) => {
+    if (isNaN(start.getTime()) || isNaN(end.getTime()))
+        return "פורמט התאריכים שהוזנו אינו תקין";
+    if (start <= new Date())
+        return "מועד האיסוף חייב להיות עתידי";
+    if (end <= start)
+        return "מועד ההחזרה חייב להיות מאוחר ממועד האיסוף";
+    return null;
+};
+
 // returns an error message if the car can't be booked for these dates, otherwise null.
 // excludeRentalId lets an edited rental skip checking against itself
 const getCarAvailabilityError = async (carId, start, end, excludeRentalId = null) => {
@@ -124,6 +135,10 @@ const RentalController={
 
         const start = new Date(pickupDate);
         const end = new Date(plannedReturnDate);
+
+        const datesError = getRentalDatesError(start, end);
+        if (datesError)
+            return res.status(400).json({ message: datesError });
 
         const availabilityError = await getCarAvailabilityError(carId, start, end);
         if (availabilityError)
@@ -228,12 +243,9 @@ const RentalController={
                              end.getTime() !== rental.plannedReturnDate.getTime();
 
         if (datesChanged) {
-            if (isNaN(start.getTime()) || isNaN(end.getTime()))
-                return res.status(400).json({ message: "פורמט התאריכים שהוזנו אינו תקין" });
-            if (start <= new Date())
-                return res.status(400).json({ message: "מועד האיסוף חייב להיות עתידי" });
-            if (end <= start)
-                return res.status(400).json({ message: "מועד ההחזרה חייב להיות מאוחר ממועד האיסוף" });
+            const datesError = getRentalDatesError(start, end);
+            if (datesError)
+                return res.status(400).json({ message: datesError });
 
             const availabilityError = await getCarAvailabilityError(rental.carId, start, end, rental._id);
             if (availabilityError)
