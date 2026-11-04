@@ -35,7 +35,7 @@ const AuthController = {
         const userResponse = newUser.toObject();
         delete userResponse.password;
 
-        res.status(200).json({user: userResponse, token});
+        res.status(201).json({user: userResponse, token});
     }
     catch(err){
         console.error("full error: ", err);
