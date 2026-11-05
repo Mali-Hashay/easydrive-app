@@ -189,7 +189,7 @@ Possible user roles: `customer` (default), `staff`, `admin`.
 | GET | `/users/getAll` | Admin | All users |
 | GET | `/users/getById/:id` | Auth | User by ID |
 | POST | `/users/add` | Admin | Add a user (by an admin) |
-| PATCH | `/users/update/:id` | Auth | Update a user |
+| PATCH | `/users/update/:id` | Admin | Update a user |
 | DELETE | `/users/delete/:id` | Admin | Delete a user |
 
 ### `/payments`

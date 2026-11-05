@@ -7,7 +7,7 @@ const UsersRouter = express.Router();
 UsersRouter.get('/getAll',verifyToken, verifyAdmin, UserController.getAll);
 UsersRouter.get('/getById/:id',verifyToken, UserController.getById);
 UsersRouter.post('/add',verifyToken, verifyAdmin, UserController.add);
-UsersRouter.patch('/update/:id',verifyToken, UserController.update);
+UsersRouter.patch('/update/:id',verifyToken, verifyAdmin, UserController.update);
 UsersRouter.delete('/delete/:id',verifyToken, verifyAdmin, UserController.delete);
 
 

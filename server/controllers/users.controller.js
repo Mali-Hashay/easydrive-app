@@ -76,9 +76,6 @@ const UserController={
             const{ id}=req.params;
             const {firstName,lastName,email,phoneNumber,status,idNumber, licenseNumber, birthDate,role} = req.body;
 
-            if(!(String(id) === String(req.user.id) || req.user.role == 'admin'))
-                return res.status(403).json({error: "אין הרשאה"});
-            
             const user  = await User.findById(id);
             if(!user)
                 return res.status(404).json({message:"not found"})
@@ -97,11 +94,9 @@ const UserController={
                     return res.status(400).json({message: "כתובת האימייל כבר קיימת במערכת"})
                 user.email = email;
             }
-            if(req.user.role == 'admin' && status!==undefined)
-                user.status = status;
-            if (req.user.role === 'admin' && role !== undefined) 
-                user.role = role;
-            
+            if (status !== undefined) user.status = status;
+            if (role !== undefined) user.role = role;
+
 
             await user.save();
 
