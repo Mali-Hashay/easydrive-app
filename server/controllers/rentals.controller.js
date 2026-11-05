@@ -495,7 +495,7 @@ const RentalController={
     try {
 
         const authHeader = req.headers.authorization;
-        if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+        if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
             return res.status(403).json({ message: "גישה לא חוקית - אין הרשאה להפעיל פונקציה זו" });
         }
         const now = new Date();
