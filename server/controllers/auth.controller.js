@@ -132,8 +132,13 @@ const AuthController = {
         const secret = process.env.JWT_SECRET + user.password;
 
         jwt.verify(token, secret);
+
+        if (!newPassword || newPassword.length < 8)
+            return res.status(400).json({ message: "הסיסמה החדשה חייבת להכיל לפחות שמונה תווים" });
+
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(newPassword, salt);
+        user.passwordChangedAt = Date.now() - 1000;
         await user.save();
         res.status(200).json({ message: "הסיסמה שונתה בהצלחה" });
     }
