@@ -197,7 +197,7 @@ Possible user roles: `customer` (default), `staff`, `admin`.
 |---|---|---|---|
 | GET | `/payments/getAll` | Admin | All payments |
 | GET | `/payments/getById/:id` | Auth | Payment by ID |
-| POST | `/payments/add` | Auth | Add a payment to an existing rental |
+| POST | `/payments/add` | Admin | Add a payment to an existing rental |
 | PATCH | `/payments/update/:id` | Admin | Update a payment's status |
 
 ### `/contact`

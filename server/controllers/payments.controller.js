@@ -44,18 +44,19 @@ const PaymentController={
 
         try{
             const {rentalId,sum, paymentMethod} = req.body;
-            const savedPayment = await addPaymentToExistingRental(rentalId, sum,paymentMethod, req.user);
+
+            if (typeof sum !== 'number' || sum <= 0)
+                return res.status(400).json({ message: "סכום התשלום חייב להיות מספר גדול מאפס" });
+
+            const savedPayment = await addPaymentToExistingRental(rentalId, sum,paymentMethod);
              res.status(200).json(savedPayment);
         }
 
         catch(err){
-            if (err.message === 'RENTAL_NOT_FOUND') 
+            if (err.message === 'RENTAL_NOT_FOUND')
             return res.status(404).json({ message: 'ההזמנה לא נמצאה' });
-        
-            if (err.message === 'UNAUTHORIZED') 
-            return res.status(403).json({ message: "אין הרשאה לביצוע התשלום" });
 
-            console.error("Server Error in add payment:", err); 
+            console.error("Server Error in add payment:", err);
             res.status(500).json({ message: "שגיאה פנימית בשרת במהלך הוספת התשלום" });
         }
     },

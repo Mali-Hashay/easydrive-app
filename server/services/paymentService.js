@@ -17,15 +17,12 @@ export const createPayment = async ({rentalId, sum, paymentMethod = "credit_card
 };
 
 
-export const addPaymentToExistingRental = async (rentalId, sum, paymentMethod ,user) => {
+export const addPaymentToExistingRental = async (rentalId, sum, paymentMethod) => {
     const rental = await Rental.findById(rentalId);
-    
-    if (!rental) 
+
+    if (!rental)
         throw new Error('RENTAL_NOT_FOUND');
-    
-    if (!(rental.clientId.toString() === user.id || user.role === 'admin')) 
-        throw new Error('UNAUTHORIZED');
-    
+
     const payment = await createPayment({rentalId, sum, paymentMethod});  
     rental.payments.push(payment._id);
     await rental.save()
