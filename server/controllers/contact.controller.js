@@ -39,7 +39,7 @@ const ContactController ={
         }
         catch(err)
         {
-            console.error('Error updating contact status:', error);
+            console.error('Error updating contact status:', err);
             res.status(500).json({ message: 'שגיאה בשרת בעדכון הסטטוס' });
         }
     },
