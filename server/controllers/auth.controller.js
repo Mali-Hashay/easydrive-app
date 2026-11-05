@@ -51,7 +51,7 @@ const AuthController = {
 
         const user = await User.findOne({email});
         if(!user)
-            return res.status(404).json({message: "אימייל או סיסמה שגויים"});
+            return res.status(400).json({message: "אימייל או סיסמה שגויים"});
 
         const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch)
@@ -96,8 +96,11 @@ const AuthController = {
     try{
         const {email} = req.body;
         const user = await User.findOne({email});
+
+        // the same response either way, so this can't be used to find out who is registered
+        const responseMessage = "אם האימייל קיים במערכת, נשלח אליו קישור לאיפוס סיסמה";
         if(!user)
-            return res.status(404).json({message: ' משתמש לא נמצא'});
+            return res.status(200).json({ message: responseMessage });
 
         // deriving the secret from the current password hash invalidates this token as soon as the password is changed
         const secret = process.env.JWT_SECRET+ user.password;
@@ -112,7 +115,7 @@ const AuthController = {
 
         await sendEmail(user.email, emailContent.subject, emailContent.text, emailContent.html);
 
-        res.status(200).json({ message: "נשלח מייל עם קישור לאיפוס סיסמה" });
+        res.status(200).json({ message: responseMessage });
     }
     catch(error){
         console.error("Forgot password error:", error);

@@ -26,7 +26,7 @@ export default function ForgotPassword({ onSuccess, onSwitchToLogin }) {
 
         try {
             await forgotPassword(email);
-            await alertService.successModal('קישור לאיפוס סיסמה נשלח בהצלחה לכתובת האימייל שלך', '');
+            await alertService.successModal('אם האימייל קיים במערכת, נשלח אליו קישור לאיפוס סיסמה', '');
             onSuccess();
         } catch (err) {
             setError(err.message || 'אירעה שגיאה, אנא נסה בשנית');
