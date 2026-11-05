@@ -5,7 +5,7 @@ const BASIC_URL="http://localhost:5000/users";
 
 export const getAllUsers = async()=>{
     try{
-        const response = await privateApi.get('/users/getAll');
+        const response = await privateApi.get('/users');
         return response.data;
     } 
     catch(error){ 
@@ -17,7 +17,7 @@ export const getAllUsers = async()=>{
 
 export const getUserById = async(id) => {
     try{
-        const response= await privateApi.get(`/users/getById/${id}`);
+        const response= await privateApi.get(`/users/${id}`);
         return response.data;
     }
     catch(error){
@@ -29,7 +29,7 @@ export const getUserById = async(id) => {
 
 export const addUser= async(userData)=>{
     try{
-        const response= await privateApi.post('/users/add',userData);
+        const response= await privateApi.post('/users',userData);
         return response.data;
     }
     catch(error){
@@ -41,7 +41,7 @@ export const addUser= async(userData)=>{
 
 export const updateUser = async(id, updatedFields) => {
     try{
-        const response = await privateApi.patch(`/users/update/${id}`, updatedFields);
+        const response = await privateApi.patch(`/users/${id}`, updatedFields);
         return response.data;
     }
     catch (error) {
@@ -53,7 +53,7 @@ export const updateUser = async(id, updatedFields) => {
 
 export const deleteUser = async (id) => {
     try {
-        const response = await privateApi.delete(`/users/delete/${id}`);
+        const response = await privateApi.delete(`/users/${id}`);
         return response.data;
     }
     catch (error) {

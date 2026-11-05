@@ -3,7 +3,7 @@ import { privateApi } from "./axiosClient";
 
 export const getAllRentals = async() => {
     try{
-        const response= await privateApi.get('/rentals/getAll');
+        const response= await privateApi.get('/rentals');
         return response.data;
     }
     catch(error){
@@ -15,7 +15,7 @@ export const getAllRentals = async() => {
 
 export const getRentalById = async(id) => {
     try{
-        const response= await privateApi.get(`/rentals/getById/${id}`);
+        const response= await privateApi.get(`/rentals/${id}`);
         return response.data;
     }
     catch(error){
@@ -38,7 +38,7 @@ export const getMyRentals = async () => {
 
 export const addRental = async (rentalData) =>{
     try{
-        const response= await privateApi.post('/rentals/add',rentalData);
+        const response= await privateApi.post('/rentals',rentalData);
         return response.data;  
     }
     catch(error){
@@ -51,7 +51,7 @@ export const addRental = async (rentalData) =>{
 export const updateRental = async (id, updatedFields) => {
     try{
         console.log(updatedFields);
-        const response = await privateApi.patch(`/rentals/update/${id}`,updatedFields);
+        const response = await privateApi.patch(`/rentals/${id}`,updatedFields);
         return response.data;   
     }
     catch(error){
@@ -63,7 +63,7 @@ export const updateRental = async (id, updatedFields) => {
 
 export const deleteRental = async(id) => {
     try{
-        const response = await privateApi.delete(`/rentals/delete/${id}`);
+        const response = await privateApi.delete(`/rentals/${id}`);
         return response.data;
     }
     catch(error){
@@ -75,7 +75,7 @@ export const deleteRental = async(id) => {
 
 export const cancelRental = async(id) => {
     try{
-        const response = await privateApi.patch(`/rentals/cancel/${id}`);
+        const response = await privateApi.patch(`/rentals/${id}/cancel`);
         return response.data;
     }
     catch(error){
@@ -87,7 +87,7 @@ export const cancelRental = async(id) => {
 
 export const completeRental = async(id) => {
     try{
-        const response = await privateApi.patch(`/rentals/complete/${id}`);
+        const response = await privateApi.patch(`/rentals/${id}/complete`);
         return response.data;
     }
     catch(error){
@@ -99,7 +99,7 @@ export const completeRental = async(id) => {
 
 export const changeRentalStatus = async (id, status) => {
     try {
-        const response = await privateApi.patch(`/rentals/change-status/${id}`, { status });
+        const response = await privateApi.patch(`/rentals/${id}/status`, { status });
         return response.data;
     }
     catch (error) {
@@ -111,7 +111,7 @@ export const changeRentalStatus = async (id, status) => {
 
 export const extendRental = async (id, newReturnDate) => {
     try {
-        const response = await privateApi.patch(`/rentals/extend/${id}`, { newReturnDate });
+        const response = await privateApi.patch(`/rentals/${id}/extend`, { newReturnDate });
         return response.data;
     }
     catch (error) {

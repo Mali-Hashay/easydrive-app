@@ -4,7 +4,7 @@ import { privateApi, publicApi } from "./axiosClient";
 
 export const getAllCars= async()=>{
     try{
-        const response= await publicApi.get('/cars/getAll');
+        const response= await publicApi.get('/cars');
         return response.data;  
     }
     catch(error){
@@ -16,7 +16,7 @@ export const getAllCars= async()=>{
 
 export const getCarById= async(id) =>{
     try{
-        const response= await publicApi.get(`/cars/getById/${id}`);
+        const response= await publicApi.get(`/cars/${id}`);
         return response.data;
     }
     catch(error){
@@ -28,7 +28,7 @@ export const getCarById= async(id) =>{
 
 export const addCar = async (carData) =>{
     try{
-        const response = await privateApi.post('/cars/add',carData);
+        const response = await privateApi.post('/cars',carData);
         return response.data;
     }
     catch(error){
@@ -41,7 +41,7 @@ export const addCar = async (carData) =>{
 export const updateCarDetails = async (id, updatedFields) => {
     try{
         console.log("הנתונים שנשלחים:", updatedFields);
-        const response = await privateApi.patch(`/cars/update/${id}`,updatedFields);
+        const response = await privateApi.patch(`/cars/${id}`,updatedFields);
         return response.data;
     } 
     catch(error){
@@ -53,7 +53,7 @@ export const updateCarDetails = async (id, updatedFields) => {
 
 export const deleteCar = async(id) => {
     try{
-        const response = await privateApi.delete(`/cars/delete/${id}`);
+        const response = await privateApi.delete(`/cars/${id}`);
         return response.data;
     }
     catch(error){
@@ -66,7 +66,7 @@ export const deleteCar = async(id) => {
 export const getAvailableCars = async (pickupDate, pickupTime, returnDate, returnTime) => {
     try{
 
-        const response = await publicApi.get('/cars/availableCars',{
+        const response = await publicApi.get('/cars/available',{
                 params:{
                     pickupDate: pickupDate || undefined,
                     pickupTime: pickupTime || undefined,

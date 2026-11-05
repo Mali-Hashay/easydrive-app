@@ -4,16 +4,16 @@ import { verifyAdmin, verifyToken } from "../middlewares/auth.middleware.js";
 
 const RentalRouter=express.Router();
 
-RentalRouter.get('/getAll',verifyToken, verifyAdmin, RentalController.getAll);
-RentalRouter.get('/getById/:id',verifyToken, RentalController.getById);
+RentalRouter.get('/',verifyToken, verifyAdmin, RentalController.getAll);
 RentalRouter.get('/my-rentals', verifyToken, RentalController.getMyRentals);
-RentalRouter.post('/add',verifyToken, RentalController.add);
-RentalRouter.patch('/update/:id',verifyToken, verifyAdmin, RentalController.update);
-RentalRouter.delete('/delete/:id',verifyToken, verifyAdmin, RentalController.adminDelete);
-RentalRouter.patch('/cancel/:id', verifyToken, RentalController.cancelRental);
-RentalRouter.patch('/complete/:id',verifyToken, verifyAdmin, RentalController.completeRental);
-RentalRouter.patch('/change-status/:id',verifyToken, verifyAdmin, RentalController.changeRentalStatus);
-RentalRouter.patch('/extend/:id',verifyToken,RentalController.extendRental);
 RentalRouter.get('/update-rental-statuses', RentalController.updateRentalStatuses);
+RentalRouter.get('/:id',verifyToken, RentalController.getById);
+RentalRouter.post('/',verifyToken, RentalController.add);
+RentalRouter.patch('/:id',verifyToken, verifyAdmin, RentalController.update);
+RentalRouter.delete('/:id',verifyToken, verifyAdmin, RentalController.adminDelete);
+RentalRouter.patch('/:id/cancel', verifyToken, RentalController.cancelRental);
+RentalRouter.patch('/:id/complete',verifyToken, verifyAdmin, RentalController.completeRental);
+RentalRouter.patch('/:id/status',verifyToken, verifyAdmin, RentalController.changeRentalStatus);
+RentalRouter.patch('/:id/extend',verifyToken,RentalController.extendRental);
 
 export default RentalRouter;

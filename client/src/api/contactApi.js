@@ -3,7 +3,7 @@ import { privateApi, publicApi } from "./axiosClient"
 export const submitContactForm = async(formData) => { 
     try {
         
-        const response = await publicApi.post('/contact/submit-form', formData);
+        const response = await publicApi.post('/contact', formData);
         return response.data;
     }
     catch (err) { 
@@ -15,7 +15,7 @@ export const submitContactForm = async(formData) => {
 
 export const getAllContacts = async () => {
     try {
-        const response = await privateApi.get('/contact/getAll'); 
+        const response = await privateApi.get('/contact'); 
         return response.data; 
     } 
     catch (err) {
@@ -27,7 +27,7 @@ export const getAllContacts = async () => {
 
 export const updateContactStatus = async (id, newStatus) => {
     try {
-        const response = await privateApi.patch(`/contact/update-status/${id}`, { status: newStatus }); 
+        const response = await privateApi.patch(`/contact/${id}`, { status: newStatus }); 
         return response.data; 
     } 
     catch (err) {
@@ -39,7 +39,7 @@ export const updateContactStatus = async (id, newStatus) => {
 
 export const deleteContact = async (id) => {
     try {
-        const response = await privateApi.delete(`/contact/delete/${id}`); 
+        const response = await privateApi.delete(`/contact/${id}`); 
         return response.data; 
     } 
     catch (err) {

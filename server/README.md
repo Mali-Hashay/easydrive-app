@@ -153,60 +153,61 @@ Possible user roles: `customer` (default), `staff`, `admin`.
 ### `/cars`
 | Method | Path | Access | Description |
 |---|---|---|---|
-| GET | `/cars/getAll` | Public | All cars |
-| GET | `/cars/getById/:id` | Public | Car by ID |
-| GET | `/cars/availableCars` | Public | Cars available for a date/time range (`pickupDate`, `pickupTime`, `returnDate`, `returnTime`) |
-| POST | `/cars/add` | Admin | Add a car |
-| PATCH | `/cars/update/:id` | Admin | Update a car |
-| DELETE | `/cars/delete/:id` | Admin | Delete a car |
+| GET | `/cars` | Public | All cars |
+| GET | `/cars/available` | Public | Cars available for a date/time range (`pickupDate`, `pickupTime`, `returnDate`, `returnTime`) |
+| GET | `/cars/:id` | Public | Car by ID |
+| POST | `/cars` | Admin | Add a car |
+| PATCH | `/cars/:id` | Admin | Update a car |
+| DELETE | `/cars/:id` | Admin | Delete a car |
 
 ### `/categories`
 | Method | Path | Access | Description |
 |---|---|---|---|
-| GET | `/categories/getAll` | Public | All categories |
-| GET | `/categories/getById/:id` | Public | Category by ID |
-| POST | `/categories/add` | Admin | Add a category |
-| PATCH | `/categories/update/:id` | Admin | Update a category |
-| DELETE | `/categories/delete/:id` | Admin | Delete a category |
+| GET | `/categories` | Public | All categories |
+| GET | `/categories/:id` | Public | Category by ID |
+| POST | `/categories` | Admin | Add a category |
+| PATCH | `/categories/:id` | Admin | Update a category |
+| DELETE | `/categories/:id` | Admin | Delete a category |
 
 ### `/rentals`
 | Method | Path | Access | Description |
 |---|---|---|---|
-| GET | `/rentals/getAll` | Admin | All rentals |
-| GET | `/rentals/getById/:id` | Auth | Rental by ID |
+| GET | `/rentals` | Admin | All rentals |
 | GET | `/rentals/my-rentals` | Auth | The logged-in user's rentals |
-| POST | `/rentals/add` | Auth | Create a new rental |
-| PATCH | `/rentals/update/:id` | Auth | Update a rental |
-| PATCH | `/rentals/cancel/:id` | Auth | Cancel a rental |
-| PATCH | `/rentals/extend/:id` | Auth | Extend a rental |
-| PATCH | `/rentals/complete/:id` | Admin | Mark a rental as completed |
-| DELETE | `/rentals/delete/:id` | Admin | Delete a rental (admin) |
 | GET | `/rentals/update-rental-statuses` | Public* | Automatic status update (protected by `CRON_SECRET`, see below) |
+| GET | `/rentals/:id` | Auth | Rental by ID |
+| POST | `/rentals` | Auth | Create a new rental |
+| PATCH | `/rentals/:id` | Admin | Update a rental |
+| DELETE | `/rentals/:id` | Admin | Delete a rental (admin) |
+| PATCH | `/rentals/:id/cancel` | Auth | Cancel a rental |
+| PATCH | `/rentals/:id/extend` | Auth | Extend a rental |
+| PATCH | `/rentals/:id/complete` | Admin | Mark a rental as completed |
+| PATCH | `/rentals/:id/status` | Admin | Manually change a rental's status |
 
 ### `/users`
 | Method | Path | Access | Description |
 |---|---|---|---|
-| GET | `/users/getAll` | Admin | All users |
-| GET | `/users/getById/:id` | Auth | User by ID |
-| POST | `/users/add` | Admin | Add a user (by an admin) |
-| PATCH | `/users/update/:id` | Admin | Update a user |
-| DELETE | `/users/delete/:id` | Admin | Delete a user |
+| GET | `/users` | Admin | All users |
+| GET | `/users/:id` | Auth | User by ID |
+| POST | `/users` | Admin | Add a user (by an admin) |
+| PATCH | `/users/:id` | Admin | Update a user |
+| DELETE | `/users/:id` | Admin | Delete a user |
 
 ### `/payments`
 | Method | Path | Access | Description |
 |---|---|---|---|
-| GET | `/payments/getAll` | Admin | All payments |
-| GET | `/payments/getById/:id` | Auth | Payment by ID |
-| POST | `/payments/add` | Admin | Add a payment to an existing rental |
-| PATCH | `/payments/update/:id` | Admin | Update a payment's status |
+| GET | `/payments` | Admin | All payments |
+| GET | `/payments/:id` | Auth | Payment by ID |
+| POST | `/payments` | Admin | Add a payment to an existing rental |
+| PATCH | `/payments/:id` | Admin | Update a payment's status |
 
 ### `/contact`
 | Method | Path | Access | Description |
 |---|---|---|---|
-| POST | `/contact/submit-form` | Public | Submit the contact form |
-| GET | `/contact/getAll` | Admin | All contact requests |
-| PATCH | `/contact/update-status/:id` | Admin | Update a contact request's status |
-| DELETE | `/contact/delete/:id` | Admin | Delete a contact request |
+| POST | `/contact` | Public | Submit the contact form |
+| GET | `/contact` | Admin | All contact requests |
+| PATCH | `/contact/:id` | Admin | Update a contact request's status |
+| DELETE | `/contact/:id` | Admin | Delete a contact request |
 
 ### General
 | Method | Path | Description |

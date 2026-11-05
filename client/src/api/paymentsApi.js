@@ -3,7 +3,7 @@ import { privateApi } from "./axiosClient";
 
 export const getAllPayments = async () => {
     try {
-        const response = await privateApi.get('/payments/getAll');
+        const response = await privateApi.get('/payments');
         return response.data;  
     }
     catch (error) {
@@ -15,7 +15,7 @@ export const getAllPayments = async () => {
 
 export const getPaymentById = async (id) => {
     try {
-        const response = await privateApi.get(`/payments/getById/${id}`);
+        const response = await privateApi.get(`/payments/${id}`);
         return response.data;
     }
     catch (error) {
@@ -27,7 +27,7 @@ export const getPaymentById = async (id) => {
 
 export const addPayment = async (paymentData) => {
     try {
-        const response = await privateApi.post('/payments/add', paymentData);
+        const response = await privateApi.post('/payments', paymentData);
         return response.data;
     }
     catch (error) {
@@ -39,7 +39,7 @@ export const addPayment = async (paymentData) => {
 
 export const updatePayment = async (id, updatedFields) => {
     try {
-        const response = await privateApi.patch(`/payments/update/${id}`, updatedFields);
+        const response = await privateApi.patch(`/payments/${id}`, updatedFields);
         return response.data;
     } 
     catch (error) {

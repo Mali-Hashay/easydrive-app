@@ -4,10 +4,10 @@ import { verifyAdmin, verifyToken } from "../middlewares/auth.middleware.js";
 
 const CategoriesRouter=express.Router();
 
-CategoriesRouter.get('/getAll',CategoriesController.getAll);
-CategoriesRouter.get('/getById/:id',CategoriesController.getById);
-CategoriesRouter.post('/add',verifyToken, verifyAdmin, CategoriesController.add);
-CategoriesRouter.patch('/update/:id',verifyToken, verifyAdmin, CategoriesController.update);
-CategoriesRouter.delete('/delete/:id',verifyToken, verifyAdmin, CategoriesController.delete);
+CategoriesRouter.get('/',CategoriesController.getAll);
+CategoriesRouter.get('/:id',CategoriesController.getById);
+CategoriesRouter.post('/',verifyToken, verifyAdmin, CategoriesController.add);
+CategoriesRouter.patch('/:id',verifyToken, verifyAdmin, CategoriesController.update);
+CategoriesRouter.delete('/:id',verifyToken, verifyAdmin, CategoriesController.delete);
 
 export default CategoriesRouter

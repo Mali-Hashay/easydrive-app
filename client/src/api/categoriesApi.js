@@ -3,7 +3,7 @@ import { privateApi, publicApi } from "./axiosClient";
 
 export const getAllCategories = async()=>{
     try{
-        const response = await publicApi.get('/categories/getAll');
+        const response = await publicApi.get('/categories');
         return response.data;   
     } 
     catch(error){ 
@@ -15,7 +15,7 @@ export const getAllCategories = async()=>{
 
 export const getCategoryById = async (id) =>{
     try{
-        const response = await publicApi.get(`/categories/getById/${id}`);
+        const response = await publicApi.get(`/categories/${id}`);
         return response.data;
     }
     catch(error){
@@ -27,7 +27,7 @@ export const getCategoryById = async (id) =>{
 
 export const addCategory = async (categoryData) =>{
     try{
-        const response = await privateApi.post('/categories/add',categoryData);
+        const response = await privateApi.post('/categories',categoryData);
         return response.data;
     }
     catch(error){
@@ -39,7 +39,7 @@ export const addCategory = async (categoryData) =>{
 
 export const updateCategory = async(id, updatedFields) => {
     try{
-        const response = await privateApi.patch(`/categories/update/${id}`,
+        const response = await privateApi.patch(`/categories/${id}`,
              updatedFields);
         return  response.data;
     } 
@@ -52,7 +52,7 @@ export const updateCategory = async(id, updatedFields) => {
 
 export const deleteCategory = async(id) => {
     try{
-        const response = await privateApi.delete( `/categories/delete/${id}`);
+        const response = await privateApi.delete( `/categories/${id}`);
         return response.data;
     }
     catch (error) {

@@ -4,11 +4,11 @@ import { verifyAdmin, verifyToken } from '../middlewares/auth.middleware.js';
 
 const CarRouter=express.Router();
 
-CarRouter.get('/getAll',CarController.getAll);
-CarRouter.get('/getById/:id',CarController.getById);
-CarRouter.post('/add',verifyToken, verifyAdmin, CarController.add);
-CarRouter.patch('/update/:id',verifyToken, verifyAdmin, CarController.update);
-CarRouter.delete('/delete/:id',verifyToken, verifyAdmin, CarController.delete);
-CarRouter.get('/availableCars', CarController.getAvailableCars);
+CarRouter.get('/',CarController.getAll);
+CarRouter.get('/available', CarController.getAvailableCars);
+CarRouter.get('/:id',CarController.getById);
+CarRouter.post('/',verifyToken, verifyAdmin, CarController.add);
+CarRouter.patch('/:id',verifyToken, verifyAdmin, CarController.update);
+CarRouter.delete('/:id',verifyToken, verifyAdmin, CarController.delete);
 
 export default CarRouter;
