@@ -118,9 +118,6 @@ const RentalController={
     //POST
     add: async (req, res) => {
     try {
-        if (req.user.status === 'inactive') 
-            return res.status(403).json({ message: "חשבון לא פעיל, לא ניתן לבצע השכרה" });
-        
         const {
             carId, pickupDate, plannedReturnDate,
             driversBirthDate, driversIdNumber, licenseNumber, paymentInfo

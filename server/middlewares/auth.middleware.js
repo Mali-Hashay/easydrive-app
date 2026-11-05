@@ -17,8 +17,14 @@ export const verifyToken = async (req, res, next) => {
         const user = await User.findById(decoded.id);
         if(!user)
             return res.status(401).json({ message: "המשתמש בעל הטוקן הזה אינו קיים במערכת" });
-        
-        if (user.passwordChangedAt) 
+
+        // checked on every request, so blocking a user takes effect even if their token is still valid
+        if(user.status === 'blocked')
+            return res.status(403).json({message: "המשתמש חסום, יש לפנות למנהל המערכת"});
+        if(user.status === 'inactive')
+            return res.status(403).json({message: "המשתמש אינו פעיל, יש לפנות למנהל המערכת"});
+
+        if (user.passwordChangedAt)
         {
             const changedTimestamp = Math.floor(user.passwordChangedAt.getTime() / 1000);
             if (decoded.iat < changedTimestamp) 
