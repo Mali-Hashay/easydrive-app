@@ -57,6 +57,17 @@ const getCarAvailabilityError = async (carId, start, end, excludeRentalId = null
     return null;
 };
 
+// records a payment for a price increase. a price decrease is refunded manually by the admin, so nothing is recorded for it
+const updateRentalPrice = async (rental, newTotalPrice) => {
+    const priceDifference = newTotalPrice - rental.totalPrice;
+
+    if (priceDifference > 0) {
+        const newPayment = await createPayment({ rentalId: rental._id, sum: priceDifference });
+        rental.payments.push(newPayment._id);
+    }
+    rental.totalPrice = newTotalPrice;
+};
+
 const RentalController={
 
     //GET
@@ -254,7 +265,7 @@ const RentalController={
 
             rental.pickupDate = start;
             rental.plannedReturnDate = end;
-            rental.totalPrice = calculateRentalPrice(start, end, car.dailyPrice);
+            await updateRentalPrice(rental, calculateRentalPrice(start, end, car.dailyPrice));
         }
 
         await rental.save();
@@ -465,15 +476,7 @@ const RentalController={
         if (!car) 
             return res.status(404).json({ message: "הרכב המקושר להזמנה לא נמצא" });
 
-        const newTotalPrice = calculateRentalPrice(rental.pickupDate, extensionDate, car.dailyPrice);
-        const priceDifference = newTotalPrice - rental.totalPrice;
-
-        // an extension within an already charged day doesn't change the price, so there's nothing to pay for
-        if (priceDifference > 0) {
-            const newPayment = await createPayment({ rentalId: rental._id, sum: priceDifference });
-            rental.payments.push(newPayment._id);
-        }
-        rental.totalPrice = newTotalPrice;
+        await updateRentalPrice(rental, calculateRentalPrice(rental.pickupDate, extensionDate, car.dailyPrice));
 
         await rental.save();
         await rental.populate('clientId', '-password');
