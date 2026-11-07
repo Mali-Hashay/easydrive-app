@@ -4,6 +4,14 @@ import jwt from 'jsonwebtoken';
 import { sendEmail } from "../utils/sendEmail.js";
 import { resetPasswordEmail } from "../utils/emailTemplates.js";
 
+// the single place that replaces a password, so existing login tokens are always invalidated with it
+const setNewPassword = async (user, newPassword) => {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+    user.passwordChangedAt = Date.now() - 1000;
+    await user.save();
+};
+
 const AuthController = {
    register: async(req, res) => {
 
@@ -139,10 +147,7 @@ const AuthController = {
         if (!newPassword || newPassword.length < 8)
             return res.status(400).json({ message: "הסיסמה החדשה חייבת להכיל לפחות שמונה תווים" });
 
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(newPassword, salt);
-        user.passwordChangedAt = Date.now() - 1000;
-        await user.save();
+        await setNewPassword(user, newPassword);
         res.status(200).json({ message: "הסיסמה שונתה בהצלחה" });
     }
     catch(err){
@@ -172,11 +177,7 @@ const AuthController = {
             if (!isMatch)
                 return res.status(401).json({ message: "הסיסמה הנוכחית שגויה" });
 
-            const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(newPassword, salt);
-            user.passwordChangedAt = Date.now() - 1000;
-
-            await user.save();
+            await setNewPassword(user, newPassword);
 
            const newToken = jwt.sign(
                 { id: user._id, role: user.role },
