@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewRental } from '../../../store/slices/rentalSlice';
 import styles from './Payment.module.css';
-import { calculateTotalDays, calculateTotalPrice } from '../../../utils/dateUtils';
+import { calculateTotalDays, calculateTotalPrice, toIsraelISOString } from '../../../utils/dateUtils';
 import {
   validateName,
   validateCreditCard,
@@ -83,8 +83,8 @@ export default function PaymentStep(props) {
     setErrors({});
     setIsProcessing(true);
 
-    const fullPickupDate = dayjs(`${pickupDate} ${pickupTime || '00:00'}`).toISOString();
-    const fullReturnDate = dayjs(`${returnDate} ${returnTime || '00:00'}`).toISOString();
+    const fullPickupDate = toIsraelISOString(pickupDate, pickupTime || '00:00');
+    const fullReturnDate = toIsraelISOString(returnDate, returnTime || '00:00');
 
     const rentalData = {
       carId: selectedCar._id,
