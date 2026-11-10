@@ -6,8 +6,15 @@ import ForgotPassword from './ForgotPassword';
 
 
 export default function AuthModal(props) {
-    const { isOpen, onClose, initialTab = 'login', message } = props;
+    const { isOpen, onClose, initialTab = 'login', message, onLoginSuccess } = props;
     const [activeTab, setActiveTab] = useState(initialTab);
+
+    // onLoginSuccess is optional: only callers that want to act after login (like a redirect) pass it
+    const handleLoginSuccess = (user) => {
+        onClose();
+        if (onLoginSuccess)
+            onLoginSuccess(user);
+    };
 
     useEffect(() => {
         if (isOpen) {
@@ -63,8 +70,8 @@ export default function AuthModal(props) {
                             onSwitchToLogin={() => setActiveTab('login')} 
                         />
                     ) : (
-                        <LoginPage 
-                            onSuccess={onClose} 
+                        <LoginPage
+                            onSuccess={handleLoginSuccess}
                             onSwitchToRegister={() => setActiveTab('register')}
                             onSwitchToForgot={() => setActiveTab('forgot')}
                         />

@@ -54,6 +54,14 @@ export default function Header() {
         navigate('/'); 
     };
 
+    // logging in from the header takes the user to their own area
+    const handleLoginSuccess = (loggedInUser) => {
+        if (loggedInUser?.role === 'admin')
+            navigate('/admin');
+        else
+            navigate('/my-rentals');
+    };
+
     const closeMenu = () => {
         setIsMenuOpen(false); 
         setIsUserMenuOpen(false);
@@ -152,7 +160,8 @@ export default function Header() {
             <AuthModal 
                 isOpen={isAuthModalOpen} 
                 onClose={() => setIsAuthModalOpen(false)} 
-                initialTab={authInitialTab} 
+                initialTab={authInitialTab}
+                onLoginSuccess={handleLoginSuccess}
             />
         </header>
     );

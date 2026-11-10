@@ -33,8 +33,8 @@ export default function LoginPage({ onSuccess, onSwitchToRegister, onSwitchToFor
         if (!validateForm()) return;
 
         try {
-            await dispatch(loginUser({ email, password })).unwrap();
-            onSuccess();
+            const data = await dispatch(loginUser({ email, password })).unwrap();
+            onSuccess(data.user);
         } catch (err) {
             console.error('Login failed:', err);
         }
