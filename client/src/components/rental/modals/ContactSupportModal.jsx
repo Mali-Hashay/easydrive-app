@@ -66,10 +66,6 @@ export default function ContactSupportModal(props) {
             />
           </div>
 
-          <div className={styles.directContactInfo}>
-            <p><strong>מענה טלפוני ישיר:</strong> <a href="tel:031234567">03-1234567</a></p>
-          </div>
-
           <div className={styles.actions}>
             <button type="submit" disabled={isLoading} className={styles.submitBtn}>
               {isLoading ? 'שולח...' : 'שלח פנייה'}

@@ -34,8 +34,6 @@ export default function Footer() {
                 <div className={styles.contactColumn}>
                     <span className={styles.linkTitle}>צור קשר</span>
                     <div className={styles.contactInfo}>
-                        <p><strong>כתובת:</strong> {MAIN_BRANCH.address}</p>
-                        <p><strong>טלפון:</strong> {MAIN_BRANCH.phone}</p>
                         <p><strong>דוא"ל:</strong> {MAIN_BRANCH.email}</p>
                         <p><strong>שעות פעילות:</strong> {MAIN_BRANCH.openingHours}</p>
                     </div>
@@ -46,7 +44,7 @@ export default function Footer() {
             </div>
 
             <div className={styles.bottomBar}>
-                © {new Date().getFullYear()} השכרת רכב. כל הזכויות שמורות.
+                © {new Date().getFullYear()} EasyDrive · פרויקט תיק עבודות. הפרטים באתר להמחשה בלבד.
             </div>
         </footer>
     );

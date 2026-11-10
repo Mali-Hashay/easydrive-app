@@ -47,15 +47,6 @@
   font-family: inherit;
 }
 
-.directContactInfo {
-  background-color: #f8f9fa;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  font-size: 0.85rem;
-}
-
-
 .actions {
   display: flex;
   justify-content: flex-end;
