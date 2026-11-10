@@ -16,21 +16,16 @@
 
 .header {
     margin-bottom: 28px;
-    padding-bottom: 12px;
-    border-bottom: 3px solid #e31b23;
 }
 
 .title {
     font-size: 32px;
     color: #1E1E2D;
-    margin: 0 0 6px 0;
-    font-weight: 700;
-}
-
-.subtitle {
-    font-size: 14px;
-    color: #777777;
     margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #e31b23;
+    display: inline-block;
+    font-weight: 700;
 }
 
 .content {
