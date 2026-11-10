@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { alertService } from '../../../utils/alertService';
+import { submitContactForm } from '../../../api/contactApi';
 import styles from './ContactSupportModal.module.css';
+
+// the text shown for each reason, used both in the select and in the message sent to the admin
+const REASON_LABELS = {
+  urgent_overdue: 'תיאום החזרה דחופה (חריגה בזמנים)',
+  early_return: 'תיאום החזרת רכב מוקדמת',
+  technical_issue: 'דיווח על תקלה / פגיעה ברכב',
+  general_question: 'שאלה כללית בנושא השכרה זו'
+};
 
 export default function ContactSupportModal(props) {
   const { isOpen, onClose, rental } = props;
   const [reason, setReason] = useState('general_question');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
     if (rental?.status === 'overdue') 
@@ -19,16 +31,29 @@ export default function ContactSupportModal(props) {
 
   const isOverdue = rental.status === 'overdue';
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      alertService.success(`הפנייה להזמנה #${rental._id.slice(-6)} נשלחה בהצלחה!`);
+    const orderCode = rental._id.slice(-6);
+    const fullMessage = `הזמנה #${orderCode} | סיבה: ${REASON_LABELS[reason]}\n${message}`;
+
+    try {
+      await submitContactForm({
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        phone: user.phoneNumber,
+        message: fullMessage
+      });
+      alertService.success(`הפנייה להזמנה #${orderCode} נשלחה בהצלחה!`);
       setMessage('');
       onClose();
-    }, 1200);
+    } catch (err) {
+      // the modal stays open so the user doesn't lose what they wrote
+      alertService.errorToast(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -47,11 +72,11 @@ export default function ContactSupportModal(props) {
             <label>סיבת הפנייה:</label>
             <select value={reason} onChange={(e) => setReason(e.target.value)} className={styles.input}>
               {isOverdue && (
-                <option value="urgent_overdue">תיאום החזרה דחופה (חריגה בזמנים)</option>
+                <option value="urgent_overdue">{REASON_LABELS.urgent_overdue}</option>
               )}
-              <option value="early_return">תיאום החזרת רכב מוקדמת</option>
-              <option value="technical_issue">דיווח על תקלה / פגיעה ברכב</option>
-              <option value="general_question">שאלה כללית בנושא השכרה זו</option>
+              <option value="early_return">{REASON_LABELS.early_return}</option>
+              <option value="technical_issue">{REASON_LABELS.technical_issue}</option>
+              <option value="general_question">{REASON_LABELS.general_question}</option>
             </select>
           </div>
 
