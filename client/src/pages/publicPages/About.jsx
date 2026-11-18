@@ -22,7 +22,7 @@ export default function AboutUs() {
                 <div className={styles.textContent}>
                     <h2 className={styles.sectionTitle}>מי אנחנו?</h2>
                     <p className={styles.paragraph}>
-                         החברה הוקמה במטרה לשנות את חוויית השכרת הרכב. זיהינו את התסכול של לקוחות מעמלות נסתרות, רכבים לא מתוחזקים ותהליכים מסורבלים, והחלטנו לייצר סטנדרט חדש.
+                        החברה הוקמה במטרה לשנות את חוויית השכרת הרכב.
                     </p>
                     <p className={styles.paragraph}>
                         אצלנו, השקיפות היא ערך עליון. הצי שלנו מתחדש בתדירות גבוהה, עובר בדיקות בטיחות קפדניות, והצוות שלנו זמין עבורכם לכל שאלה – מהרגע שהזמנתם ועד שהחזרתם את הרכב.
@@ -43,7 +43,7 @@ export default function AboutUs() {
                             <DirectionsCarIcon fontSize="large" />
                         </div>
                         <h3>צי רכבים חדיש</h3>
-                        <p>רכבים מתוחזקים בקפידה, נקיים ומוכנים לנסיעה ארוכה.</p>
+                        <p>רכבים מתוחזקים, נקיים ומוכנים לנסיעה ארוכה.</p>
                     </div>
 
                     <div className={styles.featureCard}>
